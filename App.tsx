@@ -21,7 +21,7 @@ const AppContent: React.FC = () => {
   const mainSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "TeWELL+ Raw Young Jackfruit Powder",
+    "name": "TeWELL+ Raw Green Jackfruit Powder",
     "description": t.hero.description,
     "brand": {
       "@type": "Brand",
@@ -147,7 +147,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
       </div>
       <div>
         <h4 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-6 sm:mb-10">{t.footer.contactHeading}</h4>
-        <p className="text-gray-100 mb-4 font-black text-lg sm:text-xl">hello@tewellplus.id</p>
+        <p className="text-gray-100 mb-4 font-black text-lg sm:text-xl">hello@tewellplus.com</p>
         <p className="text-gray-400 font-medium text-sm sm:text-base">{t.footer.hours}</p>
         <div className="mt-8 sm:mt-12 p-6 sm:p-8 bg-white/5 border border-white/10 rounded-[2rem] sm:rounded-[2.5rem]">
           <p className="text-[9px] sm:text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest font-black">{t.footer.disclaimer}</p>

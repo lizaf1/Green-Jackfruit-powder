@@ -3,7 +3,7 @@ import { Translations, FAQItem, StudyData, Article, Recipe, BlogPost, AppContent
 
 const translationsID: Translations = {
   common: {
-    brandTagline: "Terapi Nutrisi Medis Nangka Muda Mentah",
+    brandTagline: "Terapi Nutrisi Medis Nangka Hijau Mentah",
     orderNow: "Pesan TeWELL+",
     backToHome: "Kembali ke Beranda",
     readBlog: "Baca Edukasi",
@@ -15,7 +15,7 @@ const translationsID: Translations = {
   hero: {
     badge: "Efektivitas Teruji Secara Klinis",
     titleMain: "Kendalikan Gula Darah Anda dengan ",
-    description: "Bubuk Nangka Muda Mentah Premium (TeWELL+) sebagai Terapi Nutrisi Medis (MNT). Terbukti secara klinis menurunkan HbA1c sebesar 0.25%, serta menurunkan FPG dan PPG secara signifikan dengan mengganti volume nasi atau terigu harian.",
+    description: "Bubuk Nangka Hijau Mentah Premium (TeWELL+) sebagai Terapi Nutrisi Medis (MNT). Terbukti secara klinis menurunkan HbA1c sebesar 0.25%, serta menurunkan FPG dan PPG secara signifikan dengan mengganti volume nasi atau terigu harian.",
     ctaEvidence: "Pelajari Hasil Studi",
     chartLabel: "Penurunan HbA1c",
     heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800"
@@ -24,14 +24,14 @@ const translationsID: Translations = {
     heading: "Langkah Hidup Sehat",
     subheading: "Pilih paket TeWELL+ untuk memulai Terapi Nutrisi Medis (MNT) harian Anda dengan penggantian volume yang setara.",
     buyWA: "Pesan via WhatsApp", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok Shop",
-    linkWA: "https://wa.me/yournumber", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
+    linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "REKOMENDASI KLINIS",
-    benefitRaw: "100% Nangka Muda Hijau Mentah",
+    benefitRaw: "100% Nangka Hijau Mentah",
     benefitProven: "Efikasi Signifikan Teruji",
     benefitClean: "Tanpa Pengawet & Gula Tambahan",
     benefitCold: "Teknologi Cold-Process <50°C"
   },
-  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai kesehatan metabolisme dan manfaat serat nangka muda mentah.", readMore: "Baca Selengkapnya", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
+  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai kesehatan metabolisme dan manfaat serat nangka hijau mentah.", readMore: "Baca Selengkapnya", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
     heading: "Bukti Klinis Teruji",
     quote: "\"Pasien Kelompok A memiliki penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi daripada Kelompok B demonstrasikan efikasi bubuk nangka sebagai terapi nutrisi medis harian.\"",
@@ -75,7 +75,7 @@ const translationsID: Translations = {
 
 const translationsEN: Translations = {
   common: {
-    brandTagline: "Raw Young Jackfruit Medical Nutrition Therapy",
+    brandTagline: "Raw Green Jackfruit Medical Nutrition Therapy",
     orderNow: "Order TeWELL+",
     backToHome: "Back to Home",
     readBlog: "Health Education",
@@ -87,7 +87,7 @@ const translationsEN: Translations = {
   hero: {
     badge: "Clinically Proven Efficacy",
     titleMain: "Master Your Blood Sugar with ",
-    description: "Premium Raw Young Jackfruit Powder (TeWELL+) for Medical Nutrition Therapy (MNT). Clinically proven to lower HbA1c by 0.25%, with significant improvements in FPG and PPG by replacing equal volumes of staples.",
+    description: "Premium Raw Green Jackfruit Powder (TeWELL+) for Medical Nutrition Therapy (MNT). Clinically proven to lower HbA1c by 0.25%, with significant improvements in FPG and PPG by replacing equal volumes of staples.",
     ctaEvidence: "See Clinical Results",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800"
@@ -96,14 +96,14 @@ const translationsEN: Translations = {
     heading: "Health Starts Here",
     subheading: "Start your daily Medical Nutrition Therapy (MNT) with the TeWELL+ clinical pack using the equal volume replacement method.",
     buyWA: "Order via WhatsApp", buyShopee: "Buy on Shopee", buyTikTok: "Buy on TikTok Shop",
-    linkWA: "https://wa.me/yournumber", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
+    linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
     benefitRaw: "100% Raw Green Jackfruit",
     benefitProven: "Significant Proven Efficacy",
     benefitClean: "No Preservatives or Added Sugar",
     benefitCold: "Cold-Processed <50°C"
   },
-  blog: { heading: "Education Hub", subheading: "Insights into metabolic health and the science of raw young jackfruit fiber.", readMore: "Read More", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
+  blog: { heading: "Education Hub", subheading: "Insights into metabolic health and the science of raw green jackfruit fiber.", readMore: "Read More", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
   evidence: {
     heading: "Clinically Proven Efficacy",
     quote: "\"Patients from Group A had a significantly higher reduction in HbA1c, FPG, and PPG than Group B demonstrating the efficacy of jackfruit flour in glycemic control.\"",
@@ -175,14 +175,14 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
       author: "Dr. Fitriani",
       category: "Edukasi",
       excerpt: lang === 'id' ? "Apa itu MNT dan mengapa penggantian volume setara sangat krusial bagi penderita diabetes?" : "What is MNT and why is equal volume replacement crucial for diabetes management?",
-      content: lang === 'id' ? "Medical Nutrition Therapy (MNT) adalah landasan dalam pengelolaan diabetes tipe 2. Berdasarkan studi yang dipublikasikan di Scientific Reports, nangka muda mentah dapat bertindak sebagai agen MNT yang efektif. Kuncinya adalah penggantian volume yang setara. Jika Anda biasanya memasak 2 cup beras, gantilah 2 sdm beras tersebut dengan 2 sdm TeWELL+. Dengan cara ini, volume makanan tetap sama, rasa tetap lezat, namun asupan serat meningkat drastis sementara beban pati berkurang." : "Medical Nutrition Therapy (MNT) is the cornerstone of managing Type 2 Diabetes. According to clinical studies, raw young jackfruit acts as an effective MNT agent. The secret lies in 'equal volume replacement'. If you normally cook 2 cups of rice, simply replace 2 tbsp of that rice with 2 tbsp of TeWELL+. This keeps the volume consistent but significantly reduces starch while boosting fiber.",
+      content: lang === 'id' ? "Medical Nutrition Therapy (MNT) adalah landasan dalam pengelolaan diabetes tipe 2. Berdasarkan studi yang dipublikasikan di Scientific Reports, nangka hijau mentah dapat bertindak sebagai agen MNT yang efektif. Kuncinya adalah penggantian volume yang setara. Jika Anda biasanya memasak 2 cup beras, gantilah 2 sdm beras tersebut dengan 2 sdm TeWELL+. Dengan cara ini, volume makanan tetap sama, rasa tetap lezat, namun asupan serat meningkat drastis sementara beban pati berkurang." : "Medical Nutrition Therapy (MNT) is the cornerstone of managing Type 2 Diabetes. According to clinical studies, raw green jackfruit acts as an effective MNT agent. The secret lies in 'equal volume replacement'. If you normally cook 2 cups of rice, simply replace 2 tbsp of that rice with 2 tbsp of TeWELL+. This keeps the volume consistent but significantly reduces starch while boosting fiber.",
       image: "https://images.unsplash.com/photo-1511688858344-1833878fcacc?auto=format&fit=crop&q=80&w=800"
     }
   ],
   faqs: [
     { 
       question: lang === 'id' ? 'Apa itu MNT?' : 'What is MNT?', 
-      answer: lang === 'id' ? 'Medical Nutrition Therapy (MNT) adalah pendekatan terapeutik untuk mengobati kondisi medis melalui diet khusus. TeWELL+ digunakan sebagai MNT dengan mengganti sebagian volume karbohidrat pokok dengan volume nangka muda mentah yang sama.' : 'Medical Nutrition Therapy (MNT) is a therapeutic approach to treating medical conditions through specifically tailored diets. TeWELL+ is used as MNT by replacing part of the carbohydrate volume with an equal volume of raw young jackfruit.' 
+      answer: lang === 'id' ? 'Medical Nutrition Therapy (MNT) adalah pendekatan terapeutik untuk mengobati kondisi medis melalui diet khusus. TeWELL+ digunakan sebagai MNT dengan mengganti sebagian volume karbohidrat pokok dengan volume nangka hijau mentah yang sama.' : 'Medical Nutrition Therapy (MNT) is a therapeutic approach to treating medical conditions through specifically tailored diets. TeWELL+ is used as MNT by replacing part of the carbohydrate volume with an equal volume of raw green jackfruit.' 
     }
   ],
   articles: [
@@ -197,21 +197,21 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
   ], 
   studyData: [ { category: 'HbA1c Mean Diff', before: -0.02, after: 0.25 } ],
   investment: { 
-    heading: lang === 'id' ? 'Peluang Investasi TeWELL+' : 'Investment Opportunities', 
-    subheading: lang === 'id' ? 'Bergabunglah dalam revolusi pangan fungsional untuk mengatasi krisis diabetes global.' : 'Join the functional food revolution tackling the global diabetes crisis.', 
+    heading: lang === 'id' ? 'Investasi TeWELL+ Indonesia' : 'Invest in TeWELL+ Indonesia', 
+    subheading: lang === 'id' ? 'Mendukung revolusi pangan fungsional untuk mengatasi krisis diabetes di Indonesia.' : 'Join the functional food revolution tackling the diabetes crisis in Indonesia.', 
     marketStats: [
-      { label: lang === 'id' ? 'Pasar Diabetes Global' : 'Global Diabetes Market', value: '$700B+' },
-      { label: lang === 'id' ? 'Pertumbuhan Tahunan' : 'CAGR Growth', value: '15%' },
-      { label: lang === 'id' ? 'Target Pengguna' : 'User Target', value: '10M+' },
-      { label: lang === 'id' ? 'ROI Ekspektasi' : 'Expected ROI', value: 'High' }
+      { label: lang === 'id' ? 'Jumlah Diabetisi RI' : 'Diabetes Cases in ID', value: '19.5 Juta' },
+      { label: lang === 'id' ? 'Potensi Pasar RI' : 'ID Market Potential', value: 'Rp 40T+' },
+      { label: lang === 'id' ? 'Target Penetrasi' : 'Penetration Target', value: '10%' },
+      { label: lang === 'id' ? 'Ekspektasi ROI' : 'Expected ROI', value: 'High' }
     ], 
-    pitchText: lang === 'id' ? 'Indonesia menduduki peringkat ke-5 dunia untuk jumlah penderita diabetes. TeWELL+ hadir sebagai solusi preventif yang scalable dan berbasis bukti ilmiah.' : 'Indonesia ranks 5th globally in diabetes prevalence. TeWELL+ provides a scalable, evidence-based preventive solution for a massive market.', 
-    growthTitle: lang === 'id' ? 'Rencana Pertumbuhan Strategis' : 'Strategic Growth Roadmap', 
+    pitchText: lang === 'id' ? 'Indonesia menduduki peringkat ke-5 dunia untuk jumlah penderita diabetes. TeWELL+ hadir sebagai solusi preventif yang scalable dan berbasis bukti ilmiah untuk pasar domestik yang masif.' : 'Indonesia ranks 5th globally in diabetes prevalence. TeWELL+ provides a scalable, science-backed solution specifically tailored for the massive Indonesian domestic market.', 
+    growthTitle: lang === 'id' ? 'Strategi Pertumbuhan Indonesia' : 'Indonesia Growth Strategy', 
     growthItems: [
-      { title: lang === 'id' ? 'Skalabilitas Produksi' : 'Production Scalability', desc: lang === 'id' ? 'Otomasi teknologi Cold-Process untuk kapasitas tonase bulanan.' : 'Automating Cold-Process technology for higher monthly tonnage.' },
-      { title: lang === 'id' ? 'Ekspansi Retail' : 'Retail Expansion', desc: lang === 'id' ? 'Penetrasi ke apotek dan supermarket premium di seluruh Asia Tenggara.' : 'Penetration into pharmacies and premium supermarkets across SE Asia.' }
+      { title: lang === 'id' ? 'Distribusi Digital (Online-First)' : 'Digital Distribution (Online-First)', desc: lang === 'id' ? 'Fase awal berfokus penuh pada penetrasi pasar online melalui marketplace dan D2C untuk efisiensi distribusi nasional yang cepat.' : 'The initial phase focuses entirely on online market penetration via marketplaces and D2C for rapid national distribution efficiency.' },
+      { title: lang === 'id' ? 'Manufaktur Lokal Nangka Hijau' : 'Local Green Jackfruit Manufacturing', desc: lang === 'id' ? 'Mengoptimalkan rantai pasok nangka hijau mentah lokal dengan teknologi Cold-Process eksklusif untuk efisiensi biaya maksimal.' : 'Optimizing local green jackfruit supply chains with exclusive Cold-Process technology for maximum cost efficiency.' }
     ], 
-    ctaText: lang === 'id' ? 'Hubungi Tim Investasi' : 'Contact Investment Team' 
+    ctaText: lang === 'id' ? 'Hubungi Tim Investasi Indonesia' : 'Contact ID Investment Team' 
   },
   variants: [
     { name: 'Home Starter Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'STARTER', duration: '10 Hari' },

@@ -26,7 +26,7 @@ const InvestmentPage: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-green-500 rounded-full blur-[80px] sm:blur-[120px] opacity-10 z-0"></div>
       </section>
 
-      {/* Stats Grid - Updated for better responsive padding */}
+      {/* Stats Grid */}
       <section className="py-12 sm:py-24 -mt-10 sm:-mt-16 relative z-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
@@ -53,9 +53,9 @@ const InvestmentPage: React.FC = () => {
               </p>
               <div className="space-y-6 sm:space-y-8">
                 {content.growthItems.map((item, i) => (
-                  <div key={i} className="flex gap-4 sm:gap-6">
+                  <div key={i} className="flex gap-4 sm:gap-6 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm transition-transform hover:scale-[1.02]">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 bg-green-600 text-white rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl flex-shrink-0 shadow-lg">
-                      <i className="fas fa-chart-line"></i>
+                      <i className={i === 0 ? "fas fa-desktop" : "fas fa-industry"}></i>
                     </div>
                     <div>
                       <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">{item.title}</h4>
@@ -69,12 +69,12 @@ const InvestmentPage: React.FC = () => {
               <div className="bg-white p-2 sm:p-4 rounded-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" 
-                  alt="Indonesian Growth Analysis" 
+                  alt="Indonesian Market Analysis" 
                   className="rounded-[2.2rem] sm:rounded-[3rem] w-full h-[400px] sm:h-[600px] object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -right-4 sm:-bottom-10 sm:-right-10 bg-green-900 text-white p-8 sm:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-2xl max-w-[240px] sm:max-w-xs border border-white/10">
-                <p className="text-xl sm:text-3xl font-bold font-display mb-3 sm:mb-4">"Localized Production. Global Efficacy."</p>
+                <p className="text-xl sm:text-2xl font-bold font-display mb-3 sm:mb-4">"Online-First Scalability. National Impact."</p>
                 <div className="w-12 h-1 bg-green-500"></div>
               </div>
             </div>
