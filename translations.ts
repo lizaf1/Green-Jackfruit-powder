@@ -185,7 +185,23 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
     }
   ], 
   studyData: [ { category: 'HbA1c', before: 8.2, after: 7.3 } ],
-  investment: { heading: '', subheading: '', marketStats: [], pitchText: '', growthTitle: '', growthItems: [], ctaText: '' },
+  investment: { 
+    heading: lang === 'id' ? 'Peluang Investasi TeWELL+' : 'Investment Opportunities', 
+    subheading: lang === 'id' ? 'Bergabunglah dalam revolusi pangan fungsional untuk mengatasi krisis diabetes global.' : 'Join the functional food revolution tackling the global diabetes crisis.', 
+    marketStats: [
+      { label: lang === 'id' ? 'Pasar Diabetes Global' : 'Global Diabetes Market', value: '$700B+' },
+      { label: lang === 'id' ? 'Pertumbuhan Tahunan' : 'CAGR Growth', value: '15%' },
+      { label: lang === 'id' ? 'Target Pengguna' : 'User Target', value: '10M+' },
+      { label: lang === 'id' ? 'ROI Ekspektasi' : 'Expected ROI', value: 'High' }
+    ], 
+    pitchText: lang === 'id' ? 'Indonesia menduduki peringkat ke-5 dunia untuk jumlah penderita diabetes. TeWELL+ hadir sebagai solusi preventif yang scalable dan berbasis bukti ilmiah.' : 'Indonesia ranks 5th globally in diabetes prevalence. TeWELL+ provides a scalable, evidence-based preventive solution for a massive market.', 
+    growthTitle: lang === 'id' ? 'Rencana Pertumbuhan Strategis' : 'Strategic Growth Roadmap', 
+    growthItems: [
+      { title: lang === 'id' ? 'Skalabilitas Produksi' : 'Production Scalability', desc: lang === 'id' ? 'Otomasi teknologi Cold-Process untuk kapasitas tonase bulanan.' : 'Automating Cold-Process technology for higher monthly tonnage.' },
+      { title: lang === 'id' ? 'Ekspansi Retail' : 'Retail Expansion', desc: lang === 'id' ? 'Penetrasi ke apotek dan supermarket premium di seluruh Asia Tenggara.' : 'Penetration into pharmacies and premium supermarkets across SE Asia.' }
+    ], 
+    ctaText: lang === 'id' ? 'Hubungi Tim Investasi' : 'Contact Investment Team' 
+  },
   variants: [
     { name: 'Home Starter Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'STARTER', duration: '10 Hari' },
     { name: 'Clinical Results Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'HEMAT', duration: '30 Hari' }

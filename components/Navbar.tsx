@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   const { view, setView, locale, setLocale, cmsData, setSelectedPostId } = useLanguage();
   const t = cmsData[locale].translations;
 
-  const navigateTo = (v: 'home' | 'evidence' | 'blog' | 'admin', anchor?: string) => {
+  const navigateTo = (v: 'home' | 'evidence' | 'blog' | 'admin' | 'investment', anchor?: string) => {
     setView(v);
     setSelectedPostId(null);
     setIsOpen(false);
@@ -66,6 +66,7 @@ const Navbar: React.FC = () => {
               <button onClick={() => navigateTo('home')} className={`font-semibold transition ${view === 'home' ? 'text-green-600' : 'text-gray-600 hover:text-green-600'}`}>{t.nav.home}</button>
               <button onClick={() => navigateTo('evidence')} className={`font-semibold transition ${view === 'evidence' ? 'text-green-600' : 'text-gray-600 hover:text-green-600'}`}>{t.nav.evidence}</button>
               <button onClick={() => navigateTo('blog')} className={`font-semibold transition ${view === 'blog' ? 'text-green-600' : 'text-gray-600 hover:text-green-600'}`}>{t.nav.blog}</button>
+              <button onClick={() => navigateTo('investment')} className={`font-semibold transition ${view === 'investment' ? 'text-green-600' : 'text-gray-600 hover:text-green-600'}`}>{t.nav.investment}</button>
               <button onClick={() => navigateTo('home', 'recipes')} className="text-gray-600 hover:text-green-600 font-semibold transition">{t.nav.recipes}</button>
               <button onClick={() => navigateTo('home', 'faq')} className="text-gray-600 hover:text-green-600 font-semibold transition">{t.nav.faq}</button>
             </div>
@@ -97,6 +98,7 @@ const Navbar: React.FC = () => {
           <button onClick={() => navigateTo('home')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.home}</button>
           <button onClick={() => navigateTo('evidence')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.evidence}</button>
           <button onClick={() => navigateTo('blog')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.blog}</button>
+          <button onClick={() => navigateTo('investment')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.investment}</button>
           <button onClick={() => navigateTo('home', 'recipes')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.recipes}</button>
           <button onClick={() => navigateTo('home', 'faq')} className="block w-full text-left text-gray-800 hover:text-green-600 font-bold text-lg py-2">{t.nav.faq}</button>
           <div className="pt-4 mt-4 border-t border-gray-100">
