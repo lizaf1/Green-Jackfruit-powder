@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { BlogPost, ProductVariant } from '../types';
 
 interface SEOProps {
   title?: string;
@@ -17,11 +16,17 @@ const SEO: React.FC<SEOProps> = ({ title, description, type = 'website', image, 
   
   const siteName = "TeWELL+";
   const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Raw Young Jackfruit Powder for Diabetes`;
+  
+  // AEO/SEO descriptions
   const defaultDesc = locale === 'id' 
     ? "Solusi alami pengelolaan gula darah dengan Bubuk Nangka Muda Mentah. Terbukti klinis menurunkan HbA1c."
     : "Natural blood sugar management with Raw Young Jackfruit Powder. Clinically proven to lower HbA1c.";
 
   useEffect(() => {
+    // Update Document Lang attribute
+    document.documentElement.lang = locale;
+    document.documentElement.dir = 'ltr';
+
     // Update Title
     document.title = fullTitle;
 
@@ -53,11 +58,7 @@ const SEO: React.FC<SEOProps> = ({ title, description, type = 'website', image, 
       }
       script.text = JSON.stringify(schema);
     }
-
-    return () => {
-      // Cleanup schema on unmount if needed
-    };
-  }, [fullTitle, description, image, schema]);
+  }, [fullTitle, description, image, schema, locale, defaultDesc]);
 
   return null;
 };

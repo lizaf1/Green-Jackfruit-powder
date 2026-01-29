@@ -15,7 +15,7 @@ interface LanguageContextType {
   resetToDefaults: () => void;
 }
 
-const STORAGE_KEY = 'tewell_plus_multi_cms_data';
+const STORAGE_KEY = 'tewell_plus_multi_cms_data_v2';
 
 const INITIAL_CMS_DATA: CMSData = {
   id: getDefaultContent('id'),
@@ -32,13 +32,24 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Ensure only supported locales are in the loaded data
+        return {
+          id: parsed.id || INITIAL_CMS_DATA.id,
+          en: parsed.en || INITIAL_CMS_DATA.en
+        };
       } catch (e) {
         return INITIAL_CMS_DATA;
       }
     }
     return INITIAL_CMS_DATA;
   });
+
+  // Handle Document Attributes
+  useEffect(() => {
+    document.documentElement.dir = 'ltr';
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const updateContent = (newLocaleContent: AppContentData, l: Locale) => {
     const nextData = { ...cmsData, [l]: newLocaleContent };
@@ -47,7 +58,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const resetToDefaults = () => {
-    if (confirm('Reset content to factory defaults? This will erase custom translations for BOTH languages.')) {
+    if (confirm('Reset all content to defaults?')) {
       setCmsData(INITIAL_CMS_DATA);
       localStorage.removeItem(STORAGE_KEY);
     }

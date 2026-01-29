@@ -22,8 +22,8 @@ const EvidenceChart: React.FC = () => {
               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
             <Legend verticalAlign="top" height={36}/>
-            <Bar name={locale === 'id' ? 'Baseline (Awal)' : 'Baseline'} dataKey="before" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-            <Bar name={locale === 'id' ? 'Setelah 90 Hari' : 'After 90 Days'} dataKey="after" fill="#166534" radius={[4, 4, 0, 0]} />
+            <Bar name={t.evidence.labels.baseline} dataKey="before" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+            <Bar name={t.evidence.labels.result} dataKey="after" fill="#166534" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

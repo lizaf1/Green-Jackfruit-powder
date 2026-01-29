@@ -8,10 +8,10 @@ const OrderSection: React.FC = () => {
   const variants = cmsData[locale].variants;
 
   const benefits = [
-    locale === 'id' ? '100% Nangka Muda Mentah' : '100% Raw Young Jackfruit',
-    locale === 'id' ? 'Terbukti Klinis (Nature)' : 'Clinically Proven (Nature)',
-    locale === 'id' ? 'Bebas Gula & Pengawet' : 'No Added Sugar or Preservatives',
-    locale === 'id' ? 'Proses Dingin (<50°C)' : 'Cold-Processed (<50°C)'
+    t.order.benefitRaw,
+    t.order.benefitProven,
+    t.order.benefitClean,
+    t.order.benefitCold
   ];
 
   return (
@@ -42,7 +42,7 @@ const OrderSection: React.FC = () => {
             >
               {variant.popular && (
                 <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-lg whitespace-nowrap">
-                  {variant.tag}
+                  {t.order.variantTagPopular}
                 </div>
               )}
 
@@ -110,7 +110,7 @@ const OrderSection: React.FC = () => {
         <div className="mt-16 text-center">
           <p className="text-sm text-gray-400 flex items-center justify-center gap-2">
             <i className="fas fa-lock text-green-600"></i>
-            {locale === 'id' ? 'Pembayaran Aman & Terpercaya' : 'Secure & Trusted Payments'}
+            {t.common.securePayment}
           </p>
         </div>
       </div>

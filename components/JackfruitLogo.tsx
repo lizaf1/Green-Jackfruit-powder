@@ -10,9 +10,9 @@ interface LogoProps {
 }
 
 export const BrandText: React.FC<{ size?: string; light?: boolean }> = ({ size = "text-2xl", light = false }) => (
-  <span className={`inline-flex items-center leading-none font-sans font-black uppercase tracking-tighter ${size}`}>
+  <span className={`inline-flex items-center leading-none font-sans font-black tracking-tighter ${size}`}>
     <span className={light ? "text-white" : "text-gray-900"}>TeWELL</span>
-    <span className="text-green-500 ml-0.5">＋</span>
+    <span className="text-green-500 ml-0.5 relative top-[-1px]">＋</span>
   </span>
 );
 
@@ -24,50 +24,53 @@ const JackfruitLogo: React.FC<LogoProps> = ({
   textSize = "text-2xl"
 }) => {
   const mainColor = light ? "#FFFFFF" : "#14532D";
-  const stemColor = light ? "#BBF7D0" : "#064E3B";
-  const plusColor = light ? "#14532D" : "#FFFFFF";
+  const accentColor = "#22C55E";
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <div className="relative flex-shrink-0 group">
+      <div className="relative flex-shrink-0">
         <svg 
           viewBox="0 0 100 100" 
-          className={`${iconSize} drop-shadow-sm group-hover:scale-105 transition-transform duration-500`}
+          className={`${iconSize} drop-shadow-sm transition-transform duration-500`}
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Jackfruit Body */}
+          {/* Bespoke Medical-Nature Brand Mark */}
           <path 
-            d="M50 12C32 12 22 25 22 48C22 75 35 88 50 88C65 88 78 75 78 48C78 25 68 12 50 12Z" 
+            d="M50 6C32 6 20 25 20 48C20 75 35 90 50 90C65 90 80 75 80 48C80 25 68 6 50 6Z" 
             fill={mainColor} 
           />
+          {/* Subtle Organic Leaf / Stem */}
+          <path 
+            d="M52 2C52 2 48 2 48 4V12C48 14 52 14 52 12V2Z" 
+            fill={accentColor}
+            stroke={accentColor}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
           
-          {/* Accent Glow/Gradient Overlay */}
-          {!light && (
-            <path 
-              d="M50 18C38 18 28 28 28 48C28 68 38 82 50 82C62 82 72 68 72 48C72 28 62 18 50 18Z" 
-              fill="url(#iconGradient)" 
-              fillOpacity="0.15"
-            />
-          )}
-
-          {/* Plus Icon inside the fruit */}
-          <rect x="46" y="38" width="8" height="24" rx="2" fill={plusColor} />
-          <rect x="38" y="46" width="24" height="8" rx="2" fill={plusColor} />
+          {/* Scientific Core (Plus Sign as a geometric focal point) */}
+          <path 
+            d="M50 35V61M37 48H63" 
+            stroke={accentColor} 
+            strokeWidth="8" 
+            strokeLinecap="round" 
+          />
           
-          {/* Stem */}
-          <rect x="48" y="5" width="4" height="8" rx="2" fill={stemColor} />
-
-          <defs>
-            <linearGradient id="iconGradient" x1="50" y1="12" x2="50" y2="88" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#22C55E" />
-              <stop offset="1" stopColor="#166534" />
-            </linearGradient>
-          </defs>
+          {/* Cellular Integrity Arc - Representing the Cold-Process protection */}
+          <path 
+            d="M85 48C85 30 70 15 50 15" 
+            stroke={accentColor} 
+            strokeWidth="1.5" 
+            strokeDasharray="4 4" 
+            opacity="0.5"
+          />
         </svg>
       </div>
 
-      {!iconOnly && <BrandText size={textSize} light={light} />}
+      {!iconOnly && (
+        <BrandText size={textSize} light={light} />
+      )}
     </div>
   );
 };

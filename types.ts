@@ -71,13 +71,21 @@ export interface AppContentData {
   variants: ProductVariant[];
 }
 
-// Map of Locale to Content
 export interface CMSData {
   id: AppContentData;
   en: AppContentData;
 }
 
 export interface Translations {
+  common: {
+    brandTagline: string;
+    orderNow: string;
+    backToHome: string;
+    readBlog: string;
+    viewData: string;
+    securePayment: string;
+    rights: string;
+  };
   nav: {
     home: string;
     evidence: string;
@@ -90,7 +98,6 @@ export interface Translations {
   hero: {
     badge: string;
     titleMain: string;
-    titleHighlight: string;
     description: string;
     ctaEvidence: string;
     chartLabel: string;
@@ -99,21 +106,25 @@ export interface Translations {
   order: {
     heading: string;
     subheading: string;
-    variantStarter: string;
-    variantStandard: string;
-    variantValue: string;
     buyWA: string;
     buyShopee: string;
     buyTikTok: string;
     linkWA: string;
     linkShopee: string;
     linkTikTok: string;
+    variantTagPopular: string;
+    benefitRaw: string;
+    benefitProven: string;
+    benefitClean: string;
+    benefitCold: string;
   };
   blog: {
     heading: string;
     subheading: string;
     readMore: string;
     backToBlog: string;
+    viewAll: string;
+    readArticle: string;
   };
   evidence: {
     heading: string;
@@ -122,13 +133,23 @@ export interface Translations {
     studyDesc: string;
     analysisTitle: string;
     analysisDesc: string;
-    fiberTitle: string;
-    fiberDesc: string;
     chartTitle: string;
     chartDisclaimer: string;
     pageTitle: string;
     pageSubtitle: string;
     readMore: string;
+    coldProcessTitle: string;
+    coldProcessDesc: string;
+    labels: {
+      hba1c: string;
+      period: string;
+      baseline: string;
+      result: string;
+      goldStandard: string;
+      retention: string;
+      integrity: string;
+      pure: string;
+    };
   };
   usage: {
     heading: string;
@@ -144,6 +165,7 @@ export interface Translations {
     heading: string;
     subheading: string;
     howLabel: string;
+    diabetesFriendly: string;
   };
   faq: {
     heading: string;
@@ -154,5 +176,8 @@ export interface Translations {
     navHeading: string;
     contactHeading: string;
     disclaimer: string;
+    backToTop: string;
+    orderProducts: string;
+    hours: string;
   };
 }

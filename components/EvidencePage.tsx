@@ -11,81 +11,59 @@ const EvidencePage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Header */}
-      <section className="bg-green-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <button 
-            onClick={() => setView('home')}
-            className="mb-8 text-green-300 hover:text-white flex items-center gap-2 mx-auto transition font-bold"
-          >
-            <i className="fas fa-arrow-left"></i> {locale === 'id' ? 'Kembali ke Beranda' : `Back to ${t.nav.home}`}
+      <section className="bg-green-900 text-white py-32 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+          <button onClick={() => setView('home')} className="mb-12 text-green-300 hover:text-white flex items-center gap-2 mx-auto transition font-bold">
+            <i className="fas fa-arrow-left"></i> {t.common.backToHome}
           </button>
-          <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 tracking-tight">{t.evidence.pageTitle}</h1>
-          <p className="text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-            {t.evidence.pageSubtitle}
-          </p>
+          <h1 className="text-5xl md:text-7xl font-bold font-display mb-8 tracking-tight">{t.evidence.pageTitle}</h1>
+          <p className="text-xl md:text-2xl text-green-100 max-w-3xl mx-auto leading-relaxed font-light">{t.evidence.pageSubtitle}</p>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-green-500 rounded-full blur-[160px] opacity-10"></div>
       </section>
 
-      {/* Main Study Highlight */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-16 items-center mb-24">
+          <div className="flex flex-col lg:flex-row gap-20 items-center mb-32">
             <div className="lg:w-1/2">
-              <span className="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-bold mb-4 inline-block">
-                {locale === 'id' ? 'Riset Standar Emas' : 'Gold Standard Research'}
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 font-display leading-tight">
-                {locale === 'id' ? 'Hasil Terbukti dalam Pengelolaan Gula Darah' : 'Proven Results in Blood Sugar Management'}
-              </h2>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                {locale === 'id' 
-                  ? 'Landasan ilmiah kami dibangun di atas uji klinis acak dan double-blind. Dengan mengganti hanya 30g karbohidrat harian dengan Bubuk Nangka Muda TeWELL+, peserta menunjukkan peningkatan signifikan pada penanda kesehatan metabolik.'
-                  : 'Our scientific foundation is built upon randomized, double-blind clinical trials. By replacing just 30g of daily starch with TeWELL+ Raw Young Jackfruit Powder, participants observed a significant improvement in metabolic health markers.'}
-              </p>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="p-6 bg-white rounded-2xl shadow-sm border border-green-50">
-                  <p className="text-4xl font-bold text-green-600 mb-1">-0.9%</p>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">{locale === 'id' ? 'Penurunan HbA1c' : 'HbA1c Reduction'}</p>
+              <span className="bg-green-100 text-green-800 px-5 py-2 rounded-full text-xs font-black tracking-widest mb-6 inline-block uppercase">{t.evidence.labels.goldStandard}</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 font-display leading-tight">{t.evidence.analysisTitle}</h2>
+              <p className="text-gray-600 text-xl leading-relaxed mb-12">{t.evidence.analysisDesc}</p>
+              <div className="grid grid-cols-2 gap-8">
+                <div className="p-10 bg-white rounded-[2.5rem] shadow-xl border border-green-50 text-center">
+                  <p className="text-5xl font-black text-green-600 mb-2 tracking-tighter">18.2%</p>
+                  <p className="text-xs text-gray-400 font-black uppercase tracking-[0.2em]">{t.evidence.labels.hba1c}</p>
                 </div>
-                <div className="p-6 bg-white rounded-2xl shadow-sm border border-green-50">
-                  <p className="text-4xl font-bold text-green-600 mb-1">90 {locale === 'id' ? 'Hari' : 'Days'}</p>
-                  <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">{locale === 'id' ? 'Periode Studi' : 'Study Period'}</p>
+                <div className="p-10 bg-white rounded-[2.5rem] shadow-xl border border-green-50 text-center">
+                  <p className="text-5xl font-black text-green-600 mb-2 tracking-tighter">90</p>
+                  <p className="text-xs text-gray-400 font-black uppercase tracking-[0.2em]">{t.evidence.labels.period}</p>
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2 w-full">
-              <EvidenceChart />
-            </div>
+            <div className="lg:w-1/2 w-full"><EvidenceChart /></div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-12">
             {articles.map((article, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition flex flex-col h-full">
-                <div className="flex items-center gap-2 mb-4">
+              <div key={idx} className="bg-white p-12 rounded-[3.5rem] border border-gray-100 shadow-xl flex flex-col h-full relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                  <i className="fas fa-microscope text-9xl text-green-900"></i>
+                </div>
+                <div className="flex items-center gap-3 mb-8">
                   {article.tags.map((tag, tIdx) => (
-                    <span key={tIdx} className="text-[10px] font-bold bg-green-50 text-green-600 px-2 py-0.5 rounded uppercase">{tag}</span>
+                    <span key={tIdx} className="text-[10px] font-black bg-green-50 text-green-700 px-4 py-1.5 rounded-full uppercase tracking-widest">{tag}</span>
                   ))}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 font-display leading-snug">
-                  {article.title}
-                </h3>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                  <span className="font-bold text-green-700">{article.journal}</span>
-                  <span>•</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6 font-display leading-tight">{article.title}</h3>
+                <div className="flex items-center gap-4 text-sm font-bold text-gray-400 mb-8">
+                  <span className="text-green-700">{article.journal}</span>
+                  <span className="w-1.5 h-1.5 bg-gray-200 rounded-full"></span>
                   <span>{article.year}</span>
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">
-                  {article.summary}
-                </p>
+                <p className="text-gray-600 text-lg leading-relaxed mb-12 flex-1 italic">"{article.summary}"</p>
                 {article.link && (
-                  <a 
-                    href={article.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-green-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
-                  >
-                    {t.evidence.readMore} <i className="fas fa-external-link-alt"></i>
+                  <a href={article.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold gap-3 hover:bg-green-600 transition-all self-start">
+                    {t.evidence.readMore} <i className="fas fa-external-link-alt text-xs"></i>
                   </a>
                 )}
               </div>
@@ -94,42 +72,22 @@ const EvidencePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Cold Process Benefits Section */}
-      <section className="py-24 bg-white overflow-hidden relative">
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-block bg-blue-50 text-blue-600 p-4 rounded-full mb-6">
-            <i className="fas fa-snowflake text-4xl"></i>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 font-display">
-            {locale === 'id' ? 'Teknologi Cold-Process (<50°C)' : 'Cold-Process Technology (<50°C)'}
-          </h2>
-          <p className="text-gray-600 text-xl leading-relaxed mb-12 max-w-3xl mx-auto">
-            {locale === 'id' 
-              ? 'Tidak seperti metode penggilingan standar yang menggunakan panas tinggi, TeWELL+ menggunakan metode pemrosesan dingin yang dipatenkan. Dengan menjaga suhu pengeringan dan penggilingan di bawah 50°C, kami memastikan struktur serat, enzim bio-aktif, dan vitamin tidak pernah rusak.'
-              : 'Unlike standard milling methods that use high heat, TeWELL+ uses a proprietary cold-processing method. By keeping drying and milling temperatures below 50°C, we ensure that fiber structures, bio-active enzymes, and vitamins are never damaged.'}
-          </p>
-          <div className="grid md:grid-cols-3 gap-12">
-             <div className="flex flex-col items-center p-6">
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-4 text-2xl shadow-inner">
-                    <i className="fas fa-temperature-low"></i>
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">{locale === 'id' ? 'Retensi Nutrisi' : 'Nutrient Retention'}</h4>
-                <p className="text-sm text-gray-500">{locale === 'id' ? 'Suhu rendah mengunci 100% khasiat sehat buah mentah.' : 'Low temperature locks in 100% of the raw fruit\'s healthy properties.'}</p>
-             </div>
-             <div className="flex flex-col items-center p-6">
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-4 text-2xl shadow-inner">
-                    <i className="fas fa-microscope"></i>
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">{locale === 'id' ? 'Integritas Serat' : 'Fiber Integrity'}</h4>
-                <p className="text-sm text-gray-500">{locale === 'id' ? 'Menjaga serat tidak larut rantai panjang untuk manfaat glikemik maksimal.' : 'Maintains long-chain insoluble fibers for maximum glycemic benefit.'}</p>
-             </div>
-             <div className="flex flex-col items-center p-6">
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-4 text-2xl shadow-inner">
-                    <i className="fas fa-leaf"></i>
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">{locale === 'id' ? 'Mentah & Murni' : 'Raw & Pure'}</h4>
-                <p className="text-sm text-gray-500">{locale === 'id' ? 'Tanpa pemutih kimia atau zat tambahan. Hanya 100% nangka mentah murni.' : 'No chemical bleaches or additives. Just 100% pure raw jackfruit.'}</p>
-             </div>
+      <section className="py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <div className="inline-block bg-green-50 text-green-600 p-6 rounded-full mb-10 shadow-inner"><i className="fas fa-snowflake text-5xl"></i></div>
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 font-display">{t.evidence.coldProcessTitle}</h2>
+          <p className="text-gray-500 text-xl mb-20 max-w-3xl mx-auto leading-relaxed">{t.evidence.coldProcessDesc}</p>
+          <div className="grid md:grid-cols-3 gap-16">
+             {[
+               { icon: 'fa-temperature-low', title: t.evidence.labels.retention },
+               { icon: 'fa-vial', title: t.evidence.labels.integrity },
+               { icon: 'fa-leaf', title: t.evidence.labels.pure }
+             ].map((item, i) => (
+               <div key={i} className="flex flex-col items-center group">
+                  <div className="w-24 h-24 bg-gray-50 text-green-600 rounded-[2rem] flex items-center justify-center mb-6 text-3xl shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-500"><i className={`fas ${item.icon}`}></i></div>
+                  <h4 className="font-black text-gray-900 mb-2 uppercase tracking-widest text-sm">{item.title}</h4>
+               </div>
+             ))}
           </div>
         </div>
       </section>
