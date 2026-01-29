@@ -1,7 +1,6 @@
 
 import React from 'react';
 import Navbar from './components/Navbar';
-import EvidenceChart from './components/EvidenceChart';
 import EvidencePage from './components/EvidencePage';
 import BlogPage from './components/BlogPage';
 import BlogSection from './components/BlogSection';
@@ -33,9 +32,9 @@ const AppContent: React.FC = () => {
   if (view === 'admin') return <AdminPanel />;
 
   const NavigationFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      {children}
+      <main className="flex-1">{children}</main>
       <Footer t={t} setView={setView} setSelectedPostId={setSelectedPostId} locale={locale} setLocale={setLocale} />
     </div>
   );
@@ -53,12 +52,12 @@ const AppContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <div className="w-full lg:w-1/2 text-center lg:text-left relative z-20">
             <div className="inline-flex items-center gap-3 bg-green-50 text-green-700 px-4 sm:px-6 py-2 rounded-full text-[10px] sm:text-xs font-black mb-6 sm:mb-8 tracking-[0.2em] uppercase">
-              <i className="fas fa-check-circle text-sm"></i>{t.hero.badge}
+              <i className="fas fa-certificate text-sm"></i>{t.hero.badge}
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-bold text-gray-900 font-display leading-[1.1] sm:leading-[0.9] mb-8 sm:mb-10 tracking-tighter">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-8xl font-black text-gray-900 font-display leading-[1.1] sm:leading-[0.9] mb-8 sm:mb-10 tracking-tighter">
               {t.hero.titleMain}
               <div className="mt-6 sm:mt-8 flex justify-center lg:justify-start">
-                <JackfruitLogo iconSize="w-16 h-16 sm:w-20 sm:h-20 lg:w-20 lg:h-20 xl:w-24 xl:h-24" textSize="text-5xl sm:text-7xl lg:text-7xl xl:text-8xl" />
+                <JackfruitLogo iconSize="w-16 h-16 sm:w-20 sm:h-20 lg:w-16 lg:h-16 xl:w-24 xl:h-24" textSize="text-5xl sm:text-7xl lg:text-6xl xl:text-8xl" />
               </div>
             </h1>
             <p className="text-lg sm:text-xl text-gray-500 mb-8 sm:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
@@ -73,15 +72,15 @@ const AppContent: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="w-full lg:w-1/2 relative">
-            <div className="relative z-10 p-2 sm:p-4 bg-gray-100 rounded-[2.5rem] sm:rounded-[4rem] shadow-inner">
-              <img src={t.hero.heroImage} alt="TeWELL+ High Performance Functional Food" className="rounded-[2.2rem] sm:rounded-[3.5rem] shadow-2xl border-4 sm:border-8 border-white object-cover aspect-square w-full" />
+          <div className="w-full lg:w-1/2 relative z-10">
+            <div className="relative p-2 sm:p-4 bg-gray-100 rounded-[2.5rem] sm:rounded-[4rem] shadow-inner">
+              <img src={t.hero.heroImage} alt="TeWELL+ Medical Nutrition Therapy" className="rounded-[2.2rem] sm:rounded-[3.5rem] shadow-2xl border-4 sm:border-8 border-white object-cover aspect-square w-full" />
               <div className="absolute -bottom-6 -start-6 sm:-bottom-10 sm:-start-10 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl z-20 border border-green-50 max-w-[200px] sm:max-w-[280px]">
                 <div className="flex items-center gap-3 sm:gap-5">
                   <div className="bg-green-600 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-3xl shadow-lg"><i className="fas fa-microscope"></i></div>
                   <div>
                     <p className="text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.hero.chartLabel}</p>
-                    <p className="text-2xl sm:text-4xl font-black text-green-600 tracking-tighter">-0.9%</p>
+                    <p className="text-2xl sm:text-4xl font-black text-green-600 tracking-tighter">-0.25%</p>
                   </div>
                 </div>
               </div>

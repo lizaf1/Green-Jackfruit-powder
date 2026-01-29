@@ -7,9 +7,8 @@ const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, resetToDefaults } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
-  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'evidence' | 'recipes' | 'faq' | 'studies' | 'blog' | 'investment'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment'>('general');
 
-  // Sync state when locale being edited changes
   const switchEditLocale = (l: Locale) => {
     setEditLocale(l);
     setLocalContent(cmsData[l]);
@@ -61,21 +60,19 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col sticky top-0 h-screen">
-        <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-          <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center font-black">A</div>
-          <span className="font-bold text-lg tracking-tight">Admin Console</span>
+    <div className="flex min-h-screen bg-gray-50 font-sans">
+      <aside className="w-64 bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
+        <div className="p-8 border-b border-slate-800 flex items-center gap-3">
+          <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center font-black text-slate-900 shadow-lg shadow-green-500/20">A</div>
+          <span className="font-bold text-xl tracking-tighter">Admin</span>
         </div>
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-6 space-y-1 overflow-y-auto">
           {[
-            { id: 'general', icon: 'fa-cog', label: 'General & Footer' },
-            { id: 'hero', icon: 'fa-star', label: 'Hero Section' },
-            { id: 'order', icon: 'fa-shopping-cart', label: 'Order Management' },
-            { id: 'evidence', icon: 'fa-microscope', label: 'Evidence Text' },
-            { id: 'studies', icon: 'fa-chart-bar', label: 'Study Data' },
-            { id: 'blog', icon: 'fa-newspaper', label: 'Blog Posts' },
+            { id: 'general', icon: 'fa-cog', label: 'General' },
+            { id: 'hero', icon: 'fa-star', label: 'Hero' },
+            { id: 'order', icon: 'fa-shopping-cart', label: 'Products' },
+            { id: 'evidence', icon: 'fa-microscope', label: 'Science' },
+            { id: 'blog', icon: 'fa-newspaper', label: 'Education' },
             { id: 'recipes', icon: 'fa-utensils', label: 'Recipes' },
             { id: 'faq', icon: 'fa-question-circle', label: 'FAQ' },
             { id: 'investment', icon: 'fa-hand-holding-usd', label: 'Investment' },
@@ -83,8 +80,8 @@ const AdminPanel: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${
-                activeTab === tab.id ? 'bg-green-600 text-white shadow-lg shadow-green-900/20' : 'text-gray-400 hover:text-white hover:bg-gray-800'
+              className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all font-bold text-sm ${
+                activeTab === tab.id ? 'bg-green-600 text-white shadow-xl shadow-green-900/40' : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <i className={`fas ${tab.icon} w-5 text-center`}></i>
@@ -92,194 +89,94 @@ const AdminPanel: React.FC = () => {
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-gray-800 space-y-2">
-          <button onClick={() => setView('home')} className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white flex items-center gap-2">
-            <i className="fas fa-eye"></i> View Website
+        <div className="p-6 border-t border-slate-800 space-y-3">
+          <button onClick={() => setView('home')} className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-3 transition">
+            <i className="fas fa-eye"></i> Preview Site
           </button>
-          <button onClick={resetToDefaults} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 flex items-center gap-2">
-            <i className="fas fa-undo"></i> Factory Reset
+          <button onClick={resetToDefaults} className="w-full text-left px-4 py-2.5 text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-3 transition">
+            <i className="fas fa-undo"></i> Reset Data
           </button>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto p-12">
-        <header className="flex justify-between items-end mb-12">
+      <main className="flex-1 overflow-y-auto p-12 lg:p-20">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
           <div>
-            <div className="flex items-center gap-4 mb-2">
-               <h1 className="text-3xl font-bold text-gray-900 capitalize">{activeTab} Management</h1>
-               <div className="bg-gray-200 p-1 rounded-lg flex text-xs font-bold">
-                  <button onClick={() => switchEditLocale('id')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'id' ? 'bg-white shadow-sm text-green-600' : 'text-gray-500'}`}>ID</button>
-                  <button onClick={() => switchEditLocale('en')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'en' ? 'bg-white shadow-sm text-green-600' : 'text-gray-500'}`}>EN</button>
+            <div className="flex items-center gap-6 mb-3">
+               <h1 className="text-4xl font-black text-slate-900 tracking-tighter capitalize">{activeTab}</h1>
+               <div className="bg-slate-200 p-1 rounded-xl flex text-[10px] font-black uppercase tracking-widest shadow-inner">
+                  <button onClick={() => switchEditLocale('id')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'id' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>Bahasa</button>
+                  <button onClick={() => switchEditLocale('en')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'en' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>English</button>
                </div>
             </div>
-            <p className="text-gray-500">Editing <span className="text-green-600 font-bold uppercase">{editLocale}</span> version of the website content.</p>
+            <p className="text-slate-500 font-medium italic">Configure the <span className="text-green-600 uppercase font-black">{editLocale}</span> translation layer.</p>
           </div>
           <button 
             onClick={save}
-            className="bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-xl shadow-green-200 hover:bg-green-700 transition-all flex items-center gap-2"
+            className="w-full md:w-auto bg-green-600 text-white px-10 py-4 rounded-2xl font-black shadow-2xl shadow-green-200 hover:bg-green-700 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
           >
-            <i className="fas fa-save"></i> Save {editLocale.toUpperCase()} Changes
+            <i className="fas fa-check-circle"></i> SAVE CHANGES
           </button>
         </header>
 
-        <div className="max-w-4xl space-y-10">
-          {activeTab === 'order' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-8">
-              <SectionTitle title="Order Section Copy" />
-              <div className="grid grid-cols-2 gap-6">
-                <Input label="Section Heading" value={localContent.translations.order.heading} onChange={(val) => updateNested('order.heading', val)} />
-                <Input label="Section Subheading" value={localContent.translations.order.subheading} onChange={(val) => updateNested('order.subheading', val)} area />
-              </div>
-              
-              <div className="flex justify-between items-center mb-4 mt-12">
-                <SectionTitle title="Manage Product Variants" />
-                <button onClick={() => addListItem('variants', { name: 'New Variant', weight: '300g', price: '0', currency: 'Rp', tag: '', popular: false, duration: '' })} className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold">+ Add Variant</button>
-              </div>
-              <div className="grid gap-6">
-                {localContent.variants.map((variant, idx) => (
-                  <div key={idx} className={`p-8 rounded-3xl border-2 transition-all space-y-4 relative ${variant.popular ? 'border-green-500 bg-green-50/30' : 'border-gray-100 bg-gray-50/30'}`}>
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-1 grid grid-cols-2 gap-4">
-                        <Input label="Variant Name" value={variant.name} onChange={(val) => updateListItem('variants', idx, 'name', val)} />
-                        <Input label="Weight/Size" value={variant.weight} onChange={(val) => updateListItem('variants', idx, 'weight', val)} />
-                      </div>
-                      <button onClick={() => removeListItem('variants', idx)} className="text-red-300 hover:text-red-600 p-2"><i className="fas fa-trash"></i></button>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <Input label="Price String" value={variant.price} onChange={(val) => updateListItem('variants', idx, 'price', val)} />
-                      <Input label="Currency" value={variant.currency} onChange={(val) => updateListItem('variants', idx, 'currency', val)} />
-                      <Input label="Badge Tag (e.g. Popular)" value={variant.tag} onChange={(val) => updateListItem('variants', idx, 'tag', val)} />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Input label="Duration Label (e.g. 10 Day Supply)" value={variant.duration} onChange={(val) => updateListItem('variants', idx, 'duration', val)} />
-                      <div className="flex items-center gap-3 h-full pt-6">
-                        <input 
-                          type="checkbox" 
-                          id={`pop-${idx}`}
-                          checked={variant.popular} 
-                          onChange={(e) => updateListItem('variants', idx, 'popular', e.target.checked)}
-                          className="w-5 h-5 accent-green-600"
-                        />
-                        <label htmlFor={`pop-${idx}`} className="text-sm font-bold text-gray-700">Highlight as Popular (Large Card)</label>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <SectionTitle title="Platform Labels & Links" />
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-6 p-6 bg-green-50 rounded-2xl border border-green-100">
-                  <Input label="WhatsApp Button Text" value={localContent.translations.order.buyWA} onChange={(val) => updateNested('order.buyWA', val)} />
-                  <Input label="WhatsApp URL" value={localContent.translations.order.linkWA} onChange={(val) => updateNested('order.linkWA', val)} />
-                </div>
-                <div className="grid grid-cols-2 gap-6 p-6 bg-orange-50 rounded-2xl border border-orange-100">
-                  <Input label="Shopee Button Text" value={localContent.translations.order.buyShopee} onChange={(val) => updateNested('order.buyShopee', val)} />
-                  <Input label="Shopee URL" value={localContent.translations.order.linkShopee} onChange={(val) => updateNested('order.linkShopee', val)} />
-                </div>
-                <div className="grid grid-cols-2 gap-6 p-6 bg-gray-100 rounded-2xl border border-gray-200">
-                  <Input label="TikTok Button Text" value={localContent.translations.order.buyTikTok} onChange={(val) => updateNested('order.buyTikTok', val)} />
-                  <Input label="TikTok URL" value={localContent.translations.order.linkTikTok} onChange={(val) => updateNested('order.linkTikTok', val)} />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'investment' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-8">
-              <SectionTitle title="Investment Pitch" />
-              <Input label="Page Title" value={localContent.investment.heading} onChange={(val) => updateInvestment('heading', val)} />
-              <Input label="Subheading" value={localContent.investment.subheading} onChange={(val) => updateInvestment('subheading', val)} area />
-              
-              <div className="space-y-4">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Market Stats</label>
-                {localContent.investment.marketStats.map((stat, i) => (
-                  <div key={i} className="flex gap-4">
-                    <input className="flex-1 px-4 py-2 bg-gray-50 border rounded-lg" value={stat.label} onChange={(e) => {
-                      const newStats = [...localContent.investment.marketStats];
-                      newStats[i].label = e.target.value;
-                      updateInvestment('marketStats', newStats);
-                    }} placeholder="Label" />
-                    <input className="w-32 px-4 py-2 bg-gray-50 border rounded-lg" value={stat.value} onChange={(e) => {
-                      const newStats = [...localContent.investment.marketStats];
-                      newStats[i].value = e.target.value;
-                      updateInvestment('marketStats', newStats);
-                    }} placeholder="Value" />
-                  </div>
-                ))}
-              </div>
-
-              <Input label="Pitch Body Text" value={localContent.investment.pitchText} onChange={(val) => updateInvestment('pitchText', val)} area />
-              <Input label="Growth Section Title" value={localContent.investment.growthTitle} onChange={(val) => updateInvestment('growthTitle', val)} />
-              <Input label="CTA Button Text" value={localContent.investment.ctaText} onChange={(val) => updateInvestment('ctaText', val)} />
-            </div>
-          )}
-
+        <div className="max-w-4xl space-y-12">
           {activeTab === 'general' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <SectionTitle title="Footer & Mission" />
-              <Input label="Brand Mission" value={localContent.translations.footer.mission} onChange={(val) => updateNested('footer.mission', val)} area />
-              <Input label="Disclaimer" value={localContent.translations.footer.disclaimer} onChange={(val) => updateNested('footer.disclaimer', val)} area />
-            </div>
-          )}
-
-          {activeTab === 'blog' && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center mb-4">
-                <SectionTitle title="Manage Articles" />
-                <button onClick={() => addListItem('blogPosts', { id: Date.now().toString(), title: 'New Article', author: 'Staff', date: new Date().toLocaleDateString(), category: 'General', excerpt: '', content: '', image: 'https://images.unsplash.com/photo-1546548970-71785318a17b' })} className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold">+ New Post</button>
+            <div className="space-y-8">
+              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+                <SectionTitle title="Footer & Mission" />
+                <Input label="Brand Mission" value={localContent.translations.footer.mission} onChange={(val) => updateNested('footer.mission', val)} area />
+                <Input label="Medical Disclaimer" value={localContent.translations.footer.disclaimer} onChange={(val) => updateNested('footer.disclaimer', val)} area />
               </div>
-              <div className="grid gap-6">
-                {localContent.blogPosts.map((post, idx) => (
-                  <div key={post.id} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6 relative group">
-                    <button onClick={() => removeListItem('blogPosts', idx)} className="absolute top-8 right-8 text-red-300 hover:text-red-600 transition-colors"><i className="fas fa-trash"></i></button>
-                    <div className="grid grid-cols-2 gap-6">
-                      <Input label="Title" value={post.title} onChange={(val) => updateListItem('blogPosts', idx, 'title', val)} />
-                      <Input label="Cover Image URL" value={post.image} onChange={(val) => updateListItem('blogPosts', idx, 'image', val)} />
-                    </div>
-                    <div className="grid grid-cols-3 gap-6">
-                      <Input label="Author" value={post.author} onChange={(val) => updateListItem('blogPosts', idx, 'author', val)} />
-                      <Input label="Category" value={post.category} onChange={(val) => updateListItem('blogPosts', idx, 'category', val)} />
-                      <Input label="Date" value={post.date} onChange={(val) => updateListItem('blogPosts', idx, 'date', val)} />
-                    </div>
-                    <Input label="Short Excerpt" value={post.excerpt} onChange={(val) => updateListItem('blogPosts', idx, 'excerpt', val)} area />
-                    <Input label="Full Content" value={post.content} onChange={(val) => updateListItem('blogPosts', idx, 'content', val)} area />
-                  </div>
-                ))}
+              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+                <SectionTitle title="Navigation Labels" />
+                <div className="grid grid-cols-2 gap-6">
+                  <Input label="Home" value={localContent.translations.nav.home} onChange={(val) => updateNested('nav.home', val)} />
+                  <Input label="Evidence" value={localContent.translations.nav.evidence} onChange={(val) => updateNested('nav.evidence', val)} />
+                  <Input label="Education" value={localContent.translations.nav.blog} onChange={(val) => updateNested('nav.blog', val)} />
+                  <Input label="Investment" value={localContent.translations.nav.investment} onChange={(val) => updateNested('nav.investment', val)} />
+                </div>
               </div>
             </div>
           )}
 
           {activeTab === 'hero' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <SectionTitle title="Hero Main Content" />
-              <Input label="Badge Text" value={localContent.translations.hero.badge} onChange={(val) => updateNested('hero.badge', val)} />
-              <Input label="Title Main" value={localContent.translations.hero.titleMain} onChange={(val) => updateNested('hero.titleMain', val)} />
-              <Input label="Hero Description" value={localContent.translations.hero.description} onChange={(val) => updateNested('hero.description', val)} area />
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+              <SectionTitle title="Hero Content" />
+              <Input label="Clinical Badge" value={localContent.translations.hero.badge} onChange={(val) => updateNested('hero.badge', val)} />
+              <Input label="Main Headline" value={localContent.translations.hero.titleMain} onChange={(val) => updateNested('hero.titleMain', val)} />
+              <Input label="Sub-headline" value={localContent.translations.hero.description} onChange={(val) => updateNested('hero.description', val)} area />
               <Input label="Hero Image URL" value={localContent.translations.hero.heroImage} onChange={(val) => updateNested('hero.heroImage', val)} />
             </div>
           )}
 
-          {activeTab === 'evidence' && (
-            <div className="space-y-8">
-               <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-                <SectionTitle title="Evidence Text" />
-                <Input label="Heading" value={localContent.translations.evidence.heading} onChange={(val) => updateNested('evidence.heading', val)} />
-                <Input label="Quote" value={localContent.translations.evidence.quote} onChange={(val) => updateNested('evidence.quote', val)} area />
+          {activeTab === 'order' && (
+            <div className="space-y-10">
+              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+                <SectionTitle title="Product Section Intro" />
+                <Input label="Heading" value={localContent.translations.order.heading} onChange={(val) => updateNested('order.heading', val)} />
+                <Input label="Description" value={localContent.translations.order.subheading} onChange={(val) => updateNested('order.subheading', val)} area />
               </div>
-
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-                <div className="flex justify-between items-center mb-4">
-                  <SectionTitle title="Research Articles" />
-                  <button onClick={() => addListItem('articles', { title: 'New Study', journal: 'Journal Name', year: '2024', summary: '', tags: [] })} className="text-green-600 font-bold text-sm">+ Add Article</button>
+              
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <SectionTitle title="Product Cards" />
+                  <button onClick={() => addListItem('variants', { name: 'New Pack', weight: '300g', price: '0', currency: 'Rp', tag: '', popular: false, duration: '' })} className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest">+ Add Variant</button>
                 </div>
-                {localContent.articles.map((article, idx) => (
-                  <div key={idx} className="p-6 bg-gray-50 rounded-2xl relative">
-                    <button onClick={() => removeListItem('articles', idx)} className="absolute top-4 right-4 text-red-400 hover:text-red-600"><i className="fas fa-trash"></i></button>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Input label="Title" value={article.title} onChange={(val) => updateListItem('articles', idx, 'title', val)} />
-                      <Input label="Journal" value={article.journal} onChange={(val) => updateListItem('articles', idx, 'journal', val)} />
+                {localContent.variants.map((variant, idx) => (
+                  <div key={idx} className={`p-10 rounded-[2.5rem] border-2 transition-all space-y-6 relative ${variant.popular ? 'border-green-500 bg-green-50/20' : 'border-slate-100 bg-white'}`}>
+                    <button onClick={() => removeListItem('variants', idx)} className="absolute top-8 right-8 text-slate-300 hover:text-red-500 p-2 transition"><i className="fas fa-trash"></i></button>
+                    <div className="grid grid-cols-2 gap-6">
+                      <Input label="Name" value={variant.name} onChange={(val) => updateListItem('variants', idx, 'name', val)} />
+                      <Input label="Weight" value={variant.weight} onChange={(val) => updateListItem('variants', idx, 'weight', val)} />
+                    </div>
+                    <div className="grid grid-cols-3 gap-6">
+                      <Input label="Price" value={variant.price} onChange={(val) => updateListItem('variants', idx, 'price', val)} />
+                      <Input label="Currency" value={variant.currency} onChange={(val) => updateListItem('variants', idx, 'currency', val)} />
+                      <Input label="Duration" value={variant.duration} onChange={(val) => updateListItem('variants', idx, 'duration', val)} />
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <input type="checkbox" id={`pop-${idx}`} checked={variant.popular} onChange={(e) => updateListItem('variants', idx, 'popular', e.target.checked)} className="w-6 h-6 accent-green-600 rounded-lg cursor-pointer" />
+                      <label htmlFor={`pop-${idx}`} className="text-sm font-black text-slate-700 cursor-pointer">Featured as Recommended</label>
                     </div>
                   </div>
                 ))}
@@ -287,69 +184,72 @@ const AdminPanel: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'studies' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <SectionTitle title="Bar Chart Data" />
-              {localContent.studyData.map((data, idx) => (
-                <div key={idx} className="flex gap-4 items-end bg-gray-50 p-4 rounded-xl">
-                  <Input label="Label" value={data.category} onChange={(val) => updateListItem('studyData', idx, 'category', val)} />
-                  <Input label="Baseline" value={data.before.toString()} onChange={(val) => updateListItem('studyData', idx, 'before', parseFloat(val))} type="number" />
-                  <Input label="Result" value={data.after.toString()} onChange={(val) => updateListItem('studyData', idx, 'after', parseFloat(val))} type="number" />
+          {activeTab === 'blog' && (
+            <div className="space-y-10">
+              <div className="flex justify-between items-center">
+                <SectionTitle title="Education Articles" />
+                <button onClick={() => addListItem('blogPosts', { id: `blog-${Date.now()}`, title: 'New Article', author: 'Team', date: new Date().toISOString().split('T')[0], category: 'Education', excerpt: '', content: '', image: 'https://images.unsplash.com/photo-1546548970-71785318a17b' })} className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest">+ New Article</button>
+              </div>
+              {localContent.blogPosts.map((post, idx) => (
+                <div key={post.id} className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 relative">
+                  <button onClick={() => removeListItem('blogPosts', idx)} className="absolute top-10 right-10 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
+                  <div className="grid grid-cols-2 gap-6">
+                    <Input label="Headline" value={post.title} onChange={(val) => updateListItem('blogPosts', idx, 'title', val)} />
+                    <Input label="Image URL" value={post.image} onChange={(val) => updateListItem('blogPosts', idx, 'image', val)} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-6">
+                    <Input label="Category" value={post.category} onChange={(val) => updateListItem('blogPosts', idx, 'category', val)} />
+                    <Input label="Date" value={post.date} onChange={(val) => updateListItem('blogPosts', idx, 'date', val)} />
+                  </div>
+                  <Input label="Excerpt" value={post.excerpt} onChange={(val) => updateListItem('blogPosts', idx, 'excerpt', val)} area />
+                  <Input label="Article Content" value={post.content} onChange={(val) => updateListItem('blogPosts', idx, 'content', val)} area />
                 </div>
               ))}
-            </div>
-          )}
-
-          {activeTab === 'recipes' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <div className="flex justify-between items-center mb-4">
-                <SectionTitle title="Manage Recipes" />
-                <button onClick={() => addListItem('recipes', { name: 'New Recipe', description: 'Description', howToAdd: 'Instructions', image: 'https://images.unsplash.com/photo-1546548970-71785318a17b' })} className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm">+ New Recipe</button>
-              </div>
-              <div className="grid gap-6">
-                {localContent.recipes.map((recipe, idx) => (
-                  <div key={idx} className="p-6 bg-gray-50 rounded-2xl border border-gray-200 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1 grid grid-cols-2 gap-4">
-                        <Input label="Recipe Name" value={recipe.name} onChange={(val) => updateListItem('recipes', idx, 'name', val)} />
-                        <Input label="Image URL" value={recipe.image} onChange={(val) => updateListItem('recipes', idx, 'image', val)} />
-                      </div>
-                      <button onClick={() => removeListItem('recipes', idx)} className="ml-4 text-red-500 p-2"><i className="fas fa-trash"></i></button>
-                    </div>
-                    <Input label="Short Description" value={recipe.description} onChange={(val) => updateListItem('recipes', idx, 'description', val)} area />
-                    <Input label="How to add TeWELL+" value={recipe.howToAdd} onChange={(val) => updateListItem('recipes', idx, 'howToAdd', val)} area />
-                  </div>
-                ))}
-              </div>
             </div>
           )}
 
           {activeTab === 'faq' && (
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <div className="flex justify-between items-center mb-4">
-                <SectionTitle title="FAQ Items" />
-                <button onClick={() => addListItem('faqs', { question: 'New Question', answer: 'New Answer' })} className="text-green-600 font-bold">+ Add FAQ</button>
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+              <div className="flex justify-between items-center">
+                <SectionTitle title="Questions & Answers" />
+                <button onClick={() => addListItem('faqs', { question: 'New Question', answer: 'New Answer' })} className="text-green-600 font-black text-xs uppercase tracking-widest hover:text-green-700 transition">+ Add Item</button>
               </div>
-              {localContent.faqs.map((faq, idx) => (
-                <div key={idx} className="space-y-2 pb-6 border-b border-gray-100 last:border-0">
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1">
-                      <input 
-                        className="w-full font-bold text-gray-800 bg-transparent border-none focus:ring-0 px-0"
-                        value={faq.question}
-                        onChange={(e) => updateListItem('faqs', idx, 'question', e.target.value)}
-                      />
+              <div className="space-y-8">
+                {localContent.faqs.map((faq, idx) => (
+                  <div key={idx} className="p-8 bg-slate-50 rounded-3xl border border-slate-100 relative group">
+                    <button onClick={() => removeListItem('faqs', idx)} className="absolute -top-3 -right-3 w-8 h-8 bg-white border shadow-sm rounded-full text-slate-300 hover:text-red-500 transition flex items-center justify-center"><i className="fas fa-times"></i></button>
+                    <Input label="Question" value={faq.question} onChange={(val) => updateListItem('faqs', idx, 'question', val)} />
+                    <div className="mt-4">
+                      <Input label="Answer" value={faq.answer} onChange={(val) => updateListItem('faqs', idx, 'answer', val)} area />
                     </div>
-                    <button onClick={() => removeListItem('faqs', idx)} className="text-red-300 hover:text-red-500"><i className="fas fa-times-circle"></i></button>
                   </div>
-                  <textarea 
-                    className="w-full text-gray-600 bg-transparent border-none focus:ring-0 p-0 text-sm resize-none"
-                    rows={2}
-                    value={faq.answer}
-                    onChange={(e) => updateListItem('faqs', idx, 'answer', e.target.value)}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'investment' && (
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-10">
+              <SectionTitle title="Pitch Deck Info" />
+              <Input label="Hero Title" value={localContent.investment.heading} onChange={(val) => updateInvestment('heading', val)} />
+              <Input label="Sub-heading" value={localContent.investment.subheading} onChange={(val) => updateInvestment('subheading', val)} area />
+              <div className="grid grid-cols-2 gap-6">
+                {localContent.investment.marketStats.map((stat, i) => (
+                  <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-3">
+                    <Input label={`Stat ${i+1} Label`} value={stat.label} onChange={(val) => {
+                      const newStats = [...localContent.investment.marketStats];
+                      newStats[i].label = val;
+                      updateInvestment('marketStats', newStats);
+                    }} />
+                    <Input label="Value" value={stat.value} onChange={(val) => {
+                      const newStats = [...localContent.investment.marketStats];
+                      newStats[i].value = val;
+                      updateInvestment('marketStats', newStats);
+                    }} />
+                  </div>
+                ))}
+              </div>
+              <Input label="Pitch Body" value={localContent.investment.pitchText} onChange={(val) => updateInvestment('pitchText', val)} area />
             </div>
           )}
         </div>
@@ -359,25 +259,25 @@ const AdminPanel: React.FC = () => {
 };
 
 const SectionTitle = ({ title }: { title: string }) => (
-  <h3 className="text-lg font-bold text-gray-800 tracking-tight flex items-center gap-2">
+  <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
     <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
     {title}
   </h3>
 );
 
 const Input = ({ label, value, onChange, area = false, type = "text" }: { label: string, value: string, onChange: (val: string) => void, area?: boolean, type?: string }) => (
-  <div className="space-y-1.5">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">{label}</label>
+  <div className="space-y-2">
+    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{label}</label>
     {area ? (
       <textarea 
-        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all outline-none min-h-[100px]"
+        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none min-h-[140px] text-slate-700 font-medium leading-relaxed"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
     ) : (
       <input 
         type={type}
-        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all outline-none"
+        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none text-slate-700 font-bold"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

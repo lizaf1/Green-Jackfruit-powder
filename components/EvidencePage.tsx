@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import EvidenceChart from './EvidenceChart';
 
 const EvidencePage: React.FC = () => {
   const { cmsData, locale, setView } = useLanguage();
@@ -24,23 +23,64 @@ const EvidencePage: React.FC = () => {
 
       <section className="py-20 sm:py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-12 sm:gap-20 items-center mb-20 sm:mb-32">
+          <div className="flex flex-col lg:flex-row gap-12 sm:gap-20 items-start mb-20 sm:mb-32">
             <div className="w-full lg:w-1/2">
               <span className="bg-green-100 text-green-800 px-4 sm:px-5 py-2 rounded-full text-[10px] sm:text-xs font-black tracking-widest mb-6 inline-block uppercase">{t.evidence.labels.goldStandard}</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 font-display leading-tight">{t.evidence.analysisTitle}</h2>
-              <p className="text-gray-600 text-lg sm:text-xl leading-relaxed mb-8 sm:mb-12">{t.evidence.analysisDesc}</p>
-              <div className="grid grid-cols-2 gap-4 sm:gap-8">
+              <p className="text-gray-600 text-lg sm:text-xl leading-relaxed mb-8 sm:mb-12">
+                {locale === 'id' 
+                  ? "Hasil penelitian menunjukkan penurunan HbA1c, FPG (gula darah puasa), dan PPG (gula darah setelah makan) yang signifikan dibandingkan dengan kelompok kontrol."
+                  : "The study results showed a significant reduction in HbA1c, Fasting Plasma Glucose (FPG), and Postprandial Glucose (PPG) compared to the control group."}
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4 sm:gap-8 mb-8">
                 <div className="p-6 sm:p-10 bg-white rounded-[1.5rem] sm:rounded-[2.5rem] shadow-xl border border-green-50 text-center">
-                  <p className="text-3xl sm:text-5xl font-black text-green-600 mb-2 tracking-tighter">18.2%</p>
-                  <p className="text-[8px] sm:text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{t.evidence.labels.hba1c}</p>
+                  <p className="text-3xl sm:text-5xl font-black text-green-600 mb-2 tracking-tighter">0.25</p>
+                  <p className="text-[8px] sm:text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{t.evidence.labels.hba1c} Mean Diff</p>
                 </div>
                 <div className="p-6 sm:p-10 bg-white rounded-[1.5rem] sm:rounded-[2.5rem] shadow-xl border border-green-50 text-center">
-                  <p className="text-3xl sm:text-5xl font-black text-green-600 mb-2 tracking-tighter">90</p>
-                  <p className="text-[8px] sm:text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{t.evidence.labels.period}</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-black text-green-600 mb-2 tracking-tighter">Verified</p>
+                  <p className="text-[8px] sm:text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{locale === 'id' ? 'Signifikansi Tinggi' : 'Highly Significant'}</p>
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-1/2"><EvidenceChart /></div>
+            
+            <div className="w-full lg:w-1/2">
+               <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] sm:rounded-[4rem] shadow-2xl border border-green-50">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-8 font-display">{locale === 'id' ? 'Hasil Komparatif Kelompok' : 'Group Comparative Results'}</h3>
+                  <div className="space-y-6">
+                    <div className="flex flex-col sm:flex-row gap-6 p-6 rounded-3xl bg-green-50 border border-green-100">
+                      <div className="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center font-bold shadow-lg">A</div>
+                      <div>
+                        <p className="text-sm font-black text-green-700 uppercase tracking-widest mb-1">{locale === 'id' ? 'Kelompok Intervensi' : 'Intervention Group'}</p>
+                        <p className="text-gray-700 leading-relaxed font-medium">
+                          {locale === 'id' 
+                            ? 'Pasien Kelompok A memiliki penurunan HbA1c (rata-rata 0.25), FPG, dan PPG yang secara signifikan lebih tinggi.' 
+                            : 'Patients from Group A had a significantly higher reduction in HbA1c (mean 0.25), FPG, and PPG levels.'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 p-6 rounded-3xl bg-gray-50 border border-gray-100">
+                      <div className="flex-shrink-0 w-12 h-12 bg-gray-400 text-white rounded-2xl flex items-center justify-center font-bold">B</div>
+                      <div>
+                        <p className="text-sm font-black text-gray-500 uppercase tracking-widest mb-1">{locale === 'id' ? 'Kelompok Kontrol (Placebo)' : 'Control Group (Placebo)'}</p>
+                        <p className="text-gray-700 leading-relaxed opacity-80">
+                          {locale === 'id' 
+                            ? 'Menunjukkan perubahan minimal pada parameter glikemik (-0.02 rata-rata selisih).' 
+                            : 'Showed minimal changes in glycemic parameters (-0.02 mean difference).'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8 p-6 bg-green-900 text-white rounded-2xl text-xs sm:text-sm italic leading-relaxed shadow-inner">
+                    {t.evidence.quote}
+                  </div>
+                  <p className="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest text-center">
+                    {t.evidence.chartDisclaimer}
+                  </p>
+               </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12">
@@ -74,14 +114,14 @@ const EvidencePage: React.FC = () => {
 
       <section className="py-20 sm:py-32 bg-white">
         <div className="max-w-5xl mx-auto px-4 text-center">
-          <div className="inline-block bg-green-50 text-green-600 p-5 sm:p-6 rounded-full mb-8 sm:mb-10 shadow-inner"><i className="fas fa-snowflake text-4xl sm:text-5xl"></i></div>
+          <div className="inline-block bg-green-50 text-green-600 p-5 sm:p-6 rounded-full mb-8 sm:mb-10 shadow-inner"><i className="fas fa-hand-holding-medical text-4xl sm:text-5xl"></i></div>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6 font-display leading-tight">{t.evidence.coldProcessTitle}</h2>
           <p className="text-gray-500 text-lg sm:text-xl mb-12 sm:mb-20 max-w-3xl mx-auto leading-relaxed">{t.evidence.coldProcessDesc}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16">
              {[
-               { icon: 'fa-temperature-low', title: t.evidence.labels.retention },
-               { icon: 'fa-vial', title: t.evidence.labels.integrity },
-               { icon: 'fa-leaf', title: t.evidence.labels.pure }
+               { icon: 'fa-vials', title: t.evidence.labels.retention },
+               { icon: 'fa-chart-line', title: t.evidence.labels.integrity },
+               { icon: 'fa-hospital-user', title: t.evidence.labels.pure }
              ].map((item, i) => (
                <div key={i} className="flex flex-col items-center group">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-50 text-green-600 rounded-2xl sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 text-2xl sm:text-3xl shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-500"><i className={`fas ${item.icon}`}></i></div>
