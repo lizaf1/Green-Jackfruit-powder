@@ -51,14 +51,14 @@ const AppContent: React.FC = () => {
 
       <section className="relative bg-white pt-12 pb-20 sm:pt-20 sm:pb-32 lg:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          <div className="w-full lg:w-1/2 text-center lg:text-left relative z-10">
+          <div className="w-full lg:w-1/2 text-center lg:text-left relative z-20">
             <div className="inline-flex items-center gap-3 bg-green-50 text-green-700 px-4 sm:px-6 py-2 rounded-full text-[10px] sm:text-xs font-black mb-6 sm:mb-8 tracking-[0.2em] uppercase">
               <i className="fas fa-check-circle text-sm"></i>{t.hero.badge}
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 font-display leading-[1.1] sm:leading-[0.9] mb-8 sm:mb-10 tracking-tighter">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-bold text-gray-900 font-display leading-[1.1] sm:leading-[0.9] mb-8 sm:mb-10 tracking-tighter">
               {t.hero.titleMain}
               <div className="mt-6 sm:mt-8 flex justify-center lg:justify-start">
-                <JackfruitLogo iconSize="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" textSize="text-5xl sm:text-7xl md:text-9xl" />
+                <JackfruitLogo iconSize="w-16 h-16 sm:w-20 sm:h-20 lg:w-20 lg:h-20 xl:w-24 xl:h-24" textSize="text-5xl sm:text-7xl lg:text-7xl xl:text-8xl" />
               </div>
             </h1>
             <p className="text-lg sm:text-xl text-gray-500 mb-8 sm:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
