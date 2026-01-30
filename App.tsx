@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import EvidencePage from './components/EvidencePage';
@@ -9,6 +10,7 @@ import FAQSection from './components/FAQSection';
 import AdminPanel from './components/AdminPanel';
 import InvestmentPage from './components/InvestmentPage';
 import BrandKitPage from './components/BrandKitPage';
+import SitemapPage from './components/SitemapPage';
 import OrderSection from './components/OrderSection';
 import JackfruitLogo from './components/JackfruitLogo';
 import SEO from './components/SEO';
@@ -47,6 +49,7 @@ const AppContent: React.FC = () => {
   );
 
   if (view === 'brand-kit') return <NavigationFrame><BrandKitPage /></NavigationFrame>;
+  if (view === 'sitemap') return <NavigationFrame><SitemapPage /></NavigationFrame>;
   if (view === 'investment') {
     return (
       <NavigationFrame>
@@ -203,6 +206,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
                 <li><button onClick={() => setView('evidence')} className="hover:text-white transition-colors">Evidence</button></li>
                 <li><button onClick={() => setView('blog')} className="hover:text-white transition-colors">Education</button></li>
                 <li><button onClick={() => setView('investment')} className="hover:text-white transition-colors">Investment</button></li>
+                <li><button onClick={() => setView('sitemap')} className="hover:text-white transition-colors">Sitemap</button></li>
               </ul>
             </div>
             <div>

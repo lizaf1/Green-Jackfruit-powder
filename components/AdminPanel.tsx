@@ -9,7 +9,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABAS
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 const BUCKET_NAME = 'assets';
 
-type AdminTab = 'hero' | 'products' | 'usage' | 'recipes' | 'evidence' | 'blog' | 'investment' | 'faq' | 'general';
+type AdminTab = 'hero' | 'products' | 'usage' | 'recipes' | 'evidence' | 'blog' | 'investment' | 'faq' | 'general' | 'discovery';
 
 const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, isAuthenticated, login, logout } = useLanguage();
@@ -141,7 +141,7 @@ const AdminPanel: React.FC = () => {
           <p className="font-black text-[10px] uppercase tracking-widest">Master Admin</p>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto">
-          {(['hero', 'products', 'usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general'] as const).map(tab => (
+          {(['hero', 'products', 'usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general', 'discovery'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)} className={`w-full text-left px-5 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-[#16c694] text-[#014737]' : 'text-white/50 hover:text-white hover:bg-white/5'}`}>{tab}</button>
           ))}
         </nav>
@@ -163,6 +163,53 @@ const AdminPanel: React.FC = () => {
         </header>
 
         <div className="max-w-5xl space-y-12 pb-32">
+          {activeTab === 'discovery' && (
+            <div className="space-y-10">
+              <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-[#014737]">sitemap.xml</h3>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">...</urlset>`)}
+                    className="text-[9px] font-black text-green-600 uppercase border border-green-200 px-3 py-1 rounded-full hover:bg-green-600 hover:text-white transition"
+                  >
+                    Copy XML
+                  </button>
+                </div>
+                <pre className="bg-white p-6 rounded-2xl border border-gray-200 text-[10px] font-mono overflow-x-auto text-gray-400 leading-relaxed">
+{`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://tewellplus.id/</loc>
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://tewellplus.id/#evidence</loc>
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>`}
+                </pre>
+              </div>
+
+              <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-[#014737]">robots.txt</h3>
+                </div>
+                <pre className="bg-white p-6 rounded-2xl border border-gray-200 text-[10px] font-mono overflow-x-auto text-gray-400 leading-relaxed">
+{`User-agent: *
+Allow: /
+Sitemap: https://tewellplus.id/sitemap.xml`}
+                </pre>
+              </div>
+              <p className="text-[10px] font-bold text-gray-400 leading-relaxed italic">
+                * Note: These are technical discovery files. Their content is controlled by the build process and meta components in SEO.tsx.
+              </p>
+            </div>
+          )}
+
           {activeTab === 'hero' && (
             <div className="grid grid-cols-2 gap-8">
               <ControlField label="Badge Text" path="translations.hero.badge" />

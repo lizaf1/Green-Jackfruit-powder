@@ -1,5 +1,5 @@
 
-export type View = 'home' | 'evidence' | 'blog' | 'admin' | 'investment' | 'brand-kit';
+export type View = 'home' | 'evidence' | 'blog' | 'admin' | 'investment' | 'brand-kit' | 'sitemap';
 export type Locale = 'id' | 'en';
 
 export interface StudyData {
