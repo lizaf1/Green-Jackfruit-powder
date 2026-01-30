@@ -178,14 +178,14 @@ const AdminPanel: React.FC = () => {
 {`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jackfruit365.com/</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://tewellplus.com/</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jackfruit365.com/evidence</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://tewellplus.com/evidence</loc>
+    <lastmod>2025-01-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -200,11 +200,11 @@ const AdminPanel: React.FC = () => {
                 <pre className="bg-white p-6 rounded-2xl border border-gray-200 text-[10px] font-mono overflow-x-auto text-gray-400 leading-relaxed">
 {`User-agent: *
 Allow: /
-Sitemap: https://jackfruit365.com/sitemap.xml`}
+Sitemap: https://tewellplus.com/sitemap.xml`}
                 </pre>
               </div>
               <p className="text-[10px] font-bold text-gray-400 leading-relaxed italic">
-                * Note: These are technical discovery files. Their content is controlled by the build process and meta components in SEO.tsx.
+                * Note: These are technical discovery files. Their content is controlled by standard SEO practices in sitemap.xml and robots.txt.
               </p>
             </div>
           )}

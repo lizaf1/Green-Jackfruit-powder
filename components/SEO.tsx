@@ -30,6 +30,7 @@ const SEO: React.FC<SEOProps> = ({
   const { cmsData, locale, view } = useLanguage();
   const t = cmsData[locale].translations;
   const siteName = "TeWELL+";
+  const brandDomain = "https://tewellplus.com";
   
   // High-focus metadata title
   const defaultTitle = locale === 'id' 
@@ -53,8 +54,8 @@ const SEO: React.FC<SEOProps> = ({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "TeWELL+",
-    "url": "https://jackfruit365.com",
-    "logo": "https://jackfruit365.com/favicon.svg",
+    "url": brandDomain,
+    "logo": `${brandDomain}/favicon.svg`,
     "description": t.footer.mission,
     "brand": {
       "@type": "Brand",
@@ -147,7 +148,7 @@ const SEO: React.FC<SEOProps> = ({
     updateMeta('og:image:width', '1200', true);
     updateMeta('og:image:height', '630', true);
     updateMeta('og:type', type, true);
-    updateMeta('og:url', currentUrl, true);
+    updateMeta('og:url', brandDomain + window.location.pathname, true);
     updateMeta('twitter:card', 'summary_large_image');
     updateMeta('twitter:image', metaImage);
     updateMeta('twitter:title', fullTitle);

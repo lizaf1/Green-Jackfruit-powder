@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://jackfruit365.com/sitemap.xml
+Sitemap: https://tewellplus.com/sitemap.xml
