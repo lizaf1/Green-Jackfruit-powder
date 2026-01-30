@@ -15,12 +15,15 @@ import JackfruitLogo from './components/JackfruitLogo';
 import SEO from './components/SEO';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
+// Define siteName for use in SEO title and product names
+const siteName = "TeWELL+";
+
 const AppContent: React.FC = () => {
   const { cmsData, locale, view, setView, setSelectedPostId, selectedPostId, isLoading } = useLanguage();
   const content = cmsData[locale];
   const t = content.translations;
 
-  // GLOBAL SCROLL RESET: Fixes the issue where navigating from footer keeps you at the bottom.
+  // GLOBAL SCROLL RESET
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [view, selectedPostId]);
@@ -45,23 +48,54 @@ const AppContent: React.FC = () => {
   );
 
   if (view === 'brand-kit') return <NavigationFrame><BrandKitPage /></NavigationFrame>;
-  if (view === 'investment') return <NavigationFrame><InvestmentPage /></NavigationFrame>;
-  if (view === 'evidence') return <NavigationFrame><EvidencePage /></NavigationFrame>;
-  if (view === 'blog') return <NavigationFrame><BlogPage /></NavigationFrame>;
+  if (view === 'investment') {
+    return (
+      <NavigationFrame>
+        <SEO title={locale === 'id' ? "Peluang Investasi" : "Investment Opportunities"} description={content.investment.subheading} />
+        <InvestmentPage />
+      </NavigationFrame>
+    );
+  }
+  if (view === 'evidence') {
+    return (
+      <NavigationFrame>
+        <SEO type="medical" title={t.evidence.pageTitle} description={t.evidence.pageSubtitle} />
+        <EvidencePage />
+      </NavigationFrame>
+    );
+  }
+  if (view === 'blog') {
+    return (
+      <NavigationFrame>
+        <BlogPage />
+      </NavigationFrame>
+    );
+  }
+
+  // Home Page Specific SEO
+  const mainProduct = content.variants.find(v => v.popular) || content.variants[0];
 
   return (
     <div className="min-h-screen selection:bg-green-100 selection:text-green-900 overflow-x-hidden">
-      <SEO />
+      <SEO 
+        productData={mainProduct ? {
+          name: `${siteName} ${mainProduct.name}`,
+          description: t.hero.description,
+          price: mainProduct.price,
+          currency: mainProduct.currency,
+          sku: `TEWELL-${mainProduct.weight}`,
+          image: t.hero.heroImage
+        } : undefined}
+      />
       <Navbar />
 
-      {/* CLOUD-CONNECTED FLUID HERO */}
+      {/* HERO SECTION */}
       <section className="relative bg-white pt-24 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-green-50/40 to-transparent -z-10"></div>
         
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
             
-            {/* Text Side - Adaptive Typography (No Clipping) */}
             <div className="w-full lg:w-3/5 text-center lg:text-left z-20">
               <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black mb-6 tracking-[0.2em] uppercase shadow-sm">
                 <i className="fas fa-certificate text-[10px]"></i>
@@ -98,12 +132,10 @@ const AppContent: React.FC = () => {
               </div>
             </div>
             
-            {/* Image Side - Responsive Scaling */}
             <div className="w-full lg:w-2/5 relative mt-10 lg:mt-0 flex justify-center lg:block">
               <div className="relative p-2 lg:p-3 bg-white rounded-[2.5rem] lg:rounded-[4rem] shadow-2xl border border-gray-100 w-full max-w-[280px] sm:max-w-md lg:max-w-none">
-                <img src={t.hero.heroImage} alt="TeWELL+ Product" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
+                <img src={t.hero.heroImage} alt="TeWELL+ green Jackfruit powder pouch packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
                 
-                {/* Float Card */}
                 <div className="absolute -bottom-6 -right-2 lg:-bottom-12 lg:-right-12 bg-white p-5 lg:p-10 rounded-[2rem] lg:rounded-[3rem] shadow-2xl z-20 border border-green-50 min-w-[130px] lg:min-w-[240px]">
                   <div className="text-center">
                     <p className="text-[7px] lg:text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-1">{t.hero.chartLabel}</p>

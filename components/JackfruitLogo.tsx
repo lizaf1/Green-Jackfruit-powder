@@ -20,46 +20,70 @@ export const BrandText: React.FC<{ size?: string; light?: boolean; onClick?: () 
   </span>
 );
 
-const JackfruitLogo: React.FC<LogoProps> = ({ 
-  className = "", 
-  iconOnly = false, 
-  light = false,
-  iconSize = "w-10 h-10 md:w-11 md:h-11",
-  textSize = "text-2xl"
-}) => {
-  const { setView } = useLanguage();
-  
-  const darkGreen = "#014737";
+export const LogoSVG: React.FC<{ className?: string, light?: boolean }> = ({ className, light }) => {
+  const darkGreen = "#004737";
   const brightGreen = "#16c694";
   const white = "#FFFFFF";
 
   const primaryFill = light ? white : darkGreen;
-  const crossColor = light ? darkGreen : brightGreen;
+  const secondaryColor = light ? darkGreen : brightGreen;
 
+  return (
+    <svg 
+      viewBox="0 0 100 120" 
+      className={className}
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Top circular stem */}
+      <circle cx="50" cy="12" r="7.5" fill={secondaryColor} />
+      
+      {/* Main Jackfruit Shape */}
+      <path 
+        d="M50 20C32 20 18 40 18 70C18 95 32 115 50 115C68 115 82 95 82 70C82 40 68 20 50 20Z" 
+        fill={primaryFill} 
+      />
+      
+      {/* Top Left Highlight Arc */}
+      <path 
+        d="M35 38C38 32 45 30 50 30" 
+        stroke={secondaryColor} 
+        strokeWidth="2.5" 
+        strokeLinecap="round"
+        opacity="0.3"
+      />
+      
+      {/* Central Medical Cross */}
+      <rect x="44" y="52" width="12" height="36" rx="3" fill={secondaryColor} />
+      <rect x="32" y="64" width="36" height="12" rx="3" fill={secondaryColor} />
+      
+      {/* Jackfruit Texture Dots - Symmetrical pattern from image */}
+      <circle cx="34" cy="48" r="1.8" fill={secondaryColor} opacity="0.4" />
+      <circle cx="66" cy="48" r="1.8" fill={secondaryColor} opacity="0.4" />
+      
+      <circle cx="28" cy="70" r="1.8" fill={secondaryColor} opacity="0.4" />
+      <circle cx="72" cy="70" r="1.8" fill={secondaryColor} opacity="0.4" />
+      
+      <circle cx="38" cy="94" r="1.8" fill={secondaryColor} opacity="0.4" />
+      <circle cx="62" cy="94" r="1.8" fill={secondaryColor} opacity="0.4" />
+      <circle cx="50" cy="104" r="1.8" fill={secondaryColor} opacity="0.4" />
+    </svg>
+  );
+};
+
+const JackfruitLogo: React.FC<LogoProps> = ({ 
+  className = "", 
+  iconOnly = false, 
+  light = false,
+  iconSize = "w-10 h-12",
+  textSize = "text-2xl"
+}) => {
+  const { setView } = useLanguage();
+  
   return (
     <div className={`flex items-center gap-2 sm:gap-3 ${className}`}>
       <div className="relative flex-shrink-0">
-        <svg 
-          viewBox="0 0 100 120" 
-          className={`${iconSize} drop-shadow-md transition-all duration-500 group-hover:scale-105`}
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Main Teardrop/Leaf Shape matching the branding pouch */}
-          <path 
-            d="M50 5C30 5 15 30 15 62C15 95 30 115 50 115C70 115 85 95 85 62C85 30 70 5 50 5Z" 
-            fill={primaryFill} 
-          />
-          {/* Central Medical Cross */}
-          <rect x="42" y="45" width="16" height="34" rx="4" fill={crossColor} />
-          <rect x="33" y="54" width="34" height="16" rx="4" fill={crossColor} />
-          
-          {/* Subtle jackfruit texture dots */}
-          <circle cx="35" cy="40" r="1.5" fill={crossColor} opacity="0.4" />
-          <circle cx="65" cy="40" r="1.5" fill={crossColor} opacity="0.4" />
-          <circle cx="30" cy="70" r="1.5" fill={crossColor} opacity="0.4" />
-          <circle cx="70" cy="70" r="1.5" fill={crossColor} opacity="0.4" />
-        </svg>
+        <LogoSVG className={`${iconSize} drop-shadow-md transition-all duration-500 group-hover:scale-105`} light={light} />
       </div>
       {!iconOnly && (
         <BrandText 
