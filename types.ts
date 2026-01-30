@@ -86,6 +86,7 @@ export interface Translations {
     viewData: string;
     securePayment: string;
     rights: string;
+    customLogo?: string; // New field for logo sync
   };
   nav: {
     home: string;

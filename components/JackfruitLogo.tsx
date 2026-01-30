@@ -16,7 +16,7 @@ export const BrandText: React.FC<{ size?: string; light?: boolean; onClick?: () 
     onClick={onClick}
   >
     <span className={light ? "text-white" : "text-gray-900"}>TeWELL</span>
-    <span className="text-green-500 ml-0.5 font-sans transition-transform active:scale-90">＋</span>
+    <span className="text-[#16c694] ml-0.5 font-sans transition-transform active:scale-90">＋</span>
   </span>
 );
 
@@ -28,55 +28,55 @@ const JackfruitLogo: React.FC<LogoProps> = ({
   textSize = "text-2xl"
 }) => {
   const { setView } = useLanguage();
-  const primaryColor = light ? "#FFFFFF" : "#064E3B"; // emerald-950
-  const accentColor = "#10B981"; // emerald-500
-  const glowColor = "#34D399"; // emerald-400
+  
+  // Colors derived from the user's provided logo image
+  const darkGreen = "#014737";
+  const brightGreen = "#16c694";
+  const white = "#FFFFFF";
+
+  const primaryFill = light ? white : darkGreen;
+  const accentFill = brightGreen;
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div className="relative flex-shrink-0">
         <svg 
-          viewBox="0 0 100 100" 
+          viewBox="0 0 100 120" 
           className={`${iconSize} drop-shadow-md transition-all duration-500 group-hover:scale-105`}
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Main Jackfruit "Pod" Shape - Abstract & Modern */}
+          {/* Main Jackfruit Body */}
           <path 
-            d="M50 8C35 8 22 24 22 45C22 68 36 92 50 92C64 92 78 68 78 45C78 24 65 8 50 8Z" 
-            fill={primaryColor} 
+            d="M50 5C30 5 15 30 15 62C15 95 30 115 50 115C70 115 85 95 85 62C85 30 70 5 50 5Z" 
+            fill={primaryFill} 
           />
           
-          {/* Top Stem/Leaf Detail - Elegant & Medical feel */}
+          {/* Stem Circle */}
+          <circle cx="50" cy="10" r="8" fill={accentFill} />
+          
+          {/* Medical Plus Sign */}
+          <rect x="42" y="45" width="16" height="34" rx="4" fill={accentFill} />
+          <rect x="33" y="54" width="34" height="16" rx="4" fill={accentFill} />
+          
+          {/* Decorative curve/highlight */}
           <path 
-            d="M50 2C50 2 54 2 56 6C58 10 54 14 50 14C46 14 42 10 44 6C46 2 50 2 50 2Z" 
-            fill={accentColor}
-          />
-
-          {/* Glowing Medical Cross - Symbolizing Clinical Efficacy */}
-          <rect x="46" y="32" width="8" height="26" rx="2" fill={glowColor} />
-          <rect x="37" y="41" width="26" height="8" rx="2" fill={glowColor} />
-
-          {/* Organic Texture Accents (Representing Green Jackfruit Skin) */}
-          <circle cx="34" cy="30" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="66" cy="30" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="30" cy="50" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="70" cy="50" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="38" cy="75" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="62" cy="75" r="1.5" fill={accentColor} opacity="0.4" />
-          <circle cx="50" cy="82" r="1.5" fill={accentColor} opacity="0.4" />
-
-          {/* Cellular Integrity Inner Arc */}
-          <path 
-            d="M32 45C32 34 40 25 50 25" 
-            stroke={accentColor} 
-            strokeWidth="2" 
-            strokeLinecap="round"
+            d="M38 45 C 38 35, 48 30, 58 30" 
+            stroke={accentFill} 
+            strokeWidth="3" 
+            strokeLinecap="round" 
             opacity="0.3"
           />
+          
+          {/* Decorative dots from the image */}
+          <circle cx="35" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
+          <circle cx="68" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
+          <circle cx="30" cy="70" r="1.5" fill={accentFill} opacity="0.6" />
+          <circle cx="72" cy="70" r="1.5" fill={accentFill} opacity="0.6" />
+          <circle cx="45" cy="100" r="1.5" fill={accentFill} opacity="0.6" />
+          <circle cx="58" cy="105" r="1.5" fill={accentFill} opacity="0.6" />
         </svg>
       </div>
-
       {!iconOnly && (
         <BrandText 
           size={textSize} 

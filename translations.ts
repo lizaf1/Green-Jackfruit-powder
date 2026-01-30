@@ -1,229 +1,182 @@
 
-import { Translations, FAQItem, StudyData, Article, Recipe, BlogPost, AppContentData, InvestmentContent, ProductVariant } from './types';
+import { Translations, AppContentData } from './types';
 
-// ==========================================
-// MASTER SETTINGS
-// ==========================================
-// Change this password to update the global admin password for everyone
 export const MASTER_ADMIN_PASSWORD = 'admin'; 
 
 const translationsID: Translations = {
   common: {
-    brandTagline: "Terapi Nutrisi Medis Nangka Hijau Mentah",
-    orderNow: "Pesan TeWELL+",
-    backToHome: "Kembali ke Beranda",
-    readBlog: "Baca Edukasi",
+    brandTagline: "Terapi Nutrisi Medis (MNT) Nangka Hijau Mentah",
+    orderNow: "Pesan Sekarang",
+    backToHome: "Beranda",
+    readBlog: "Pelajari Sains",
     viewData: "Data Klinis",
     securePayment: "Transaksi Aman & Terenkripsi",
-    rights: "Seluruh Hak Dilindungi.",
+    rights: "Seluruh Hak Dilindungi."
   },
-  nav: { home: "Beranda", evidence: "Bukti Klinis", usage: "Cara Pakai", recipes: "Resep", blog: "Edukasi", faq: "FAQ", investment: "Investasi" },
+  nav: { 
+    home: "Beranda", 
+    evidence: "Bukti Klinis", 
+    usage: "Cara Pakai", 
+    recipes: "Resep MNT", 
+    blog: "Edukasi", 
+    faq: "FAQ", 
+    investment: "Investasi" 
+  },
   hero: {
-    badge: "Efektivitas Teruji Secara Klinis",
-    titleMain: "Kendalikan Gula Darah Anda dengan ",
-    description: "Bubuk Nangka Hijau Mentah Premium (TeWELL+) sebagai Terapi Nutrisi Medis (MNT). Terbukti secara klinis menurunkan HbA1c sebesar 0.25%, serta menurunkan FPG dan PPG secara signifikan dengan mengganti volume nasi atau terigu harian.",
-    ctaEvidence: "Pelajari Hasil Studi",
-    chartLabel: "Penurunan HbA1c",
-    heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800"
+    badge: "Teruji Klinis: Scientific Reports (Nature)",
+    titleMain: "Kendalikan Gula Darah dengan ",
+    description: "Satu-satunya Bubuk Nangka Hijau Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG).",
+    ctaEvidence: "Lihat Hasil Studi Nature",
+    chartLabel: "HbA1c Reduction",
+    heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=1200"
   },
   order: {
-    heading: "Langkah Hidup Sehat",
-    subheading: "Pilih paket TeWELL+ untuk memulai Terapi Nutrisi Medis (MNT) harian Anda dengan penggantian volume yang setara.",
-    buyWA: "Pesan via WhatsApp", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok Shop",
+    heading: "Mulai Terapi Nutrisi Medis",
+    subheading: "Ganti 1 sdm nasi atau tepung dengan bubuk nangka setiap hari untuk manajemen glikemik yang lebih baik.",
+    buyWA: "WhatsApp Support", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
-    variantTagPopular: "REKOMENDASI KLINIS",
+    variantTagPopular: "REKOMENDASI STUDI",
     benefitRaw: "100% Nangka Hijau Mentah",
     benefitProven: "Efikasi Signifikan Teruji",
-    benefitClean: "Tanpa Pengawet & Gula Tambahan",
-    benefitCold: "Teknologi Cold-Process <50°C"
+    benefitClean: "Tanpa Pengawet & Gula",
+    benefitCold: "Cold-Processed (<50°C)"
   },
-  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai kesehatan metabolisme and manfaat serat nangka hijau mentah.", readMore: "Baca Selengkapnya", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
+  blog: { heading: "Pusat Edukasi Glikemik", subheading: "Wawasan mendalam mengenai kesehatan metabolisme dan serat nangka hijau.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
-    heading: "Bukti Klinis Teruji",
-    quote: "\"Pasien Kelompok A memiliki penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi daripada Kelompok B demonstrasikan efikasi bubuk nangka sebagai terapi nutrisi medis harian.\"",
+    heading: "Bukti Klinis Teruji (RCT)",
+    quote: "\"Konsumsi 30g bubuk nangka hijau mentah setiap hari menghasilkan penurunan HbA1c, FPG, dan PPG yang signifikan secara statistik dibandingkan placebo.\"",
     studyTitle: "Uji Coba Terkontrol Acak (RCT)",
-    studyDesc: "Penurunan HbA1c sebesar 0.25 pada kelompok TeWELL+ dibandingkan -0.02 pada kelompok placebo dengan signifikansi tinggi.",
+    studyDesc: "Studi Double-Blind selama 12 minggu menunjukkan penurunan HbA1c sebesar 0.25 pada kelompok intervensi vs -0.02 pada placebo.",
     analysisTitle: "Efikasi Standar Emas",
-    analysisDesc: "Publikasi di Scientific Reports (Nature Portfolio) mengonfirmasi efektivitas bubuk nangka hijau sebagai Terapi Nutrisi Medis (MNT) untuk kontrol glikemik yang unggul.",
-    chartTitle: "Data Penurunan HbA1c (Studi Gopal dkk.)",
-    chartDisclaimer: "*Sumber: Gopal dkk., Scientific Reports 2021. Hasil menunjukkan perbedaan signifikan antara Kelompok A dan Kelompok B.",
-    pageTitle: "Sains & Metodologi",
-    pageSubtitle: "Efikasi TeWELL+ didasarkan pada riset klinis transparan yang mengukur HbA1c, glukosa puasa (FPG), dan glukosa setelah makan (PPG).",
-    readMore: "Lihat Jurnal Nature",
-    coldProcessTitle: "Terapi Nutrisi Medis (MNT)",
-    coldProcessDesc: "Penggantian volume nasi atau tepung secara setara memastikan asupan serat meningkat tanpa merubah rasa makanan, menjaga integritas metabolisme.",
-    labels: {
-      hba1c: "Penurunan HbA1c",
-      period: "Kontrol Glikemik",
-      baseline: "Placebo",
-      result: "TeWELL+",
-      goldStandard: "Studi Teruji Klinis",
-      retention: "FPG Improved",
-      integrity: "PPG Improved",
-      pure: "MNT Certified"
-    }
+    analysisDesc: "Dipublikasikan di Scientific Reports (Nature Portfolio), mengonfirmasi peran nangka hijau sebagai terapi nutrisi yang efektif bagi penderita Diabetes Tipe 2.",
+    chartTitle: "Data Komparatif HbA1c (Gopal et al. 2021)",
+    chartDisclaimer: "*Data berdasarkan rata-rata perubahan HbA1c harian selama 90 hari.",
+    pageTitle: "Sains di Balik Jackfruit365",
+    pageSubtitle: "Kami menggunakan data transparan dari jurnal medis terkemuka untuk memvalidasi setiap klaim kesehatan kami.",
+    readMore: "Jurnal Lengkap",
+    coldProcessTitle: "Metode Terapi Nutrisi (MNT)",
+    coldProcessDesc: "Strategi penggantian volume nasi/tepung secara 1:1 memastikan penurunan beban glikemik tanpa merubah rasa makanan harian Anda.",
+    labels: { hba1c: "Penurunan HbA1c", period: "90 Hari", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Klinis", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "Terapi Nutrisi Medis",
-    description: "Gantikan volume nasi atau terigu Anda dengan takaran TeWELL+ yang setara untuk hasil optimal.",
-    riceTitle: "Substitusi Nasi", riceDesc: "Ganti 1 sendok makan beras dengan 1 sendok makan TeWELL+ (equal volume) sebelum dimasak.",
-    flourTitle: "Substitusi Tepung", flourDesc: "Ganti sebagian porsi terigu dengan volume yang sama dari TeWELL+ untuk adonan yang lebih ramah diabetes.",
-    cookTitle: "Equal Volume", cookDesc: "Metode penggantian volume yang setara memastikan asupan pati berkurang dan serat meningkat secara presisi.",
+    heading: "Cara Penggunaan Klinis",
+    description: "Gunakan strategi 'Equal Volume' untuk hasil optimal.",
+    riceTitle: "Pengganti Nasi", riceDesc: "Ganti 1 sdm beras dengan 1 sdm bubuk nangka sebelum dimasak.",
+    flourTitle: "Pengganti Tepung", flourDesc: "Campurkan 1 sdm bubuk nangka untuk setiap 3 sdm tepung terigu.",
+    cookTitle: "Kunci Konsistensi", cookDesc: "Gunakan setiap kali makan untuk menjaga profil glikemik yang stabil.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
-  recipes: { heading: "Inspirasi Menu Sehat", subheading: "Ubah makanan pokok harian Anda menjadi sajian super ramah diabetes.", howLabel: "Metode MNT Setara Volume:", diabetesFriendly: "Ramah Diabetes" },
-  faq: { heading: "Tanya Jawab", subheading: "Pertanyaan umum mengenai penggunaan dan manfaat TeWELL+." },
-  footer: {
-    mission: "Menghadirkan solusi alami berbasis sains untuk membantu pengelolaan diabetes melalui inovasi pangan fungsional terbaik.",
-    navHeading: "Tautan", contactHeading: "Hubungi Kami", disclaimer: "PENTING: Produk ini adalah makanan kesehatan untuk Terapi Nutrisi Medis. Konsultasikan dengan dokter Anda.",
-    backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00"
-  }
+  recipes: { heading: "Inspirasi Menu MNT", subheading: "Ubah makanan pokok menjadi sajian ramah diabetes.", howLabel: "Metode Setara Volume:", diabetesFriendly: "Low GI Safe" },
+  faq: { heading: "Pertanyaan Umum", subheading: "Informasi teknis mengenai penggunaan klinis nangka hijau mentah." },
+  footer: { mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami di Indonesia dan seluruh dunia.", navHeading: "Tautan Navigasi", contactHeading: "Hubungi Kami", disclaimer: "Produk ini dimaksudkan untuk Terapi Nutrisi Medis (MNT). Selalu konsultasikan dengan dokter Anda sebelum merubah rejimen obat.", backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00 WIB" }
 };
 
 const translationsEN: Translations = {
   common: {
     brandTagline: "Raw Green Jackfruit Medical Nutrition Therapy",
-    orderNow: "Order TeWELL+",
-    backToHome: "Back to Home",
-    readBlog: "Health Education",
+    orderNow: "Order Now",
+    backToHome: "Home",
+    readBlog: "Learn Science",
     viewData: "Clinical Data",
-    securePayment: "Secure & Encrypted Payments",
-    rights: "All Rights Reserved.",
+    securePayment: "Secure & Encrypted",
+    rights: "All Rights Reserved."
   },
   nav: { home: "Home", evidence: "Evidence", usage: "Usage", recipes: "Recipes", blog: "Education", faq: "FAQ", investment: "Investment" },
   hero: {
-    badge: "Clinically Proven Efficacy",
+    badge: "Clinically Proven: Nature Scientific Reports",
     titleMain: "Master Your Blood Sugar with ",
-    description: "Premium Raw Green Jackfruit Powder (TeWELL+) for Medical Nutrition Therapy (MNT). Clinically proven to lower HbA1c by 0.25%, with significant improvements in FPG and PPG by replacing equal volumes of staples.",
-    ctaEvidence: "See Clinical Results",
+    description: "The only Raw Green Jackfruit Powder clinically proven in a Randomized Controlled Trial (RCT) to significantly lower HbA1c, FPG, and PPG levels.",
+    ctaEvidence: "View Nature Study",
     chartLabel: "HbA1c Reduction",
-    heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800"
+    heroImage: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=1200"
   },
   order: {
-    heading: "Health Starts Here",
-    subheading: "Start your daily Medical Nutrition Therapy (MNT) with the TeWELL+ clinical pack using the equal volume replacement method.",
-    buyWA: "Order via WhatsApp", buyShopee: "Buy on Shopee", buyTikTok: "Buy on TikTok Shop",
+    heading: "Start Your Therapy",
+    subheading: "Replace 1 tbsp of your daily staple with jackfruit powder for significant glycemic improvement.",
+    buyWA: "WhatsApp Support", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
     benefitRaw: "100% Raw Green Jackfruit",
     benefitProven: "Significant Proven Efficacy",
-    benefitClean: "No Preservatives or Added Sugar",
-    benefitCold: "Cold-Processed <50°C"
+    benefitClean: "No Additives or Sugar",
+    benefitCold: "Cold-Processed (<50°C)"
   },
-  blog: { heading: "Education Hub", subheading: "Insights into metabolic health and the science of raw green jackfruit fiber.", readMore: "Read More", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
+  blog: { heading: "Glycemic Hub", subheading: "Deep insights into metabolic health and functional fibers.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
   evidence: {
-    heading: "Clinically Proven Efficacy",
-    quote: "\"Patients from Group A had a significantly higher reduction in HbA1c, FPG, and PPG than Group B demonstrating the efficacy of jackfruit flour in glycemic control.\"",
+    heading: "Proven Clinical Efficacy (RCT)",
+    quote: "\"Daily consumption of 30g green jackfruit flour resulted in a significantly higher reduction in HbA1c, FPG, and PPG compared to placebo.\"",
     studyTitle: "Randomized Controlled Trial (RCT)",
-    studyDesc: "Mean reduction of 0.25 in HbA1c for the TeWELL+ group vs -0.02 for the placebo group with high statistical significance.",
-    analysisTitle: "Gold Standard Research",
-    analysisDesc: "Peer-reviewed study in Scientific Reports demonstrates the efficacy of green jackfruit powder as medical nutrition therapy (MNT).",
-    chartTitle: "Comparative Study Data (Gopal et al.)",
-    chartDisclaimer: "*Source: Gopal et al. Significant decrease observed in HbA1c, FPG, and PPG for Group A compared to Group B.",
-    pageTitle: "Science & Methodology",
-    pageSubtitle: "The efficacy of TeWELL+ is validated by measuring HbA1c, Fasting Plasma Glucose (FPG), and Postprandial Glucose (PPG).",
-    readMore: "View Journal",
+    studyDesc: "12-week Double-blind study showed 0.25 HbA1c reduction in intervention group vs -0.02 in placebo.",
+    analysisTitle: "Gold Standard Evidence",
+    analysisDesc: "Published in Scientific Reports (Nature Portfolio), confirming green jackfruit as a potent medical nutrition therapy for Type 2 Diabetes.",
+    chartTitle: "HbA1c Comparative Data (Gopal et al. 2021)",
+    chartDisclaimer: "*Data reflects mean HbA1c change over 90 days.",
+    pageTitle: "The Science of Jackfruit365",
+    pageSubtitle: "We use transparent data from world-leading medical journals to validate our health claims.",
+    readMore: "Full Journal",
     coldProcessTitle: "Medical Nutrition Therapy (MNT)",
-    coldProcessDesc: "Replacing an equal volume of rice or wheat flour in daily meals ensures high-fiber, low-starch intake without compromising the taste of your favorite staples.",
-    labels: {
-      hba1c: "HbA1c Mean Diff",
-      period: "Significant Control",
-      baseline: "Placebo",
-      result: "TeWELL+",
-      goldStandard: "Clinically Validated Study",
-      retention: "FPG Improved",
-      integrity: "PPG Improved",
-      pure: "MNT Ready"
-    }
+    coldProcessDesc: "A 1:1 volume replacement of daily staples like rice and flour reduces glycemic load without changing eating habits.",
+    labels: { hba1c: "HbA1c Drop", period: "90 Days", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Clinical", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "Medical Nutrition Therapy",
-    description: "Use the 'Equal Volume' replacement strategy for effective glycemic management.",
-    riceTitle: "Rice Replacement", riceDesc: "Replace 1 tablespoon of rice with 1 tablespoon of TeWELL+ before cooking in your rice cooker.",
-    flourTitle: "Flour Substitution", flourDesc: "Replace a portion of wheat flour with an equal volume of TeWELL+ in your recipes.",
-    cookTitle: "Equal Volume Rule", cookDesc: "Replacing equal volumes of starch with our green jackfruit powder significantly improves glucose levels.",
+    heading: "How to use MNT",
+    description: "Use the 'Equal Volume' strategy for optimal outcomes.",
+    riceTitle: "Rice Replacement", riceDesc: "Replace 1 tbsp of rice with 1 tbsp of powder before cooking.",
+    flourTitle: "Flour Substitution", flourDesc: "Mix 1 tbsp of powder for every 3 tbsp of your standard flour.",
+    cookTitle: "Equal Volume Rule", cookDesc: "Consistency is key. Use it with every meal to maintain stable glycemic profiles.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
-  recipes: { heading: "Healthy Inspiration", subheading: "Transform your daily staples into diabetes-friendly superfoods.", howLabel: "Equal Volume Replacement:", diabetesFriendly: "Diabetes Friendly" },
-  faq: { heading: "Frequently Asked Questions", subheading: "Common questions about TeWELL+ usage and clinical benefits." },
-  footer: {
-    mission: "Providing science-backed natural solutions to help people manage diabetes through innovative functional foods.",
-    navHeading: "Navigation", contactHeading: "Support", disclaimer: "IMPORTANT: This product is intended for Medical Nutrition Therapy. Always consult your physician.",
-    backToTop: "Back to Top", orderProducts: "Order Products", hours: "Mon - Fri: 09:00 - 18:00"
-  }
+  recipes: { heading: "MNT Recipes", subheading: "Transform daily staples into diabetes-friendly meals.", howLabel: "Equal Volume Method:", diabetesFriendly: "Low GI Safe" },
+  faq: { heading: "FAQ", subheading: "Technical information for clinical usage of raw green jackfruit." },
+  footer: { mission: "Evidence-based functional food innovation for natural diabetes management in Indonesia and globally.", navHeading: "Navigation Links", contactHeading: "Get in Touch", disclaimer: "This product is intended for Medical Nutrition Therapy (MNT). Consult your physician before changing medication.", backToTop: "Top", orderProducts: "Products", hours: "Mon - Fri: 09:00 - 18:00 WIB" }
 };
 
-export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
-  translations: lang === 'id' ? translationsID : translationsEN,
-  recipes: [
-    { 
-      name: lang === 'id' ? 'Nasi Putih Rendah GI' : 'Low GI White Rice', 
-      description: lang === 'id' ? 'Cara termudah menjaga gula darah tanpa berpaling dari nasi.' : 'The easiest way to manage blood sugar without giving up rice.', 
-      howToAdd: lang === 'id' ? 'Ganti 1 sdm beras dengan 1 sdm TeWELL+ per cup beras sebelum dimasak.' : 'Replace 1 tbsp of rice with 1 tbsp TeWELL+ per cup before cooking.', 
-      image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' 
+export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
+  const data: Record<'id' | 'en', AppContentData> = {
+    id: {
+      translations: translationsID,
+      recipes: [
+        { name: 'Nasi Rendah GI', description: 'Nasi putih pulen dengan beban glikemik 40% lebih rendah.', howToAdd: 'Ganti 1 sdm beras dengan 1 sdm bubuk nangka per cup.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Roti MNT Sehat', description: 'Roti gandum dengan tambahan serat fungsional nangka.', howToAdd: 'Ganti 25% tepung terigu dengan bubuk nangka.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Smoothie Hijau', description: 'Minuman serat tinggi untuk energi tanpa lonjakan gula.', howToAdd: 'Campurkan 1 sdm bubuk ke dalam jus atau smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
+      ], 
+      blogPosts: [
+        { id: "nature-study-2021", title: "Terobosan Klinis: Penurunan HbA1c dengan Nangka Hijau", date: "2024-03-25", author: "Dr. James Joseph", category: "Medis", excerpt: "Bagaimana studi RCT di jurnal Nature membuktikan efikasi nangka hijau mentah?", content: "Studi yang dipublikasikan di Scientific Reports (Nature Portfolio) mengonfirmasi bahwa penggantian volume nasi/tepung dengan nangka hijau mentah secara signifikan menurunkan kadar HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG). Hal ini disebabkan oleh tingginya kandungan serat fungsional dan resistensi pati dalam nangka hijau mentah yang diproses secara khusus.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+      ],
+      faqs: [
+        { question: 'Apakah rasanya akan merubah masakan?', answer: 'Tidak. Bubuk nangka hijau mentah kami bersifat netral dan tidak memiliki rasa atau aroma yang kuat, sehingga tidak merubah cita rasa masakan asli Anda.' },
+        { question: 'Berapa dosis harian yang disarankan?', answer: 'Berdasarkan studi klinis Gopal et al. 2021, dosis ideal adalah 30 gram per hari (sekitar 3 sendok makan) yang dibagi ke dalam beberapa waktu makan.' }
+      ],
+      articles: [{ title: "Efficacy of green jackfruit flour in patients with type 2 diabetes mellitus", journal: "Scientific Reports (Nature)", year: "2021", summary: "Significantly higher reduction in HbA1c observed in 30g jackfruit group (0.25 vs -0.02).", link: "https://www.nature.com/articles/s41598-021-92900-4", tags: ["Nature", "Gold Standard", "RCT"] }], 
+      studyData: [{ category: 'HbA1c Reduction', before: -0.02, after: 0.25 }],
+      investment: { heading: 'Masa Depan Manajemen Diabetes', subheading: 'Investasi di pasar diabetes terbesar ke-5 di dunia.', marketStats: [{ label: 'Penderita Diabetes ID', value: '19.5 Juta' }, { label: 'Potensi Pasar', value: '$2.4M+' }, { label: 'Peringkat Global', value: '#5' }, { label: 'Pertumbuhan Tahunan', value: '12.5%' }], pitchText: 'Indonesia adalah pasar krusial untuk solusi manajemen diabetes alami berbasis bukti. TeWELL+ memadukan kearifan lokal dengan validasi ilmiah internasional.', growthTitle: 'Strategi Pertumbuhan', growthItems: [{ title: 'DTC Digital', desc: 'Ekspansi agresif melalui Shopee Mall, TikTok Shop, dan platform e-commerce kesehatan.' }, { title: 'B2B Medical', desc: 'Kerjasama dengan jaringan rumah sakit dan klinik spesialis untuk rekomendasi MNT.' }], ctaText: 'Hubungi Tim Investasi', image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" },
+      variants: [
+        { name: 'Standard Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'COBA SEKARANG', duration: '10 Hari' },
+        { name: 'Clinical Therapy Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'BEST VALUE', duration: '30 Hari' }
+      ]
     },
-    { 
-      name: lang === 'id' ? 'Bakwan Sayur Sehat' : 'Healthy Vegetable Fritters', 
-      description: lang === 'id' ? 'Camilan favorit kini dengan kandungan serat tinggi.' : 'Favorite snacks now with high fiber content.', 
-      howToAdd: lang === 'id' ? 'Ganti sepertiga volume terigu dengan TeWELL+ dalam adonan bakwan.' : 'Replace 1/3 volume of wheat flour with TeWELL+ in your batter.', 
-      image: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=800' 
-    },
-    { 
-      name: lang === 'id' ? 'Soto & Sup Glikemik' : 'Glycemic-Friendly Soups', 
-      description: lang === 'id' ? 'Tambahan nutrisi rahasia dalam setiap mangkuk hangat.' : 'Secret nutrient boost in every warm bowl.', 
-      howToAdd: lang === 'id' ? 'Aduk rata 1-2 sdm TeWELL+ langsung ke dalam mangkuk kuah sesaat sebelum dinikmati.' : 'Stir 1-2 tbsp TeWELL+ directly into your soup bowl before eating.', 
-      image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800' 
+    en: {
+      translations: translationsEN,
+      recipes: [
+        { name: 'Low GI White Rice', description: 'Fluffy white rice with 40% lower glycemic load.', howToAdd: 'Replace 1 tbsp rice with 1 tbsp powder per cup.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
+        { name: 'MNT Healthy Bread', description: 'Wheat bread enriched with functional jackfruit fiber.', howToAdd: 'Replace 25% of flour with jackfruit powder.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Fiber Smoothie', description: 'High fiber drink for energy without sugar spikes.', howToAdd: 'Mix 1 tbsp into your juice or smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
+      ], 
+      blogPosts: [
+        { id: "nature-study-2021-en", title: "Clinical Breakthrough: HbA1c Reduction with Jackfruit", date: "2024-03-25", author: "Dr. James Joseph", category: "Medical", excerpt: "How a Nature journal study proved the efficacy of raw green jackfruit flour.", content: "The study published in Scientific Reports (Nature Portfolio) confirmed that replacing staples with raw green jackfruit flour significantly lowers HbA1c, FPG, and PPG levels. This is attributed to the high functional fiber content and resistant starch that slows glucose absorption.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+      ],
+      faqs: [
+        { question: 'Will it change the taste of my food?', answer: 'No. Our powder is neutral and processed to be flavorless, ensuring your meals taste exactly as intended.' },
+        { question: 'What is the recommended daily dose?', answer: 'Per the Gopal et al. 2021 study, the ideal dose is 30 grams per day (approx. 3 tablespoons) distributed across meals.' }
+      ],
+      articles: [{ title: "Efficacy of green jackfruit flour in patients with type 2 diabetes mellitus", journal: "Scientific Reports (Nature)", year: "2021", summary: "Significantly higher reduction in HbA1c observed in 30g jackfruit group (0.25 vs -0.02).", link: "https://www.nature.com/articles/s41598-021-92900-4", tags: ["Nature", "Gold Standard", "RCT"] }], 
+      studyData: [{ category: 'HbA1c Reduction', before: -0.02, after: 0.25 }],
+      investment: { heading: 'The Future of Diabetes Management', subheading: 'Invest in the 5th largest diabetes market globally.', marketStats: [{ label: 'ID Diabetes Cases', value: '19.5M' }, { label: 'Market Potential', value: '$2.4M+' }, { label: 'Global Rank', value: '#5' }, { label: 'YOY Growth', value: '12.5%' }], pitchText: 'Indonesia is a critical market for natural, evidence-based diabetes management solutions. TeWELL+ combines local wisdom with international scientific validation.', growthTitle: 'Growth Strategy', growthItems: [{ title: 'Digital DTC', desc: 'Scaling via Shopee Mall, TikTok Shop, and professional health platforms.' }, { title: 'B2B Clinical', desc: 'Partnering with premium clinics and hospitals for MNT endorsement.' }], ctaText: 'Contact Investment Team', image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" },
+      variants: [
+        { name: 'Standard Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'TRY NOW', duration: '10 Days' },
+        { name: 'Clinical Therapy Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'BEST VALUE', duration: '30 Days' }
+      ]
     }
-  ], 
-  blogPosts: [
-    {
-      id: "mnt-guide",
-      title: lang === 'id' ? "Panduan Terapi Nutrisi Medis (MNT)" : "The Guide to Medical Nutrition Therapy (MNT)",
-      date: "2024-03-20",
-      author: "Dr. Fitriani",
-      category: "Edukasi",
-      excerpt: lang === 'id' ? "Apa itu MNT dan mengapa penggantian volume setara sangat krusial bagi penderita diabetes?" : "What is MNT and why is equal volume replacement crucial for diabetes management?",
-      content: lang === 'id' ? "Medical Nutrition Therapy (MNT) adalah landasan dalam pengelolaan diabetes tipe 2. Berdasarkan studi yang dipublikasikan di Scientific Reports, nangka hijau mentah dapat bertindak sebagai agen MNT yang efektif. Kuncinya adalah penggantian volume yang setara. Jika Anda biasanya memasak 2 cup beras, gantilah 2 sdm beras tersebut dengan 2 sdm TeWELL+. Dengan cara ini, volume makanan tetap sama, rasa tetap lezat, namun asupan serat meningkat drastis sementara beban pati berkurang." : "Medical Nutrition Therapy (MNT) is the cornerstone of managing Type 2 Diabetes. According to clinical studies, raw green jackfruit acts as an effective MNT agent. The secret lies in 'equal volume replacement'. If you normally cook 2 cups of rice, simply replace 2 tbsp of that rice with 2 tbsp of TeWELL+. This keeps the volume consistent but significantly reduces starch while boosting fiber.",
-      image: "https://images.unsplash.com/photo-1511688858344-1833878fcacc?auto=format&fit=crop&q=80&w=800"
-    }
-  ],
-  faqs: [
-    { 
-      question: lang === 'id' ? 'Apa itu MNT?' : 'What is MNT?', 
-      answer: lang === 'id' ? 'Medical Nutrition Therapy (MNT) adalah pendekatan terapeutik untuk mengobati kondisi medis melalui diet khusus. TeWELL+ digunakan sebagai MNT dengan mengganti sebagian volume karbohidrat pokok dengan volume nangka hijau mentah yang sama.' : 'Medical Nutrition Therapy (MNT) is a therapeutic approach to treating medical conditions through specifically tailored diets. TeWELL+ is used as MNT by replacing part of the carbohydrate volume with an equal volume of raw green jackfruit.' 
-    }
-  ],
-  articles: [
-    { 
-      title: "Efficacy of green jackfruit flour in patients with type 2 diabetes mellitus: a randomized, double-blind study",
-      journal: "Scientific Reports (Nature Portfolio)",
-      year: "2021",
-      summary: "Significant decrease in HbA1c observed in participants taking Green Jackfruit flour meal (0.25 vs -0.02) with high statistical certainty. Fasting (FPG) and Postprandial (PPG) levels also showed similar improvements.",
-      link: "https://www.nature.com/articles/s41598-020-74916-z",
-      tags: ["Nature", "MNT", "Clinically Proven"]
-    }
-  ], 
-  studyData: [ { category: 'HbA1c Mean Diff', before: -0.02, after: 0.25 } ],
-  investment: { 
-    heading: lang === 'id' ? 'Investasi TeWELL+ Indonesia' : 'Invest in TeWELL+ Indonesia', 
-    subheading: lang === 'id' ? 'Mendukung revolusi pangan fungsional untuk mengatasi krisis diabetes di Indonesia.' : 'Join the functional food revolution tackling the diabetes crisis in Indonesia.', 
-    marketStats: [
-      { label: lang === 'id' ? 'Jumlah Diabetisi RI' : 'Diabetes Cases in ID', value: lang === 'id' ? '19.5 Juta' : '19.5 Million' },
-      { label: lang === 'id' ? 'Potensi Pasar RI' : 'ID Market Potential', value: 'Rp 40T+' },
-      { label: lang === 'id' ? 'Target Penetrasi' : 'Penetration Target', value: '10%' },
-      { label: lang === 'id' ? 'Ekspektasi ROI' : 'Expected ROI', value: 'High' }
-    ], 
-    pitchText: lang === 'id' ? 'Indonesia menduduki peringkat ke-5 dunia untuk jumlah penderita diabetes. TeWELL+ hadir sebagai solusi preventif yang scalable dan berbasis bukti ilmiah untuk pasar domestik yang masif.' : 'Indonesia ranks 5th globally in diabetes prevalence. TeWELL+ provides a scalable, science-backed solution specifically tailored for the massive Indonesian domestic market.', 
-    growthTitle: lang === 'id' ? 'Strategi Pertumbuhan Indonesia' : 'Indonesia Growth Strategy', 
-    growthItems: [
-      { title: lang === 'id' ? 'Distribusi Digital (Online-First)' : 'Digital Distribution (Online-First)', desc: lang === 'id' ? 'Fase awal berfokus penuh pada penetrasi pasar online melalui marketplace dan D2C untuk efisiensi distribusi nasional yang cepat.' : 'The initial phase focuses entirely on online market penetration via marketplaces and D2C for rapid national distribution efficiency.' },
-      { title: lang === 'id' ? 'Manufaktur Lokal Nangka Hijau' : 'Local Green Jackfruit Manufacturing', desc: lang === 'id' ? 'Mengoptimalkan rantai pasok nangka hijau mentah lokal dengan teknologi Cold-Process eksklusif untuk efisiensi biaya maksimal.' : 'Optimizing local green jackfruit supply chains with exclusive Cold-Process technology for maximum cost efficiency.' }
-    ], 
-    ctaText: lang === 'id' ? 'Hubungi Tim Investasi Indonesia' : 'Contact ID Investment Team',
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-  },
-  variants: [
-    { name: 'Home Starter Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'STARTER', duration: '10 Hari' },
-    { name: 'Clinical Results Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'HEMAT', duration: '30 Hari' }
-  ]
-});
+  };
+  return data[lang];
+};
