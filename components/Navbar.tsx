@@ -42,9 +42,9 @@ const Navbar: React.FC = () => {
           <button 
             key={l}
             onClick={() => setLocale(l)}
-            className={`transition-all px-3 py-1.5 rounded-full font-black text-[10px] flex items-center justify-center min-w-[40px] ${
+            className={`transition-all px-3 py-1.5 rounded-full font-black text-[10px] flex items-center justify-center min-w-[36px] ${
               locale === l 
-                ? 'bg-[#014737] text-white shadow-md' 
+                ? 'bg-[#014737] text-white shadow-sm' 
                 : 'text-gray-400 hover:text-gray-600'
             }`}
           >
@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl py-3 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-b border-gray-100' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm border-b border-gray-100' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo Section */}
@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-10">
-            <div className="flex items-baseline space-x-8 text-xs font-black uppercase tracking-[0.15em]">
+            <div className="flex items-baseline space-x-8 text-[11px] font-black uppercase tracking-widest">
               <button onClick={() => navigateTo('home')} className={`transition-all hover:text-green-600 ${view === 'home' ? 'text-green-600' : 'text-gray-500'}`}>{t.nav.home}</button>
               <button onClick={() => navigateTo('evidence')} className={`transition-all hover:text-green-600 ${view === 'evidence' ? 'text-green-600' : 'text-gray-500'}`}>{t.nav.evidence}</button>
               <button onClick={() => navigateTo('blog')} className={`transition-all hover:text-green-600 ${view === 'blog' ? 'text-green-600' : 'text-gray-500'}`}>{t.nav.blog}</button>
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
               <LanguageToggle />
               <button 
                 onClick={() => navigateTo('home', 'order')}
-                className="bg-[#014737] text-white px-8 py-3.5 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-[#16c694] transition-all shadow-xl shadow-green-900/10 active:scale-95"
+                className="bg-[#014737] text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#16c694] transition-all shadow-lg shadow-green-900/10 active:scale-95"
               >
                 {t.common.orderNow}
               </button>
@@ -93,33 +93,32 @@ const Navbar: React.FC = () => {
             <LanguageToggle />
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              className="w-12 h-12 flex items-center justify-center text-gray-600 bg-gray-50 rounded-2xl transition-all active:scale-90"
+              className="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-50 rounded-xl"
             >
-              <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+              <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-lg`}></i>
             </button>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed inset-0 top-[88px] bg-white z-40 transition-all duration-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
-        <div className="p-8 space-y-6">
-          <button onClick={() => navigateTo('home')} className="block w-full text-left text-gray-900 hover:text-green-600 font-black text-3xl tracking-tighter py-4 border-b border-gray-50">{t.nav.home}</button>
-          <button onClick={() => navigateTo('evidence')} className="block w-full text-left text-gray-900 hover:text-green-600 font-black text-3xl tracking-tighter py-4 border-b border-gray-100">{t.nav.evidence}</button>
-          <button onClick={() => navigateTo('blog')} className="block w-full text-left text-gray-900 hover:text-green-600 font-black text-3xl tracking-tighter py-4 border-b border-gray-100">{t.nav.blog}</button>
-          <button onClick={() => navigateTo('home', 'recipes')} className="block w-full text-left text-gray-900 hover:text-green-600 font-black text-3xl tracking-tighter py-4 border-b border-gray-100">{t.nav.recipes}</button>
-          <button onClick={() => navigateTo('home', 'faq')} className="block w-full text-left text-gray-900 hover:text-green-600 font-black text-3xl tracking-tighter py-4">{t.nav.faq}</button>
-          
-          <div className="pt-10">
+      {isOpen && (
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-gray-100 py-8 px-6 space-y-4 shadow-xl">
+          <button onClick={() => navigateTo('home')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2 border-b border-gray-50">{t.nav.home}</button>
+          <button onClick={() => navigateTo('evidence')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2 border-b border-gray-50">{t.nav.evidence}</button>
+          <button onClick={() => navigateTo('blog')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2 border-b border-gray-50">{t.nav.blog}</button>
+          <button onClick={() => navigateTo('home', 'recipes')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2 border-b border-gray-50">{t.nav.recipes}</button>
+          <button onClick={() => navigateTo('home', 'faq')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2">{t.nav.faq}</button>
+          <div className="pt-6">
             <button 
               onClick={() => navigateTo('home', 'order')}
-              className="block w-full bg-[#014737] text-white text-center py-6 rounded-[2.5rem] font-black text-xl shadow-2xl shadow-green-900/10 uppercase tracking-widest"
+              className="block w-full bg-[#014737] text-white text-center py-5 rounded-2xl font-black text-lg tracking-widest shadow-xl uppercase"
             >
               {t.common.orderNow}
             </button>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
