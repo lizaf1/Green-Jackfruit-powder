@@ -1,7 +1,6 @@
-
 import React, { useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import JackfruitLogo from './JackfruitLogo';
+import TeWELLLogo from './TeWELLLogo';
 
 const BrandKitPage: React.FC = () => {
   const { setView, locale } = useLanguage();
@@ -66,7 +65,7 @@ const BrandKitPage: React.FC = () => {
             {/* Primary Logo */}
             <div className="space-y-8">
               <div className="bg-gray-50 border border-gray-100 rounded-[3rem] p-16 flex items-center justify-center aspect-square shadow-inner" ref={logoRef}>
-                <JackfruitLogo iconOnly iconSize="w-64 h-64" />
+                <TeWELLLogo iconOnly iconSize="w-64 h-64" />
               </div>
               <div className="text-center">
                 <h3 className="text-2xl font-black text-gray-900 mb-2">Primary Icon</h3>
@@ -83,7 +82,7 @@ const BrandKitPage: React.FC = () => {
             {/* Light Logo */}
             <div className="space-y-8">
               <div className="bg-slate-900 border border-gray-800 rounded-[3rem] p-16 flex items-center justify-center aspect-square shadow-2xl" ref={logoLightRef}>
-                <JackfruitLogo light iconOnly iconSize="w-64 h-64" />
+                <TeWELLLogo light iconOnly iconSize="w-64 h-64" />
               </div>
               <div className="text-center">
                 <h3 className="text-2xl font-black text-gray-900 mb-2">Light Variant</h3>

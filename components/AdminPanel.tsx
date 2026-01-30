@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale, BlogPost, ProductVariant, Recipe, FAQItem, Article } from '../types';
-import JackfruitLogo from './JackfruitLogo';
+import TeWELLLogo from './TeWELLLogo';
 import { getDefaultContent } from '../translations';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
@@ -28,7 +28,7 @@ const AdminPanel: React.FC = () => {
       <div className="min-h-screen bg-[#0b1311] flex items-center justify-center p-6">
         <div className="w-full max-w-md bg-white rounded-[3rem] p-12 shadow-2xl">
           <div className="text-center mb-10">
-            <JackfruitLogo iconSize="w-20 h-24" className="mb-6 justify-center" />
+            <TeWELLLogo iconSize="w-20 h-24" className="mb-6 justify-center" />
             <h1 className="text-2xl font-black tracking-tighter text-gray-900 uppercase">Control Center</h1>
           </div>
           <form onSubmit={(e) => { e.preventDefault(); login(passwordInput); }} className="space-y-6">
@@ -136,7 +136,7 @@ const AdminPanel: React.FC = () => {
     <div className="min-h-screen bg-gray-50 flex">
       <aside className="w-64 bg-[#014737] text-white p-6 h-screen sticky top-0 flex flex-col shadow-2xl z-30">
         <div className="mb-10 pb-6 border-b border-white/10 flex items-center gap-3">
-          <JackfruitLogo light iconOnly iconSize="w-8 h-10" />
+          <TeWELLLogo light iconOnly iconSize="w-8 h-10" />
           <p className="font-black text-[10px] uppercase tracking-widest">Master Admin</p>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto">
@@ -168,7 +168,7 @@ const AdminPanel: React.FC = () => {
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-sm font-black uppercase tracking-widest text-[#014737]">sitemap.xml</h3>
                   <button 
-                    onClick={() => navigator.clipboard.writeText(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">...</urlset>`)}
+                    onClick={() => navigator.clipboard.writeText(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://tewellplus.com/</loc>\n  </url>\n</urlset>`)}
                     className="text-[9px] font-black text-green-600 uppercase border border-green-200 px-3 py-1 rounded-full hover:bg-green-600 hover:text-white transition"
                   >
                     Copy XML
@@ -203,9 +203,6 @@ Allow: /
 Sitemap: https://tewellplus.com/sitemap.xml`}
                 </pre>
               </div>
-              <p className="text-[10px] font-bold text-gray-400 leading-relaxed italic">
-                * Note: These are technical discovery files. Their content is controlled by standard SEO practices in sitemap.xml and robots.txt.
-              </p>
             </div>
           )}
 
@@ -323,57 +320,6 @@ Sitemap: https://tewellplus.com/sitemap.xml`}
                  </div>
                ))}
                <button onClick={() => addItem('blogPosts', { id: `post-${Date.now()}`, title: 'New Article', date: new Date().toISOString().split('T')[0], author: 'TeWELL Admin', category: 'Education', excerpt: '', content: '', image: '' })} className="w-full py-8 border-2 border-dashed border-gray-200 rounded-[3rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694] transition-all">+ Write New Blog Post</button>
-            </div>
-          )}
-
-          {activeTab === 'investment' && (
-            <div className="space-y-10">
-              <div className="grid grid-cols-2 gap-8">
-                <ControlField label="Pitch Heading" path="investment.heading" />
-                <ControlField label="Subheading" path="investment.subheading" type="textarea" />
-              </div>
-              <ControlField label="Main Pitch Body" path="investment.pitchText" type="textarea" />
-              
-              <div className="pt-8 border-t border-gray-100">
-                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Market Statistics</h3>
-                <div className="grid grid-cols-2 gap-6">
-                  {localContent.investment.marketStats.map((stat, i) => (
-                    <div key={i} className="flex gap-4 p-4 bg-gray-50 rounded-2xl relative group">
-                      <button onClick={() => removeItem('investment.marketStats', i)} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px]"><i className="fas fa-times"></i></button>
-                      <ControlField label="Label" path={`investment.marketStats.${i}.label`} />
-                      <ControlField label="Value" path={`investment.marketStats.${i}.value`} />
-                    </div>
-                  ))}
-                </div>
-                <button onClick={() => addItem('investment.marketStats', { label: 'Metric', value: '0' })} className="w-full mt-4 py-3 border border-dashed border-gray-200 rounded-xl text-gray-400 font-black uppercase text-[8px] hover:border-[#16c694] hover:text-[#16c694]">+ Add Statistic</button>
-              </div>
-
-              <div className="pt-8 border-t border-gray-100">
-                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Growth Strategy Items</h3>
-                <div className="space-y-4">
-                  {localContent.investment.growthItems.map((item, i) => (
-                    <div key={i} className="p-6 bg-gray-50 rounded-2xl space-y-4 relative group">
-                      <button onClick={() => removeItem('investment.growthItems', i)} className="absolute top-4 right-4 text-red-400 opacity-0 group-hover:opacity-100"><i className="fas fa-trash"></i></button>
-                      <ControlField label="Title" path={`investment.growthItems.${i}.title`} />
-                      <ControlField label="Description" path={`investment.growthItems.${i}.desc`} type="textarea" />
-                    </div>
-                  ))}
-                  <button onClick={() => addItem('investment.growthItems', { title: 'New Goal', desc: '' })} className="w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694]">+ Add Growth Goal</button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'faq' && (
-            <div className="space-y-8">
-              {localContent.faqs.map((faq, i) => (
-                <div key={i} className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 space-y-4 relative group">
-                   <button onClick={() => removeItem('faqs', i)} className="absolute top-4 right-4 text-red-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><i className="fas fa-trash"></i></button>
-                   <ControlField label={`Question ${i+1}`} path={`faqs.${i}.question`} />
-                   <ControlField label="Answer" path={`faqs.${i}.answer`} type="textarea" />
-                </div>
-              ))}
-              <button onClick={() => addItem('faqs', { question: 'New Question?', answer: '' })} className="w-full py-6 border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694]">+ Add FAQ Item</button>
             </div>
           )}
 

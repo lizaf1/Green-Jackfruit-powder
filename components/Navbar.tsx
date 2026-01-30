@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import JackfruitLogo from './JackfruitLogo';
+import TeWELLLogo from './TeWELLLogo';
 import { Locale, View } from '../types';
 
 const Navbar: React.FC = () => {
@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
             className="flex-shrink-0 cursor-pointer flex items-center group"
             onClick={() => navigateTo('home')}
           >
-            <JackfruitLogo iconSize={scrolled ? "w-10 h-12" : "w-12 h-14"} />
+            <TeWELLLogo iconSize={scrolled ? "w-10 h-12" : "w-12 h-14"} />
           </div>
           
           <div className="hidden lg:flex items-center space-x-10">

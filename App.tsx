@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import EvidencePage from './components/EvidencePage';
@@ -12,11 +11,10 @@ import InvestmentPage from './components/InvestmentPage';
 import BrandKitPage from './components/BrandKitPage';
 import SitemapPage from './components/SitemapPage';
 import OrderSection from './components/OrderSection';
-import JackfruitLogo from './components/JackfruitLogo';
+import TeWELLLogo from './components/TeWELLLogo';
 import SEO from './components/SEO';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
-// Define siteName for use in SEO title and product names
 const siteName = "TeWELL+";
 
 const AppContent: React.FC = () => {
@@ -24,7 +22,6 @@ const AppContent: React.FC = () => {
   const content = cmsData[locale];
   const t = content.translations;
 
-  // GLOBAL SCROLL RESET
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [view, selectedPostId]);
@@ -32,7 +29,7 @@ const AppContent: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-        <JackfruitLogo iconSize="w-16 h-20" className="animate-pulse mb-4" iconOnly />
+        <TeWELLLogo iconSize="w-16 h-20" className="animate-pulse mb-4" iconOnly />
         <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Syncing with Cloud...</p>
       </div>
     );
@@ -74,7 +71,6 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // Home Page Specific SEO
   const mainProduct = content.variants.find(v => v.popular) || content.variants[0];
 
   return (
@@ -91,7 +87,6 @@ const AppContent: React.FC = () => {
       />
       <Navbar />
 
-      {/* HERO SECTION */}
       <section className="relative bg-white pt-24 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-green-50/40 to-transparent -z-10"></div>
         
@@ -107,7 +102,7 @@ const AppContent: React.FC = () => {
               <h1 className="text-[clamp(2rem,10vw,5.5rem)] font-black text-gray-900 font-display leading-[1.05] mb-6 tracking-tighter max-w-4xl">
                 {t.hero.titleMain}
                 <div className="mt-4 lg:mt-6 flex justify-center lg:justify-start items-center">
-                  <JackfruitLogo 
+                  <TeWELLLogo 
                     iconSize="w-[clamp(3.5rem,12vw,8rem)] h-[clamp(4.5rem,16vw,9rem)]" 
                     textSize="text-[clamp(2.5rem,9vw,9rem)]" 
                   />
@@ -182,7 +177,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16 mb-12">
           
           <div className="lg:col-span-4">
-            <JackfruitLogo light textSize="text-2xl" iconSize="w-10 h-12" className="mb-6" />
+            <TeWELLLogo light textSize="text-2xl" iconSize="w-10 h-12" className="mb-6" />
             <p className="text-gray-500 mb-8 text-sm leading-relaxed max-w-xs font-medium">
               {t.footer.mission}
             </p>
