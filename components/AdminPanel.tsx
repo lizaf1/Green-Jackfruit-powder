@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { AppContentData, Locale } from '../types';
+import { AppContentData, Locale, BlogPost, ProductVariant } from '../types';
 import JackfruitLogo from './JackfruitLogo';
 import { getDefaultContent } from '../translations';
 
@@ -12,7 +12,7 @@ const BUCKET_NAME = 'assets';
 type AdminTab = 'hero' | 'products' | 'usage' | 'recipes' | 'evidence' | 'blog' | 'investment' | 'faq' | 'general';
 
 const AdminPanel: React.FC = () => {
-  const { cmsData, updateContent, setView, isAuthenticated, login, logout, cloudStatus } = useLanguage();
+  const { cmsData, updateContent, setView, isAuthenticated, login, logout } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
   const [passwordInput, setPasswordInput] = useState('');
@@ -48,16 +48,6 @@ const AdminPanel: React.FC = () => {
     setIsSaving(false);
     if (success) alert('SUCCESS: Cloud Updated.');
     else alert('ERROR: Cloud update failed.');
-  };
-
-  const handleHardReset = async () => {
-    if (!confirm("This will wipe cloud data for this language and replace it with clean defaults from code. Continue?")) return;
-    setIsSaving(true);
-    const clean = getDefaultContent(editLocale);
-    await updateContent(clean, editLocale);
-    setIsSaving(false);
-    alert("Hard Reset Done.");
-    window.location.reload();
   };
 
   const updateNested = (path: string, value: any) => {
@@ -96,7 +86,7 @@ const AdminPanel: React.FC = () => {
       <div className="space-y-1 flex-1 min-w-[200px]">
         <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{label}</label>
         {type === "textarea" ? (
-          <textarea className="w-full p-4 bg-gray-50 border rounded-xl font-medium text-sm min-h-[100px]" value={val} onChange={(e) => updateNested(path, e.target.value)} />
+          <textarea className="w-full p-4 bg-gray-50 border rounded-xl font-medium text-sm min-h-[120px]" value={val} onChange={(e) => updateNested(path, e.target.value)} />
         ) : (
           <input className="w-full p-4 bg-gray-50 border rounded-xl font-bold text-sm" value={val} onChange={(e) => updateNested(path, e.target.value)} />
         )}
@@ -122,7 +112,7 @@ const AdminPanel: React.FC = () => {
       <aside className="w-64 bg-[#014737] text-white p-6 h-screen sticky top-0 flex flex-col shadow-2xl">
         <div className="mb-10 pb-6 border-b border-white/10 flex items-center gap-3">
           <JackfruitLogo light iconOnly iconSize="w-8 h-10" />
-          <p className="font-black text-[10px] uppercase tracking-widest">Admin v7</p>
+          <p className="font-black text-[10px] uppercase tracking-widest">Admin Control</p>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto">
           {(['hero', 'products', 'usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general'] as const).map(tab => (
@@ -142,18 +132,32 @@ const AdminPanel: React.FC = () => {
             <div className="flex p-1 bg-gray-100 rounded-lg">
               {['id', 'en'].map(l => <button key={l} onClick={() => setEditLocale(l as any)} className={`px-4 py-1.5 rounded-md text-[10px] font-black uppercase ${editLocale === l ? 'bg-white shadow text-black' : 'text-gray-400'}`}>{l}</button>)}
             </div>
-            <button onClick={handleHardReset} className="px-4 py-2 border border-red-200 text-red-500 rounded-lg text-[9px] font-black uppercase hover:bg-red-50">Hard Reset</button>
             <button onClick={save} disabled={isSaving} className="bg-[#16c694] text-[#014737] px-8 py-2 rounded-lg font-black text-[10px] uppercase hover:bg-[#014737] hover:text-white transition-all">{isSaving ? 'Saving...' : 'Save Changes'}</button>
           </div>
         </header>
 
-        <div className="space-y-10">
+        <div className="max-w-5xl space-y-12">
           {activeTab === 'hero' && (
             <div className="grid grid-cols-2 gap-8">
-              <ControlField label="Main Title" path="translations.hero.titleMain" />
               <ControlField label="Badge Text" path="translations.hero.badge" />
+              <ControlField label="Main Title" path="translations.hero.titleMain" />
               <ControlField label="Description" path="translations.hero.description" type="textarea" />
               <ImageControl label="Hero Image" path="translations.hero.heroImage" />
+            </div>
+          )}
+
+          {activeTab === 'products' && (
+            <div className="space-y-8">
+              {localContent.variants.map((v, i) => (
+                <div key={i} className="p-8 bg-gray-50 rounded-3xl grid grid-cols-2 gap-6 border border-gray-100">
+                   <ControlField label={`Variant ${i+1} Name`} path={`variants.${i}.name`} />
+                   <ControlField label="Price" path={`variants.${i}.price`} />
+                   <ControlField label="Duration (e.g. 30 Days)" path={`variants.${i}.duration`} />
+                   <ControlField label="WA Link Override" path={`variants.${i}.linkWA`} />
+                   <ControlField label="Shopee Link Override" path={`variants.${i}.linkShopee`} />
+                   <ControlField label="TikTok Link Override" path={`variants.${i}.linkTikTok`} />
+                </div>
+              ))}
             </div>
           )}
 
@@ -161,65 +165,53 @@ const AdminPanel: React.FC = () => {
             <div className="space-y-8">
               <div className="grid grid-cols-2 gap-8">
                 <ControlField label="Heading" path="translations.usage.heading" />
-                <ControlField label="Description" path="translations.usage.description" />
+                <ControlField label="Intro Text" path="translations.usage.description" />
               </div>
               <div className="grid grid-cols-3 gap-8">
-                <ControlField label="Rice Step Title" path="translations.usage.riceTitle" />
-                <ControlField label="Flour Step Title" path="translations.usage.flourTitle" />
-                <ControlField label="Cook Step Title" path="translations.usage.cookTitle" />
-                <ControlField label="Rice Step Desc" path="translations.usage.riceDesc" />
-                <ControlField label="Flour Step Desc" path="translations.usage.flourDesc" />
-                <ControlField label="Cook Step Desc" path="translations.usage.cookDesc" />
+                <ControlField label="Step 1 Title" path="translations.usage.riceTitle" />
+                <ControlField label="Step 1 Desc" path="translations.usage.riceDesc" />
+                <ControlField label="Step 2 Title" path="translations.usage.flourTitle" />
+                <ControlField label="Step 2 Desc" path="translations.usage.flourDesc" />
+                <ControlField label="Step 3 Title" path="translations.usage.cookTitle" />
+                <ControlField label="Step 3 Desc" path="translations.usage.cookDesc" />
               </div>
-              <ImageControl label="Usage Image" path="translations.usage.usageImage" />
+              <ImageControl label="Illustration Image" path="translations.usage.usageImage" />
             </div>
           )}
 
-          {activeTab === 'recipes' && (
-            <div className="space-y-8">
-              {localContent.recipes.map((r, i) => (
-                <div key={i} className="p-8 bg-gray-50 rounded-3xl grid grid-cols-2 gap-6">
-                  <ControlField label={`Recipe ${i+1} Name`} path={`recipes.${i}.name`} />
-                  <ControlField label="How to Add" path={`recipes.${i}.howToAdd`} />
-                  <ControlField label="Description" path={`recipes.${i}.description`} type="textarea" />
-                  <ImageControl label="Image" path={`recipes.${i}.image`} />
-                </div>
-              ))}
+          {activeTab === 'blog' && (
+            <div className="space-y-12">
+               {localContent.blogPosts.map((post, i) => (
+                 <div key={i} className="p-10 bg-gray-50 rounded-[3rem] space-y-6 border border-gray-100 shadow-sm">
+                    <ControlField label="Title" path={`blogPosts.${i}.title`} />
+                    <div className="grid grid-cols-2 gap-6">
+                      <ControlField label="Author" path={`blogPosts.${i}.author`} />
+                      <ControlField label="Category" path={`blogPosts.${i}.category`} />
+                    </div>
+                    <ControlField label="Excerpt" path={`blogPosts.${i}.excerpt`} type="textarea" />
+                    <ControlField label="Full Content (Markdown/Text)" path={`blogPosts.${i}.content`} type="textarea" />
+                    <ImageControl label="Feature Image" path={`blogPosts.${i}.image`} />
+                 </div>
+               ))}
+            </div>
+          )}
+
+          {activeTab === 'general' && (
+            <div className="grid grid-cols-2 gap-8">
+               <ControlField label="Brand Tagline" path="translations.common.brandTagline" />
+               <ControlField label="Order Button Text" path="translations.common.orderNow" />
+               <ControlField label="Footer Mission" path="translations.footer.mission" type="textarea" />
+               <ControlField label="Footer Disclaimer" path="translations.footer.disclaimer" type="textarea" />
             </div>
           )}
 
           {activeTab === 'evidence' && (
             <div className="grid grid-cols-2 gap-8">
-              <ControlField label="Quote" path="translations.evidence.quote" type="textarea" />
+              <ControlField label="Main Quote" path="translations.evidence.quote" type="textarea" />
+              <ControlField label="Page Title" path="translations.evidence.pageTitle" />
+              <ControlField label="Page Subtitle" path="translations.evidence.pageSubtitle" type="textarea" />
               <ControlField label="Analysis Title" path="translations.evidence.analysisTitle" />
-              <ControlField label="Analysis Desc" path="translations.evidence.analysisDesc" type="textarea" />
-              <ControlField label="HbA1c Drop Label" path="translations.evidence.labels.hba1c" />
-            </div>
-          )}
-
-          {activeTab === 'faq' && (
-            <div className="space-y-6">
-              {localContent.faqs.map((f, i) => (
-                <div key={i} className="p-6 bg-gray-50 rounded-2xl space-y-4">
-                   <ControlField label={`Question ${i+1}`} path={`faqs.${i}.question`} />
-                   <ControlField label="Answer" path={`faqs.${i}.answer`} type="textarea" />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'investment' && (
-            <div className="space-y-8">
-              <ControlField label="Pitch Heading" path="investment.heading" />
-              <ControlField label="Pitch Text" path="investment.pitchText" type="textarea" />
-              <div className="grid grid-cols-2 gap-4">
-                {localContent.investment.marketStats.map((s, i) => (
-                  <div key={i} className="flex gap-2">
-                    <ControlField label="Stat Label" path={`investment.marketStats.${i}.label`} />
-                    <ControlField label="Stat Value" path={`investment.marketStats.${i}.value`} />
-                  </div>
-                ))}
-              </div>
+              <ControlField label="Analysis Description" path="translations.evidence.analysisDesc" type="textarea" />
             </div>
           )}
         </div>

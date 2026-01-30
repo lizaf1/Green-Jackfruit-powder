@@ -32,33 +32,32 @@ const INITIAL_CMS_DATA: CMSData = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 /**
- * BRUTE FORCE SANITIZER
- * Explicitly kills the "Equal Volume" text if found in cloud data.
+ * NUCLEAR SANITIZER
+ * This is designed to stop the "Equal Volume" ghost text from the DB.
+ * It strictly overwrites the usage section if legacy strings are detected.
  */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
-  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement"];
+  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis"];
 
-  const checkSection = (locale: Locale) => {
-    const usage = cleanData[locale]?.translations?.usage;
-    if (!usage) return;
-    
-    // Check heading and description specifically
-    const badText = JSON.stringify(usage).toLowerCase();
-    const isInfected = forbidden.some(p => badText.includes(p.toLowerCase()));
-    
-    if (isInfected) {
-      // OVERWRITE WITH CLEAN DEFAULTS
-      cleanData[locale].translations.usage = getDefaultContent(locale).translations.usage;
-      // Also check if any blog posts or recipes are infected
-      if (cleanData[locale].recipes) {
-        cleanData[locale].recipes = getDefaultContent(locale).recipes;
-      }
+  const checkAndClean = (locale: Locale) => {
+    const localeData = cleanData[locale];
+    if (!localeData) return;
+
+    const usageString = JSON.stringify(localeData.translations.usage).toLowerCase();
+    const hasLegacyText = forbidden.some(phrase => usageString.includes(phrase));
+
+    if (hasLegacyText) {
+      // FORCE RESET TO CLEAN CODE DEFAULTS
+      const defaults = getDefaultContent(locale);
+      cleanData[locale].translations.usage = defaults.translations.usage;
+      cleanData[locale].translations.hero = defaults.translations.hero;
+      // If the cloud version is corrupted, we trust the source code instead.
     }
   };
 
-  if (cleanData.id) checkSection('id');
-  if (cleanData.en) checkSection('en');
+  if (cleanData.id) checkAndClean('id');
+  if (cleanData.en) checkAndClean('en');
   
   return cleanData;
 };
@@ -92,6 +91,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
+            // APPLY THE NUCLEAR SANITIZER
             setCmsData(sanitizeCloudData(cloudContent));
           }
           setCloudStatus('connected');
