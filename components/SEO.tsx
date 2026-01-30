@@ -38,10 +38,11 @@ const SEO: React.FC<SEOProps> = ({
   const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
   
   const defaultDesc = locale === 'id' 
-    ? "Solusi alami pengelolaan gula darah dengan Nangka Muda powder. Terbukti klinis menurunkan HbA1c 0.25% dalam 12 minggu via Medical Nutrition Therapy (MNT)."
-    : "Natural blood sugar management with Young Jackfruit powder. Clinically proven to lower HbA1c by 0.25% in 12 weeks via Medical Nutrition Therapy (MNT).";
+    ? "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG)."
+    : "The only Raw Young Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).";
 
-  const metaImage = image || t.common.socialMetaImage || "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg";
+  // Added ?v=2 to burst cache on social platforms
+  const metaImage = (image || t.common.socialMetaImage || "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg") + "?v=2";
   const currentUrl = window.location.origin + window.location.pathname;
 
   // Base Organization Schema
@@ -70,7 +71,7 @@ const SEO: React.FC<SEOProps> = ({
         "description": t.evidence.pageSubtitle,
         "mainEntity": {
           "@type": "MedicalStudy",
-          "name": "Efficacy of green jackfruit flour in patients with type 2 diabetes mellitus",
+          "name": "Efficacy of young jackfruit flour in patients with type 2 diabetes mellitus",
           "studySubject": {
             "@type": "MedicalCondition",
             "name": "Type 2 Diabetes Mellitus"
@@ -140,9 +141,14 @@ const SEO: React.FC<SEOProps> = ({
     updateMeta('og:title', fullTitle, true);
     updateMeta('og:description', description || defaultDesc, true);
     updateMeta('og:image', metaImage, true);
+    updateMeta('og:image:width', '1200', true);
+    updateMeta('og:image:height', '630', true);
     updateMeta('og:type', type, true);
     updateMeta('og:url', currentUrl, true);
     updateMeta('twitter:card', 'summary_large_image');
+    updateMeta('twitter:image', metaImage);
+    updateMeta('twitter:title', fullTitle);
+    updateMeta('twitter:description', description || defaultDesc);
 
     const scriptId = 'json-ld-schema';
     let script = document.getElementById(scriptId) as HTMLScriptElement;

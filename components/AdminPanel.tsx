@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale, BlogPost, ProductVariant, Recipe, FAQItem, Article } from '../types';
@@ -179,13 +178,13 @@ const AdminPanel: React.FC = () => {
 {`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tewellplus.id/</loc>
+    <loc>https://jackfruit365.com/</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://tewellplus.id/#evidence</loc>
+    <loc>https://jackfruit365.com/evidence</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -201,7 +200,7 @@ const AdminPanel: React.FC = () => {
                 <pre className="bg-white p-6 rounded-2xl border border-gray-200 text-[10px] font-mono overflow-x-auto text-gray-400 leading-relaxed">
 {`User-agent: *
 Allow: /
-Sitemap: https://tewellplus.id/sitemap.xml`}
+Sitemap: https://jackfruit365.com/sitemap.xml`}
                 </pre>
               </div>
               <p className="text-[10px] font-bold text-gray-400 leading-relaxed italic">

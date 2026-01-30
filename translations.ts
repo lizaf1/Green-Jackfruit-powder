@@ -28,7 +28,7 @@ const translationsID: Translations = {
   hero: {
     badge: "Teruji Klinis: Nature Scientific Reports (2021)",
     titleMain: "Kendalikan Gula Darah dengan ",
-    description: "Nangka Muda powder mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c secara signifikan dalam 12 minggu.",
+    description: "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG).",
     ctaEvidence: "Lihat Hasil Studi Nature",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
@@ -90,7 +90,7 @@ const translationsEN: Translations = {
   hero: {
     badge: "Clinically Proven: Nature Scientific Reports (2021)",
     titleMain: "Master Your Blood Sugar with ",
-    description: "Raw Young Jackfruit powder clinically proven in a randomized controlled trial to lower HbA1c and Blood Sugar.",
+    description: "The only Raw Young Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).",
     ctaEvidence: "View Nature Study",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
@@ -113,7 +113,7 @@ const translationsEN: Translations = {
     studyTitle: "Randomized Controlled Trial (RCT)",
     studyDesc: "12-week study published in Nature Scientific Reports (2021).",
     analysisTitle: "Gold Standard Evidence",
-    analysisDesc: "Peer-reviewed confirmation of jackfruit's role in sustainable diabetes management.",
+    analysisDesc: "Peer-reviewed confirmation of young jackfruit's role in sustainable diabetes management.",
     chartTitle: "HbA1c Comparative Data (Nature 2021)",
     chartDisclaimer: "*Source: Nature Scientific Reports 11, 11528 (2021).",
     pageTitle: "The Science of Jackfruit",
@@ -146,7 +146,7 @@ export const getDefaultContent = (l: Locale): AppContentData => {
       { name: l === 'id' ? "Roti Sehat Rendah Karbo" : "Low-Carb Health Bread", description: l === 'id' ? "Campuran tepung untuk baking yang lebih sehat dan tinggi serat." : "Flour mix for healthier, fiber-rich baking.", howToAdd: l === 'id' ? "Rasio campuran 30%" : "30% mixing ratio", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800" }
     ],
     articles: [
-      { title: "Efficacy of green jackfruit flour in patients with type 2 diabetes mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang signifikan." : "Clinical trial showed significant reduction in HbA1c, FPG, and PPG.", link: "https://www.nature.com/articles/s41598-020-73593-1", tags: ["RCT", "Nature", "Clinical"] }
+      { title: "Efficacy of young jackfruit flour in patients with type 2 diabetes mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi." : "Clinical trial showed significantly higher reduction in HbA1c, FPG, and PPG.", link: "https://www.nature.com/articles/s41598-020-73593-1", tags: ["RCT", "Nature", "Clinical"] }
     ],
     faqs: [
       { question: l === 'id' ? "Apa perbedaan TeWELL+ dengan nangka biasa?" : "What's the difference between TeWELL+ and normal jackfruit?", answer: l === 'id' ? "TeWELL+ terbuat dari nangka muda mentah yang dikeringkan dengan suhu rendah untuk menjaga kadar serat dan nutrisi terapeutiknya." : "TeWELL+ is made from raw young jackfruit dried at low temperatures to preserve therapeutic fiber and nutrients." }

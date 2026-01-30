@@ -30,30 +30,40 @@ const INITIAL_CMS_DATA: CMSData = {
   en: getDefaultContent('en')
 };
 
+/**
+ * Aggressive Sanitizer: Ensures "Nangka Hijau" is replaced with "Nangka Muda"
+ * even if old data exists in the cloud database.
+ */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
-  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis", "james joseph"];
+  
+  const replacements = [
+    { bad: /nangka hijau/gi, good: "nangka muda" },
+    { bad: /green jackfruit/gi, good: "young jackfruit" },
+    { bad: /equal volume/gi, good: "nutritional mix" },
+    { bad: /1:1/g, good: "1 tbsp per cup" }
+  ];
 
-  const recursiveClean = (obj: any, locale: Locale, path: string = "") => {
+  const recursiveClean = (obj: any) => {
     if (typeof obj !== 'object' || obj === null) return;
-    const defaults = getDefaultContent(locale);
+    
     for (const key in obj) {
-      const currentPath = path ? `${path}.${key}` : key;
       const value = obj[key];
       if (typeof value === 'string') {
-        const hasForbidden = forbidden.some(phrase => value.toLowerCase().includes(phrase));
-        if (hasForbidden) {
-          const cleanText = currentPath.split('.').reduce((o, i) => o?.[i], defaults as any);
-          if (cleanText) obj[key] = cleanText;
-        }
+        let sanitizedValue = value;
+        replacements.forEach(({ bad, good }) => {
+          sanitizedValue = sanitizedValue.replace(bad, good);
+        });
+        obj[key] = sanitizedValue;
       } else if (typeof value === 'object' && value !== null) {
-        recursiveClean(value, locale, currentPath);
+        recursiveClean(value);
       }
     }
   };
 
-  if (cleanData.id) recursiveClean(cleanData.id, 'id');
-  if (cleanData.en) recursiveClean(cleanData.en, 'en');
+  if (cleanData.id) recursiveClean(cleanData.id);
+  if (cleanData.en) recursiveClean(cleanData.en);
+  
   return cleanData;
 };
 
@@ -66,7 +76,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [cloudStatus, setCloudStatus] = useState<'connected' | 'error' | 'local-only' | 'initializing'>('initializing');
   const [cmsData, setCmsData] = useState<CMSData>(INITIAL_CMS_DATA);
 
-  // Sync View with URL Path for clean SEO links
   useEffect(() => {
     const handleLocationChange = () => {
       const path = window.location.pathname.split('/').filter(Boolean);
@@ -127,6 +136,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
+            // Apply nuclear sanitizer to any cloud data
             setCmsData(sanitizeCloudData(cloudContent));
           }
           setCloudStatus('connected');
