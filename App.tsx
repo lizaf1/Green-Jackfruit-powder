@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import EvidencePage from './components/EvidencePage';
@@ -134,7 +133,7 @@ const AppContent: React.FC = () => {
             
             <div className="w-full lg:w-2/5 relative mt-10 lg:mt-0 flex justify-center lg:block">
               <div className="relative p-2 lg:p-3 bg-white rounded-[2.5rem] lg:rounded-[4rem] shadow-2xl border border-gray-100 w-full max-w-[280px] sm:max-w-md lg:max-w-none">
-                <img src={t.hero.heroImage} alt="TeWELL+ green Jackfruit powder pouch packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
+                <img src={t.hero.heroImage} alt="TeWELL+ Nangka Muda powder pouch packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
                 
                 <div className="absolute -bottom-6 -right-2 lg:-bottom-12 lg:-right-12 bg-white p-5 lg:p-10 rounded-[2rem] lg:rounded-[3rem] shadow-2xl z-20 border border-green-50 min-w-[130px] lg:min-w-[240px]">
                   <div className="text-center">
