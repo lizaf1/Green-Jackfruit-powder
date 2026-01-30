@@ -86,9 +86,14 @@ const InvestmentPage: React.FC = () => {
       <section className="py-20 sm:py-32 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-10 font-display leading-tight">Ready to discuss our future in Indonesia?</h2>
-          <button className="w-full sm:w-auto bg-green-600 text-white px-10 sm:px-12 py-5 sm:py-6 rounded-full text-lg sm:text-xl font-bold hover:bg-green-700 transition shadow-2xl shadow-green-200 active:scale-95">
+          <a 
+            href={t.order.linkWA}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full sm:w-auto bg-green-600 text-white px-10 sm:px-12 py-5 sm:py-6 rounded-full text-lg sm:text-xl font-bold hover:bg-green-700 transition shadow-2xl shadow-green-200 active:scale-95"
+          >
             {content.ctaText}
-          </button>
+          </a>
         </div>
       </section>
     </div>
