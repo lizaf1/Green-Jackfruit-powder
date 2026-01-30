@@ -42,15 +42,15 @@ const SEO: React.FC<SEOProps> = ({
     : "Natural blood sugar management with Young Jackfruit powder. Clinically proven to lower HbA1c by 0.25% in 12 weeks via Medical Nutrition Therapy (MNT).";
 
   const metaImage = image || t.common.socialMetaImage || "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg";
-  const currentUrl = window.location.origin + window.location.pathname + window.location.hash;
+  const currentUrl = window.location.origin + window.location.pathname;
 
   // Base Organization Schema
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "TeWELL+",
-    "url": "https://tewellplus.id",
-    "logo": "https://tewellplus.id/favicon.svg",
+    "url": "https://jackfruit365.com",
+    "logo": "https://jackfruit365.com/favicon.svg",
     "description": t.footer.mission,
     "brand": {
       "@type": "Brand",
