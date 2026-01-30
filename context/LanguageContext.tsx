@@ -19,7 +19,6 @@ interface LanguageContextType {
   cloudStatus: 'connected' | 'error' | 'local-only' | 'initializing';
 }
 
-// Create the context for managing application language and state
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'tewell_plus_v7_cache';
@@ -37,20 +36,15 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
 
   const recursiveClean = (obj: any, locale: Locale, path: string = "") => {
     if (typeof obj !== 'object' || obj === null) return;
-    
     const defaults = getDefaultContent(locale);
-
     for (const key in obj) {
       const currentPath = path ? `${path}.${key}` : key;
       const value = obj[key];
-
       if (typeof value === 'string') {
         const hasForbidden = forbidden.some(phrase => value.toLowerCase().includes(phrase));
         if (hasForbidden) {
           const cleanText = currentPath.split('.').reduce((o, i) => o?.[i], defaults as any);
-          if (cleanText) {
-            obj[key] = cleanText;
-          }
+          if (cleanText) obj[key] = cleanText;
         }
       } else if (typeof value === 'object' && value !== null) {
         recursiveClean(value, locale, currentPath);
@@ -60,7 +54,6 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
 
   if (cleanData.id) recursiveClean(cleanData.id, 'id');
   if (cleanData.en) recursiveClean(cleanData.en, 'en');
-  
   return cleanData;
 };
 
@@ -73,26 +66,45 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [cloudStatus, setCloudStatus] = useState<'connected' | 'error' | 'local-only' | 'initializing'>('initializing');
   const [cmsData, setCmsData] = useState<CMSData>(INITIAL_CMS_DATA);
 
-  // Sync View with URL Hash for shareable links
+  // Sync View with URL Path for clean SEO links
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '') as View;
-      const validViews: View[] = ['home', 'evidence', 'blog', 'admin', 'investment', 'brand-kit'];
-      if (validViews.includes(hash)) {
-        setViewInternal(hash);
+    const handleLocationChange = () => {
+      const path = window.location.pathname.split('/').filter(Boolean);
+      const mainPath = path[0] as View;
+      const subPath = path[1];
+
+      const validViews: View[] = ['home', 'evidence', 'blog', 'admin', 'investment', 'brand-kit', 'sitemap'];
+      
+      if (mainPath === 'blog' && subPath) {
+        setViewInternal('blog');
+        setSelectedPostId(subPath);
+      } else if (validViews.includes(mainPath)) {
+        setViewInternal(mainPath);
+        setSelectedPostId(null);
       } else {
         setViewInternal('home');
+        setSelectedPostId(null);
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange(); // Initial check
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleLocationChange);
+    handleLocationChange();
+    return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 
   const setView = (v: View) => {
-    window.location.hash = v === 'home' ? '' : v;
+    const targetPath = v === 'home' ? '/' : `/${v}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({}, '', targetPath);
+    }
     setViewInternal(v);
+  };
+
+  const setBlogView = (postId: string | null) => {
+    const targetPath = postId ? `/blog/${postId}` : '/blog';
+    window.history.pushState({}, '', targetPath);
+    setViewInternal('blog');
+    setSelectedPostId(postId);
   };
 
   useEffect(() => {
@@ -172,7 +184,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   return (
     <LanguageContext.Provider value={{ 
-      view, setView, locale, setLocale, selectedPostId, setSelectedPostId,
+      view, setView, locale, setLocale, selectedPostId, setSelectedPostId: setBlogView,
       cmsData, updateContent, resetToDefaults: () => {}, 
       isAuthenticated, login, logout, isLoading, cloudStatus
     }}>

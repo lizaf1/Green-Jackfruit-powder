@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import JackfruitLogo from './JackfruitLogo';
-import { Locale } from '../types';
+import { Locale, View } from '../types';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,15 +15,22 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigateTo = (v: 'home' | 'evidence' | 'blog' | 'admin' | 'investment' | 'brand-kit', anchor?: string) => {
+  const navigateTo = (v: View, anchor?: string) => {
     setView(v);
-    setSelectedPostId(null);
     setIsOpen(false);
+    
     if (anchor) {
       setTimeout(() => {
         const el = document.getElementById(anchor);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+        if (el) {
+          const navHeight = scrolled ? 80 : 100;
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: elementPosition - navHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 150);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -59,7 +65,6 @@ const Navbar: React.FC = () => {
     <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm border-b border-gray-100' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo Section */}
           <div 
             className="flex-shrink-0 cursor-pointer flex items-center group"
             onClick={() => navigateTo('home')}
@@ -67,7 +72,6 @@ const Navbar: React.FC = () => {
             <JackfruitLogo iconSize={scrolled ? "w-10 h-12" : "w-12 h-14"} />
           </div>
           
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-10">
             <div className="flex items-baseline space-x-8 text-[11px] font-black uppercase tracking-widest">
               <button onClick={() => navigateTo('home')} className={`transition-all hover:text-green-600 ${view === 'home' ? 'text-green-600' : 'text-gray-500'}`}>{t.nav.home}</button>
@@ -88,7 +92,6 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Actions */}
           <div className="lg:hidden flex items-center gap-4">
             <LanguageToggle />
             <button 
@@ -101,7 +104,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-gray-100 py-8 px-6 space-y-4 shadow-xl">
           <button onClick={() => navigateTo('home')} className="block w-full text-left text-gray-800 hover:text-green-600 font-black text-2xl tracking-tighter py-2 border-b border-gray-50">{t.nav.home}</button>
