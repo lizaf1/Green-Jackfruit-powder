@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { AppContentData, Locale, BlogPost, ProductVariant } from '../types';
+import { AppContentData, Locale, BlogPost, ProductVariant, Recipe, FAQItem, Article } from '../types';
 import JackfruitLogo from './JackfruitLogo';
 import { getDefaultContent } from '../translations';
 
@@ -125,7 +125,7 @@ const AdminPanel: React.FC = () => {
         </div>
       </aside>
 
-      <main className="flex-1 p-10 bg-white">
+      <main className="flex-1 p-10 bg-white overflow-y-auto h-screen">
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-black uppercase tracking-tighter">{activeTab}</h1>
           <div className="flex items-center gap-4">
@@ -136,7 +136,7 @@ const AdminPanel: React.FC = () => {
           </div>
         </header>
 
-        <div className="max-w-5xl space-y-12">
+        <div className="max-w-5xl space-y-12 pb-20">
           {activeTab === 'hero' && (
             <div className="grid grid-cols-2 gap-8">
               <ControlField label="Badge Text" path="translations.hero.badge" />
@@ -153,9 +153,9 @@ const AdminPanel: React.FC = () => {
                    <ControlField label={`Variant ${i+1} Name`} path={`variants.${i}.name`} />
                    <ControlField label="Price" path={`variants.${i}.price`} />
                    <ControlField label="Duration (e.g. 30 Days)" path={`variants.${i}.duration`} />
-                   <ControlField label="WA Link Override" path={`variants.${i}.linkWA`} />
-                   <ControlField label="Shopee Link Override" path={`variants.${i}.linkShopee`} />
-                   <ControlField label="TikTok Link Override" path={`variants.${i}.linkTikTok`} />
+                   <ControlField label="WA Link" path={`variants.${i}.linkWA`} />
+                   <ControlField label="Shopee Link" path={`variants.${i}.linkShopee`} />
+                   <ControlField label="TikTok Link" path={`variants.${i}.linkTikTok`} />
                 </div>
               ))}
             </div>
@@ -179,6 +179,51 @@ const AdminPanel: React.FC = () => {
             </div>
           )}
 
+          {activeTab === 'recipes' && (
+            <div className="space-y-8">
+              {localContent.recipes.map((recipe, i) => (
+                <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-6 shadow-sm">
+                  <h3 className="font-black text-xs text-green-600 uppercase tracking-widest">Recipe Slot {i+1}</h3>
+                  <div className="grid grid-cols-2 gap-6">
+                    <ControlField label="Recipe Name" path={`recipes.${i}.name`} />
+                    <ControlField label="How to Add" path={`recipes.${i}.howToAdd`} />
+                  </div>
+                  <ControlField label="Short Description" path={`recipes.${i}.description`} type="textarea" />
+                  <ImageControl label="Recipe Image" path={`recipes.${i}.image`} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'evidence' && (
+            <div className="space-y-12">
+              <div className="grid grid-cols-2 gap-8">
+                <ControlField label="Main Quote" path="translations.evidence.quote" type="textarea" />
+                <ControlField label="Page Title" path="translations.evidence.pageTitle" />
+                <ControlField label="Page Subtitle" path="translations.evidence.pageSubtitle" type="textarea" />
+                <ControlField label="Analysis Title" path="translations.evidence.analysisTitle" />
+                <ControlField label="Analysis Description" path="translations.evidence.analysisDesc" type="textarea" />
+              </div>
+              
+              <div className="pt-8 border-t border-gray-100">
+                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Journal Articles & Redirect Links</h3>
+                <div className="space-y-6">
+                  {localContent.articles.map((article, i) => (
+                    <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-4">
+                      <ControlField label="Study Title" path={`articles.${i}.title`} />
+                      <div className="grid grid-cols-3 gap-4">
+                        <ControlField label="Journal Name" path={`articles.${i}.journal`} />
+                        <ControlField label="Year" path={`articles.${i}.year`} />
+                        <ControlField label="Redirect Link (URL)" path={`articles.${i}.link`} />
+                      </div>
+                      <ControlField label="Summary / Findings" path={`articles.${i}.summary`} type="textarea" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'blog' && (
             <div className="space-y-12">
                {localContent.blogPosts.map((post, i) => (
@@ -189,10 +234,55 @@ const AdminPanel: React.FC = () => {
                       <ControlField label="Category" path={`blogPosts.${i}.category`} />
                     </div>
                     <ControlField label="Excerpt" path={`blogPosts.${i}.excerpt`} type="textarea" />
-                    <ControlField label="Full Content (Markdown/Text)" path={`blogPosts.${i}.content`} type="textarea" />
+                    <ControlField label="Full Content" path={`blogPosts.${i}.content`} type="textarea" />
                     <ImageControl label="Feature Image" path={`blogPosts.${i}.image`} />
                  </div>
                ))}
+            </div>
+          )}
+
+          {activeTab === 'investment' && (
+            <div className="space-y-10">
+              <div className="grid grid-cols-2 gap-8">
+                <ControlField label="Pitch Heading" path="investment.heading" />
+                <ControlField label="Subheading" path="investment.subheading" type="textarea" />
+              </div>
+              <ControlField label="Main Pitch Body" path="investment.pitchText" type="textarea" />
+              
+              <div className="pt-8 border-t border-gray-100">
+                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Market Statistics</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  {localContent.investment.marketStats.map((stat, i) => (
+                    <div key={i} className="flex gap-4 p-4 bg-gray-50 rounded-2xl">
+                      <ControlField label="Stat Label" path={`investment.marketStats.${i}.label`} />
+                      <ControlField label="Stat Value" path={`investment.marketStats.${i}.value`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-gray-100">
+                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Growth Strategy Items</h3>
+                <div className="space-y-4">
+                  {localContent.investment.growthItems.map((item, i) => (
+                    <div key={i} className="p-6 bg-gray-50 rounded-2xl space-y-4">
+                      <ControlField label="Strategy Title" path={`investment.growthItems.${i}.title`} />
+                      <ControlField label="Strategy Description" path={`investment.growthItems.${i}.desc`} type="textarea" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'faq' && (
+            <div className="space-y-8">
+              {localContent.faqs.map((faq, i) => (
+                <div key={i} className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 space-y-4">
+                   <ControlField label={`Question ${i+1}`} path={`faqs.${i}.question`} />
+                   <ControlField label="Answer" path={`faqs.${i}.answer`} type="textarea" />
+                </div>
+              ))}
             </div>
           )}
 
@@ -202,16 +292,6 @@ const AdminPanel: React.FC = () => {
                <ControlField label="Order Button Text" path="translations.common.orderNow" />
                <ControlField label="Footer Mission" path="translations.footer.mission" type="textarea" />
                <ControlField label="Footer Disclaimer" path="translations.footer.disclaimer" type="textarea" />
-            </div>
-          )}
-
-          {activeTab === 'evidence' && (
-            <div className="grid grid-cols-2 gap-8">
-              <ControlField label="Main Quote" path="translations.evidence.quote" type="textarea" />
-              <ControlField label="Page Title" path="translations.evidence.pageTitle" />
-              <ControlField label="Page Subtitle" path="translations.evidence.pageSubtitle" type="textarea" />
-              <ControlField label="Analysis Title" path="translations.evidence.analysisTitle" />
-              <ControlField label="Analysis Description" path="translations.evidence.analysisDesc" type="textarea" />
             </div>
           )}
         </div>

@@ -32,32 +32,42 @@ const INITIAL_CMS_DATA: CMSData = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 /**
- * NUCLEAR SANITIZER
- * This is designed to stop the "Equal Volume" ghost text from the DB.
- * It strictly overwrites the usage section if legacy strings are detected.
+ * NUCLEAR SANITIZER V3: RECURSIVE DEEP CLEAN
+ * Scans the entire object for forbidden phrases and replaces them with defaults from code.
  */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
   const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis"];
 
-  const checkAndClean = (locale: Locale) => {
-    const localeData = cleanData[locale];
-    if (!localeData) return;
+  const recursiveClean = (obj: any, locale: Locale, path: string = "") => {
+    if (typeof obj !== 'object' || obj === null) return;
+    
+    const defaults = getDefaultContent(locale);
 
-    const usageString = JSON.stringify(localeData.translations.usage).toLowerCase();
-    const hasLegacyText = forbidden.some(phrase => usageString.includes(phrase));
+    for (const key in obj) {
+      const currentPath = path ? `${path}.${key}` : key;
+      const value = obj[key];
 
-    if (hasLegacyText) {
-      // FORCE RESET TO CLEAN CODE DEFAULTS
-      const defaults = getDefaultContent(locale);
-      cleanData[locale].translations.usage = defaults.translations.usage;
-      cleanData[locale].translations.hero = defaults.translations.hero;
-      // If the cloud version is corrupted, we trust the source code instead.
+      if (typeof value === 'string') {
+        const hasForbidden = forbidden.some(phrase => value.toLowerCase().includes(phrase));
+        if (hasForbidden) {
+          // Resolve the clean text from the default content structure in translations.ts
+          const cleanText = currentPath.split('.').reduce((o, i) => o?.[i], defaults as any);
+          if (cleanText) {
+            obj[key] = cleanText;
+          } else {
+            // Fallback for missing path resolution
+            obj[key] = value.replace(/equal volume|1:1/gi, "Recommended Ratio");
+          }
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        recursiveClean(value, locale, currentPath);
+      }
     }
   };
 
-  if (cleanData.id) checkAndClean('id');
-  if (cleanData.en) checkAndClean('en');
+  if (cleanData.id) recursiveClean(cleanData.id, 'id');
+  if (cleanData.en) recursiveClean(cleanData.en, 'en');
   
   return cleanData;
 };
@@ -91,7 +101,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
-            // APPLY THE NUCLEAR SANITIZER
+            // APPLY THE NUCLEAR SANITIZER V3
             setCmsData(sanitizeCloudData(cloudContent));
           }
           setCloudStatus('connected');
