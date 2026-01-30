@@ -14,7 +14,6 @@ const AdminSection = ({ title, children }: { title: string, children?: React.Rea
   </div>
 );
 
-// Added support for placeholder prop to fix TS error on line 284
 const Input = ({ label, value, onChange, area = false, disabled = false, type = "text", placeholder = "" }: { label: string, value: string | number, onChange?: (val: string) => void, area?: boolean, disabled?: boolean, type?: string, placeholder?: string }) => (
   <div className="space-y-1.5">
     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
@@ -95,9 +94,10 @@ const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, resetToDefaults, isAuthenticated, login, logout, updateAdminPassword } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
-  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment' | 'security'>('general');
   const [passwordInput, setPasswordInput] = useState('');
   const [newAdminPassword, setNewAdminPassword] = useState('');
+  const [confirmAdminPassword, setConfirmAdminPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
 
   if (!isAuthenticated) {
@@ -203,6 +203,10 @@ const AdminPanel: React.FC = () => {
   };
 
   const handleUpdatePassword = () => {
+    if (newAdminPassword !== confirmAdminPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
     if (newAdminPassword.length < 4) {
       alert('Password must be at least 4 characters long.');
       return;
@@ -210,6 +214,7 @@ const AdminPanel: React.FC = () => {
     updateAdminPassword(newAdminPassword);
     alert('Admin password updated successfully!');
     setNewAdminPassword('');
+    setConfirmAdminPassword('');
   };
 
   return (
@@ -222,6 +227,7 @@ const AdminPanel: React.FC = () => {
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto custom-scrollbar">
           {[
             { id: 'general', icon: 'fa-cog', label: 'Settings' },
+            { id: 'security', icon: 'fa-shield-alt', label: 'Security' },
             { id: 'hero', icon: 'fa-star', label: 'Hero' },
             { id: 'order', icon: 'fa-shopping-cart', label: 'Products' },
             { id: 'usage', icon: 'fa-info-circle', label: 'Usage' },
@@ -261,42 +267,83 @@ const AdminPanel: React.FC = () => {
           <div>
             <div className="flex items-center gap-4 mb-2">
                <h1 className="text-3xl font-black text-slate-900 tracking-tighter capitalize">{activeTab}</h1>
-               <div className="bg-slate-200 p-1 rounded-lg flex text-[9px] font-black uppercase tracking-widest">
-                  <button onClick={() => switchEditLocale('id')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'id' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>ID</button>
-                  <button onClick={() => switchEditLocale('en')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'en' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>EN</button>
-               </div>
+               {activeTab !== 'security' && (
+                 <div className="bg-slate-200 p-1 rounded-lg flex text-[9px] font-black uppercase tracking-widest">
+                    <button onClick={() => switchEditLocale('id')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'id' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>ID</button>
+                    <button onClick={() => switchEditLocale('en')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'en' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>EN</button>
+                 </div>
+               )}
             </div>
-            <p className="text-slate-400 font-medium text-sm">Editing <span className="text-green-600 font-bold">{editLocale.toUpperCase()}</span> version</p>
+            <p className="text-slate-400 font-medium text-sm">
+              {activeTab === 'security' 
+                ? 'Manage portal access' 
+                : <>Editing <span className="text-green-600 font-bold">{editLocale.toUpperCase()}</span> version</>
+              }
+            </p>
           </div>
-          <button onClick={save} className="bg-green-600 text-white px-8 py-3.5 rounded-xl font-black shadow-xl shadow-green-100 hover:bg-green-700 transition-all flex items-center gap-2">
-            <i className="fas fa-save"></i> SAVE CHANGES
-          </button>
+          {activeTab !== 'security' && (
+            <button onClick={save} className="bg-green-600 text-white px-8 py-3.5 rounded-xl font-black shadow-xl shadow-green-100 hover:bg-green-700 transition-all flex items-center gap-2">
+              <i className="fas fa-save"></i> SAVE CHANGES
+            </button>
+          )}
         </header>
 
         <div className="max-w-4xl space-y-10">
-          {activeTab === 'general' && (
-            <>
-              <AdminSection title="Portal Security">
-                <div className="flex flex-col md:flex-row gap-6 items-end">
-                  <div className="flex-1">
-                    <Input 
-                      label="New Admin Password" 
-                      type="password"
-                      value={newAdminPassword} 
-                      onChange={(val) => setNewAdminPassword(val)} 
-                      placeholder="Enter new password"
-                    />
-                  </div>
+          {activeTab === 'security' && (
+            <AdminSection title="Portal Security">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <Input 
+                    label="New Admin Password" 
+                    type="password"
+                    value={newAdminPassword} 
+                    onChange={(val) => setNewAdminPassword(val)} 
+                    placeholder="Enter new password"
+                  />
+                  <Input 
+                    label="Confirm New Password" 
+                    type="password"
+                    value={confirmAdminPassword} 
+                    onChange={(val) => setConfirmAdminPassword(val)} 
+                    placeholder="Repeat new password"
+                  />
+                  
+                  {newAdminPassword && confirmAdminPassword && (
+                    <div className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg ${newAdminPassword === confirmAdminPassword ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
+                      {newAdminPassword === confirmAdminPassword ? (
+                        <><i className="fas fa-check-circle mr-2"></i> Passwords Match</>
+                      ) : (
+                        <><i className="fas fa-times-circle mr-2"></i> Passwords Do Not Match</>
+                      )}
+                    </div>
+                  )}
+
                   <button 
                     onClick={handleUpdatePassword}
-                    className="bg-slate-900 text-white px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition"
+                    disabled={!newAdminPassword || newAdminPassword !== confirmAdminPassword || newAdminPassword.length < 4}
+                    className={`w-full py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                      (!newAdminPassword || newAdminPassword !== confirmAdminPassword || newAdminPassword.length < 4)
+                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                        : 'bg-green-600 text-white shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95'
+                    }`}
                   >
                     Update Password
                   </button>
                 </div>
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Default is 'admin'. Choose a strong password.</p>
-              </AdminSection>
+                <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 flex flex-col justify-center">
+                  <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-4">Security Notice</h4>
+                  <ul className="space-y-3 text-slate-500 text-sm font-medium leading-relaxed">
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Default password is "admin".</li>
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Changes take effect immediately.</li>
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Passwords are stored locally on this device.</li>
+                  </ul>
+                </div>
+              </div>
+            </AdminSection>
+          )}
 
+          {activeTab === 'general' && (
+            <>
               <AdminSection title="Common Labels">
                 <div className="grid grid-cols-2 gap-6">
                   <Input label="Order Now" value={localContent.translations.common.orderNow} onChange={(val) => updateNested('common.orderNow', val)} />
