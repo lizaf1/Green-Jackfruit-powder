@@ -15,12 +15,19 @@ const SEO: React.FC<SEOProps> = ({ title, description, type = 'website', image, 
   const { locale } = useLanguage();
   
   const siteName = "TeWELL+";
-  const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Raw Young Jackfruit Powder for Diabetes`;
+  const defaultTitle = locale === 'id' 
+    ? "TeWELL+ | Bubuk Nangka Hijau Mentah untuk Diabetes" 
+    : "TeWELL+ | Green Jackfruit Powder for Diabetes MNT";
+    
+  const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
   
   // AEO/SEO descriptions
   const defaultDesc = locale === 'id' 
-    ? "Solusi alami pengelolaan gula darah dengan Bubuk Nangka Muda Mentah. Terbukti klinis menurunkan HbA1c."
-    : "Natural blood sugar management with Raw Young Jackfruit Powder. Clinically proven to lower HbA1c.";
+    ? "Solusi alami pengelolaan gula darah dengan Bubuk Nangka Hijau Mentah. Terbukti klinis menurunkan HbA1c dengan metode MNT."
+    : "Natural blood sugar management with Green Jackfruit Powder. Clinically proven to lower HbA1c via Medical Nutrition Therapy (MNT).";
+
+  // Default Image for social sharing - highlighting the green jackfruit powder branding
+  const defaultImage = "https://images.unsplash.com/photo-1546548970-71785318a17b?auto=format&fit=crop&q=80&w=1200";
 
   useEffect(() => {
     // Update Document Lang attribute
@@ -41,10 +48,8 @@ const SEO: React.FC<SEOProps> = ({ title, description, type = 'website', image, 
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute('content', description || defaultDesc);
 
-    if (image) {
-      const ogImg = document.querySelector('meta[property="og:image"]');
-      if (ogImg) ogImg.setAttribute('content', image);
-    }
+    const ogImg = document.querySelector('meta[property="og:image"]');
+    if (ogImg) ogImg.setAttribute('content', image || defaultImage);
 
     // Handle Schema Injection
     if (schema) {
@@ -58,7 +63,7 @@ const SEO: React.FC<SEOProps> = ({ title, description, type = 'website', image, 
       }
       script.text = JSON.stringify(schema);
     }
-  }, [fullTitle, description, image, schema, locale, defaultDesc]);
+  }, [fullTitle, description, image, schema, locale, defaultDesc, defaultImage]);
 
   return null;
 };
