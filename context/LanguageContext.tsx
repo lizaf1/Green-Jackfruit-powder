@@ -20,9 +20,11 @@ interface LanguageContextType {
   cloudStatus: 'connected' | 'error' | 'local-only' | 'initializing';
 }
 
-const STORAGE_KEY = 'tewell_plus_v4_cache';
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const STORAGE_KEY = 'tewell_plus_v5_cache';
+
+// Support both NEXT_PUBLIC_ and standard ENV names
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
 
 const INITIAL_CMS_DATA: CMSData = {
   id: getDefaultContent('id'),
@@ -40,12 +42,12 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [cloudStatus, setCloudStatus] = useState<'connected' | 'error' | 'local-only' | 'initializing'>('initializing');
   const [cmsData, setCmsData] = useState<CMSData>(INITIAL_CMS_DATA);
 
-  // Initialize: Fetch from Cloud and Auto-Provision if empty
   useEffect(() => {
     const initData = async () => {
       setIsLoading(true);
       
       if (!SUPABASE_URL || !SUPABASE_KEY) {
+        console.warn("Supabase Keys Missing. Running in Local Mode.");
         setCloudStatus('local-only');
         loadLocalFallback();
         setIsLoading(false);
@@ -54,29 +56,28 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
       try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/cms_data?id=eq.master`, {
-          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+          headers: { 
+            'apikey': SUPABASE_KEY, 
+            'Authorization': `Bearer ${SUPABASE_KEY}` 
+          }
         });
         
         if (response.ok) {
           const data = await response.json();
           const cloudContent = data[0]?.content;
 
-          // If DB exists but is empty/dummy, seed it with INITIAL_CMS_DATA
           if (!cloudContent || Object.keys(cloudContent).length === 0) {
-            console.log("Cloud is empty. Provisioning initial data...");
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
-            setCloudStatus('connected');
           } else {
             setCmsData(cloudContent);
-            setCloudStatus('connected');
           }
+          setCloudStatus('connected');
         } else {
           setCloudStatus('error');
           loadLocalFallback();
         }
       } catch (e) {
-        console.error("Supabase Connection Failed:", e);
         setCloudStatus('error');
         loadLocalFallback();
       } finally {
@@ -103,9 +104,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
           },
           body: JSON.stringify({ id: 'master', content: content })
         });
-      } catch (e) {
-        console.error("Seeding failed:", e);
-      }
+      } catch (e) {}
     };
 
     initData();
