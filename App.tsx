@@ -128,7 +128,9 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
   <footer className="bg-gray-900 text-white py-20 sm:py-32 border-t border-gray-800">
     <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-20">
       <div className="sm:col-span-2">
-        <div className="mb-8 sm:mb-10"><JackfruitLogo light textSize="text-3xl sm:text-4xl" iconSize="w-12 h-12 sm:w-14 h-14" /></div>
+        <div className="mb-8 sm:mb-10">
+          <JackfruitLogo light textSize="text-3xl sm:text-4xl" iconSize="w-12 h-12 sm:w-14 h-14" />
+        </div>
         <p className="text-gray-400 mb-8 sm:mb-12 text-lg sm:text-xl leading-relaxed max-w-md font-light">{t.footer.mission}</p>
         <div className="flex gap-4">
            {(['id', 'en'] as const).map(l => (
@@ -145,6 +147,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
             <li><button onClick={() => { setView('blog'); setSelectedPostId(null); }} className="hover:text-green-500 transition text-left">{t.nav.blog}</button></li>
             <li><button onClick={() => setView('brand-kit')} className="hover:text-green-500 transition text-left">Brand Kit</button></li>
             <li><button onClick={() => setView('investment')} className="hover:text-green-500 transition text-left">{t.nav.investment}</button></li>
+            <li><button onClick={() => setView('admin')} className="hover:text-green-400 transition text-left text-xs text-gray-600 uppercase tracking-widest mt-4">Staff Portal</button></li>
           </ul>
         </nav>
       </div>

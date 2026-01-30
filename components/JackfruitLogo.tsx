@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface LogoProps {
   className?: string;
@@ -9,10 +10,13 @@ interface LogoProps {
   textSize?: string;
 }
 
-export const BrandText: React.FC<{ size?: string; light?: boolean }> = ({ size = "text-2xl", light = false }) => (
-  <span className={`inline-flex items-center leading-none font-sans font-black tracking-tighter ${size}`}>
+export const BrandText: React.FC<{ size?: string; light?: boolean; onClick?: () => void }> = ({ size = "text-2xl", light = false, onClick }) => (
+  <span 
+    className={`inline-flex items-center leading-none font-sans font-black tracking-tighter ${size} ${onClick ? 'cursor-pointer select-none' : ''}`}
+    onClick={onClick}
+  >
     <span className={light ? "text-white" : "text-gray-900"}>TeWELL</span>
-    <span className="text-green-500 ml-0.5 font-sans">＋</span>
+    <span className="text-green-500 ml-0.5 font-sans transition-transform active:scale-90">＋</span>
   </span>
 );
 
@@ -23,6 +27,7 @@ const JackfruitLogo: React.FC<LogoProps> = ({
   iconSize = "w-10 h-10 md:w-11 md:h-11",
   textSize = "text-2xl"
 }) => {
+  const { setView } = useLanguage();
   const primaryColor = light ? "#FFFFFF" : "#064E3B"; // emerald-950
   const accentColor = "#10B981"; // emerald-500
   const glowColor = "#34D399"; // emerald-400
@@ -73,7 +78,11 @@ const JackfruitLogo: React.FC<LogoProps> = ({
       </div>
 
       {!iconOnly && (
-        <BrandText size={textSize} light={light} />
+        <BrandText 
+          size={textSize} 
+          light={light} 
+          onClick={() => setView('admin')} 
+        />
       )}
     </div>
   );

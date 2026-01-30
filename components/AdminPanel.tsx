@@ -1,15 +1,98 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, ChangeEvent } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
 import JackfruitLogo from './JackfruitLogo';
+
+// Fix: Sub-components moved above main component and added optional children to AdminSection props to resolve compilation errors where TypeScript expects children in the prop object before validating nested JSX.
+const AdminSection = ({ title, children }: { title: string, children?: React.ReactNode }) => (
+  <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+    <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+      <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
+      {title}
+    </h3>
+    {children}
+  </div>
+);
+
+const Input = ({ label, value, onChange, area = false, disabled = false }: { label: string, value: string, onChange?: (val: string) => void, area?: boolean, disabled?: boolean }) => (
+  <div className="space-y-1.5">
+    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
+    {area ? (
+      <textarea 
+        className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none min-h-[100px] text-sm text-slate-700 font-medium"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+        disabled={disabled}
+      />
+    ) : (
+      <input 
+        className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none text-sm text-slate-700 font-bold"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+        disabled={disabled}
+      />
+    )}
+  </div>
+);
+
+const ImageInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onChange(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
+      <div 
+        onClick={() => fileInputRef.current?.click()}
+        className="relative group cursor-pointer aspect-video bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2rem] overflow-hidden flex flex-col items-center justify-center transition-all hover:border-green-500 hover:bg-green-50/20"
+      >
+        {value ? (
+          <>
+            <img src={value} alt="Preview" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-black uppercase tracking-widest">
+              Replace Image
+            </div>
+          </>
+        ) : (
+          <div className="text-center p-6">
+            <i className="fas fa-cloud-upload-alt text-3xl text-slate-300 mb-2"></i>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Click to Upload</p>
+          </div>
+        )}
+      </div>
+      <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+    </div>
+  );
+};
+
+const Toggle = ({ label, checked, onChange }: { label: string, checked: boolean, onChange: (val: boolean) => void }) => (
+  <div className="flex items-center gap-4 py-2">
+    <button 
+      onClick={() => onChange(!checked)}
+      className={`w-12 h-6 rounded-full transition-all relative ${checked ? 'bg-green-600' : 'bg-slate-200'}`}
+    >
+      <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${checked ? 'left-7' : 'left-1'}`}></div>
+    </button>
+    <span className="text-sm font-bold text-slate-700">{label}</span>
+  </div>
+);
 
 const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, resetToDefaults } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
-  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment' | 'assets'>('general');
-  const logoRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment' | 'assets'>('general');
 
   const switchEditLocale = (l: Locale) => {
     setEditLocale(l);
@@ -21,21 +104,10 @@ const AdminPanel: React.FC = () => {
     alert(`Settings saved successfully for ${editLocale.toUpperCase()}!`);
   };
 
-  const updateNested = (path: string, value: string) => {
+  const updateNested = (path: string, value: any) => {
     const newData = { ...localContent };
     const keys = path.split('.');
     let current: any = newData.translations;
-    for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
-    }
-    current[keys[keys.length - 1]] = value;
-    setLocalContent(newData);
-  };
-
-  const updateInvestment = (path: string, value: any) => {
-    const newData = { ...localContent };
-    const keys = path.split('.');
-    let current: any = newData.investment;
     for (let i = 0; i < keys.length - 1; i++) {
       current = current[keys[i]];
     }
@@ -61,66 +133,31 @@ const AdminPanel: React.FC = () => {
     setLocalContent(newData);
   };
 
-  // Utility to export SVG to PNG
-  const downloadLogoAsPNG = () => {
-    if (!logoRef.current) return;
-    const svg = logoRef.current.querySelector('svg');
-    if (!svg) return;
-
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-
-    // Set high resolution for PNG (2048x2048)
-    const size = 2048;
-    canvas.width = size;
-    canvas.height = size;
-
-    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(svgBlob);
-
-    img.onload = () => {
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, size, size);
-        const pngUrl = canvas.toDataURL('image/png');
-        const downloadLink = document.createElement('a');
-        downloadLink.href = pngUrl;
-        downloadLink.download = 'TeWELL_Plus_Logo_HQ.png';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-      }
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
-  };
-
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
       <aside className="w-64 bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
         <div className="p-8 border-b border-slate-800 flex items-center gap-3">
           <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center font-black text-slate-900 shadow-lg shadow-green-500/20">A</div>
-          <span className="font-bold text-xl tracking-tighter">Admin</span>
+          <span className="font-bold text-xl tracking-tighter">TeWELL Admin</span>
         </div>
-        <nav className="flex-1 p-6 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto custom-scrollbar">
           {[
-            { id: 'general', icon: 'fa-cog', label: 'General' },
+            { id: 'general', icon: 'fa-cog', label: 'Settings' },
             { id: 'hero', icon: 'fa-star', label: 'Hero' },
             { id: 'order', icon: 'fa-shopping-cart', label: 'Products' },
+            { id: 'usage', icon: 'fa-info-circle', label: 'Usage' },
             { id: 'evidence', icon: 'fa-microscope', label: 'Science' },
-            { id: 'blog', icon: 'fa-newspaper', label: 'Education' },
             { id: 'recipes', icon: 'fa-utensils', label: 'Recipes' },
+            { id: 'blog', icon: 'fa-newspaper', label: 'Blog' },
             { id: 'faq', icon: 'fa-question-circle', label: 'FAQ' },
             { id: 'investment', icon: 'fa-hand-holding-usd', label: 'Investment' },
-            { id: 'assets', icon: 'fa-images', label: 'Brand Assets' },
+            { id: 'assets', icon: 'fa-images', label: 'Brand Kit' },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all font-bold text-sm ${
-                activeTab === tab.id ? 'bg-green-600 text-white shadow-xl shadow-green-900/40' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all font-bold text-xs ${
+                activeTab === tab.id ? 'bg-green-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <i className={`fas ${tab.icon} w-5 text-center`}></i>
@@ -129,235 +166,193 @@ const AdminPanel: React.FC = () => {
           ))}
         </nav>
         <div className="p-6 border-t border-slate-800 space-y-3">
-          <button onClick={() => setView('home')} className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-3 transition">
-            <i className="fas fa-eye"></i> Preview Site
+          <button onClick={() => setView('home')} className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-3 transition">
+            <i className="fas fa-eye"></i> View Site
           </button>
-          <button onClick={resetToDefaults} className="w-full text-left px-4 py-2.5 text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-3 transition">
-            <i className="fas fa-undo"></i> Reset Data
+          <button onClick={resetToDefaults} className="w-full text-left px-4 py-2 text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-3 transition">
+            <i className="fas fa-undo"></i> Factory Reset
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto p-12 lg:p-20">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+      <main className="flex-1 overflow-y-auto p-12">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div>
-            <div className="flex items-center gap-6 mb-3">
-               <h1 className="text-4xl font-black text-slate-900 tracking-tighter capitalize">{activeTab}</h1>
-               {activeTab !== 'assets' && (
-                 <div className="bg-slate-200 p-1 rounded-xl flex text-[10px] font-black uppercase tracking-widest shadow-inner">
-                    <button onClick={() => switchEditLocale('id')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'id' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>Bahasa</button>
-                    <button onClick={() => switchEditLocale('en')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'en' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>English</button>
-                 </div>
-               )}
+            <div className="flex items-center gap-4 mb-2">
+               <h1 className="text-3xl font-black text-slate-900 tracking-tighter capitalize">{activeTab}</h1>
+               <div className="bg-slate-200 p-1 rounded-lg flex text-[9px] font-black uppercase tracking-widest">
+                  <button onClick={() => switchEditLocale('id')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'id' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>ID</button>
+                  <button onClick={() => switchEditLocale('en')} className={`px-4 py-1.5 rounded-md transition ${editLocale === 'en' ? 'bg-white shadow-sm text-green-600' : 'text-slate-500'}`}>EN</button>
+               </div>
             </div>
-            <p className="text-slate-500 font-medium italic">Configure the <span className="text-green-600 uppercase font-black">{editLocale}</span> translation layer.</p>
+            <p className="text-slate-400 font-medium text-sm">Editing <span className="text-green-600 font-bold">{editLocale.toUpperCase()}</span> version</p>
           </div>
-          {activeTab !== 'assets' && (
-            <button 
-              onClick={save}
-              className="w-full md:w-auto bg-green-600 text-white px-10 py-4 rounded-2xl font-black shadow-2xl shadow-green-200 hover:bg-green-700 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
-            >
-              <i className="fas fa-check-circle"></i> SAVE CHANGES
-            </button>
-          )}
+          <button onClick={save} className="bg-green-600 text-white px-8 py-3.5 rounded-xl font-black shadow-xl shadow-green-100 hover:bg-green-700 transition-all flex items-center gap-2">
+            <i className="fas fa-save"></i> SAVE CHANGES
+          </button>
         </header>
 
-        <div className="max-w-4xl space-y-12">
-          {activeTab === 'assets' && (
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-12">
-              <div>
-                <SectionTitle title="Export Identity Assets" />
-                <p className="text-slate-500 mt-4 leading-relaxed">Download high-resolution PNG versions of your brand assets for use in social media, printing, and other external marketing materials.</p>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-10">
-                <div className="space-y-6">
-                  <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Primary Logo Preview</h4>
-                  <div className="bg-gray-50 border border-slate-100 p-12 rounded-[2rem] flex items-center justify-center aspect-square" ref={logoRef}>
-                    <JackfruitLogo iconOnly iconSize="w-48 h-48" />
-                  </div>
-                  <button 
-                    onClick={downloadLogoAsPNG}
-                    className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-green-600 transition shadow-xl"
-                  >
-                    <i className="fas fa-download"></i> DOWNLOAD PNG (2048px)
-                  </button>
-                </div>
-
-                <div className="space-y-6">
-                  <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Light Variant Preview</h4>
-                  <div className="bg-green-900 border border-slate-100 p-12 rounded-[2rem] flex items-center justify-center aspect-square">
-                    <JackfruitLogo light iconOnly iconSize="w-48 h-48" />
-                  </div>
-                  <p className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Use on dark backgrounds</p>
-                </div>
-              </div>
-            </div>
-          )}
-
+        <div className="max-w-4xl space-y-10">
           {activeTab === 'general' && (
-            <div className="space-y-8">
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-                <SectionTitle title="Footer & Mission" />
-                <Input label="Brand Mission" value={localContent.translations.footer.mission} onChange={(val) => updateNested('footer.mission', val)} area />
-                <Input label="Medical Disclaimer" value={localContent.translations.footer.disclaimer} onChange={(val) => updateNested('footer.disclaimer', val)} area />
-              </div>
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-                <SectionTitle title="Navigation Labels" />
+            <>
+              <AdminSection title="Common Labels">
                 <div className="grid grid-cols-2 gap-6">
-                  <Input label="Home" value={localContent.translations.nav.home} onChange={(val) => updateNested('nav.home', val)} />
-                  <Input label="Evidence" value={localContent.translations.nav.evidence} onChange={(val) => updateNested('nav.evidence', val)} />
-                  <Input label="Education" value={localContent.translations.nav.blog} onChange={(val) => updateNested('nav.blog', val)} />
-                  <Input label="Investment" value={localContent.translations.nav.investment} onChange={(val) => updateNested('nav.investment', val)} />
+                  <Input label="Order Now" value={localContent.translations.common.orderNow} onChange={(val) => updateNested('common.orderNow', val)} />
+                  <Input label="Read Blog" value={localContent.translations.common.readBlog} onChange={(val) => updateNested('common.readBlog', val)} />
+                  <Input label="View Data" value={localContent.translations.common.viewData} onChange={(val) => updateNested('common.viewData', val)} />
+                  <Input label="Rights Text" value={localContent.translations.common.rights} onChange={(val) => updateNested('common.rights', val)} />
                 </div>
-              </div>
-            </div>
+              </AdminSection>
+
+              <AdminSection title="Footer Config">
+                <Input label="Mission Statement" value={localContent.translations.footer.mission} onChange={(val) => updateNested('footer.mission', val)} area />
+                <Input label="Medical Disclaimer" value={localContent.translations.footer.disclaimer} onChange={(val) => updateNested('footer.disclaimer', val)} area />
+                <div className="grid grid-cols-2 gap-6">
+                  <Input label="Contact Email" value="hello@tewellplus.com" disabled />
+                  <Input label="Opening Hours" value={localContent.translations.footer.hours} onChange={(val) => updateNested('footer.hours', val)} />
+                </div>
+              </AdminSection>
+            </>
           )}
 
           {activeTab === 'hero' && (
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-              <SectionTitle title="Hero Content" />
+            <AdminSection title="Hero Management">
               <Input label="Clinical Badge" value={localContent.translations.hero.badge} onChange={(val) => updateNested('hero.badge', val)} />
-              <Input label="Main Headline" value={localContent.translations.hero.titleMain} onChange={(val) => updateNested('hero.titleMain', val)} />
+              <Input label="Headline" value={localContent.translations.hero.titleMain} onChange={(val) => updateNested('hero.titleMain', val)} />
               <Input label="Sub-headline" value={localContent.translations.hero.description} onChange={(val) => updateNested('hero.description', val)} area />
-              <Input label="Hero Image URL" value={localContent.translations.hero.heroImage} onChange={(val) => updateNested('hero.heroImage', val)} />
-            </div>
+              <ImageInput 
+                label="Hero Background" 
+                value={localContent.translations.hero.heroImage} 
+                onChange={(val) => updateNested('hero.heroImage', val)} 
+              />
+            </AdminSection>
+          )}
+
+          {activeTab === 'usage' && (
+            <AdminSection title="Usage Steps">
+              <Input label="Usage Section Heading" value={localContent.translations.usage.heading} onChange={(val) => updateNested('usage.heading', val)} />
+              <Input label="Usage Section Description" value={localContent.translations.usage.description} onChange={(val) => updateNested('usage.description', val)} area />
+              <div className="space-y-6 pt-4 border-t">
+                <div className="p-6 bg-slate-50 rounded-2xl">
+                  <h4 className="font-bold text-sm mb-4">Step 1: Rice Replacement</h4>
+                  <Input label="Title" value={localContent.translations.usage.riceTitle} onChange={(val) => updateNested('usage.riceTitle', val)} />
+                  <Input label="Description" value={localContent.translations.usage.riceDesc} onChange={(val) => updateNested('usage.riceDesc', val)} area />
+                </div>
+                <div className="p-6 bg-slate-50 rounded-2xl">
+                  <h4 className="font-bold text-sm mb-4">Step 2: Flour Substitution</h4>
+                  <Input label="Title" value={localContent.translations.usage.flourTitle} onChange={(val) => updateNested('usage.flourTitle', val)} />
+                  <Input label="Description" value={localContent.translations.usage.flourDesc} onChange={(val) => updateNested('usage.flourDesc', val)} area />
+                </div>
+              </div>
+            </AdminSection>
           )}
 
           {activeTab === 'order' && (
-            <div className="space-y-10">
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-                <SectionTitle title="Product Section Intro" />
+            <>
+              <AdminSection title="Product Intro">
                 <Input label="Heading" value={localContent.translations.order.heading} onChange={(val) => updateNested('order.heading', val)} />
                 <Input label="Description" value={localContent.translations.order.subheading} onChange={(val) => updateNested('order.subheading', val)} area />
-              </div>
-              
+              </AdminSection>
+
+              <AdminSection title="Clinical Benefits (Shown in Cards)">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input label="Benefit 1" value={localContent.translations.order.benefitRaw} onChange={(val) => updateNested('order.benefitRaw', val)} />
+                  <Input label="Benefit 2" value={localContent.translations.order.benefitProven} onChange={(val) => updateNested('order.benefitProven', val)} />
+                  <Input label="Benefit 3" value={localContent.translations.order.benefitClean} onChange={(val) => updateNested('order.benefitClean', val)} />
+                  <Input label="Benefit 4" value={localContent.translations.order.benefitCold} onChange={(val) => updateNested('order.benefitCold', val)} />
+                </div>
+              </AdminSection>
+
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <SectionTitle title="Product Cards" />
-                  <button onClick={() => addListItem('variants', { name: 'New Pack', weight: '300g', price: '0', currency: 'Rp', tag: '', popular: false, duration: '' })} className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest">+ Add Variant</button>
+                  <h3 className="text-xl font-black">Product Variants</h3>
+                  <button onClick={() => addListItem('variants', { name: 'New Variant', weight: '300g', price: '0', currency: 'Rp', tag: '', popular: false, duration: '' })} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">+ Add Variant</button>
                 </div>
-                {localContent.variants.map((variant, idx) => (
-                  <div key={idx} className={`p-10 rounded-[2.5rem] border-2 transition-all space-y-6 relative ${variant.popular ? 'border-green-500 bg-green-50/20' : 'border-slate-100 bg-white'}`}>
-                    <button onClick={() => removeListItem('variants', idx)} className="absolute top-8 right-8 text-slate-300 hover:text-red-500 p-2 transition"><i className="fas fa-trash"></i></button>
-                    <div className="grid grid-cols-2 gap-6">
-                      <Input label="Name" value={variant.name} onChange={(val) => updateListItem('variants', idx, 'name', val)} />
-                      <Input label="Weight" value={variant.weight} onChange={(val) => updateListItem('variants', idx, 'weight', val)} />
+                {localContent.variants.map((v, i) => (
+                  <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 relative group">
+                    <button onClick={() => removeListItem('variants', i)} className="absolute top-6 right-6 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                      <Input label="Variant Name" value={v.name} onChange={(val) => updateListItem('variants', i, 'name', val)} />
+                      <Input label="Weight/Size" value={v.weight} onChange={(val) => updateListItem('variants', i, 'weight', val)} />
                     </div>
-                    <div className="grid grid-cols-3 gap-6">
-                      <Input label="Price" value={variant.price} onChange={(val) => updateListItem('variants', idx, 'price', val)} />
-                      <Input label="Currency" value={variant.currency} onChange={(val) => updateListItem('variants', idx, 'currency', val)} />
-                      <Input label="Duration" value={variant.duration} onChange={(val) => updateListItem('variants', idx, 'duration', val)} />
+                    <div className="grid grid-cols-3 gap-6 mb-6">
+                      <Input label="Price" value={v.price} onChange={(val) => updateListItem('variants', i, 'price', val)} />
+                      <Input label="Currency" value={v.currency} onChange={(val) => updateListItem('variants', i, 'currency', val)} />
+                      <Input label="Supply Duration" value={v.duration} onChange={(val) => updateListItem('variants', i, 'duration', val)} />
                     </div>
-                    <div className="flex items-center gap-4">
-                      <input type="checkbox" id={`pop-${idx}`} checked={variant.popular} onChange={(e) => updateListItem('variants', idx, 'popular', e.target.checked)} className="w-6 h-6 accent-green-600 rounded-lg cursor-pointer" />
-                      <label htmlFor={`pop-${idx}`} className="text-sm font-black text-slate-700 cursor-pointer">Featured as Recommended</label>
-                    </div>
+                    <Toggle label="Featured (Recommended)" checked={v.popular} onChange={(val) => updateListItem('variants', i, 'popular', val)} />
                   </div>
                 ))}
               </div>
+            </>
+          )}
+
+          {activeTab === 'recipes' && (
+            <div className="space-y-8">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-black">Recipe Cards</h3>
+                <button onClick={() => addListItem('recipes', { name: 'New Recipe', description: '', howToAdd: '', image: '' })} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">+ Add Recipe</button>
+              </div>
+              {localContent.recipes.map((r, i) => (
+                <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 relative grid grid-cols-3 gap-8">
+                  <div className="col-span-1">
+                    <ImageInput label="Recipe Photo" value={r.image} onChange={(val) => updateListItem('recipes', i, 'image', val)} />
+                  </div>
+                  <div className="col-span-2 space-y-4">
+                    <button onClick={() => removeListItem('recipes', i)} className="absolute top-6 right-6 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
+                    <Input label="Recipe Name" value={r.name} onChange={(val) => updateListItem('recipes', i, 'name', val)} />
+                    <Input label="Short Description" value={r.description} onChange={(val) => updateListItem('recipes', i, 'description', val)} area />
+                    <Input label="Equal Volume Instructions" value={r.howToAdd} onChange={(val) => updateListItem('recipes', i, 'howToAdd', val)} />
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
           {activeTab === 'blog' && (
-            <div className="space-y-10">
+            <div className="space-y-8">
               <div className="flex justify-between items-center">
-                <SectionTitle title="Education Articles" />
-                <button onClick={() => addListItem('blogPosts', { id: `blog-${Date.now()}`, title: 'New Article', author: 'Team', date: new Date().toISOString().split('T')[0], category: 'Education', excerpt: '', content: '', image: 'https://images.unsplash.com/photo-1546548970-71785318a17b' })} className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest">+ New Article</button>
+                <h3 className="text-xl font-black">Article Management</h3>
+                <button onClick={() => addListItem('blogPosts', { id: `post-${Date.now()}`, title: 'Untitled', author: 'Team', date: new Date().toISOString().split('T')[0], category: 'Health', excerpt: '', content: '', image: '' })} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">+ New Article</button>
               </div>
-              {localContent.blogPosts.map((post, idx) => (
-                <div key={post.id} className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 relative">
-                  <button onClick={() => removeListItem('blogPosts', idx)} className="absolute top-10 right-10 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
-                  <div className="grid grid-cols-2 gap-6">
-                    <Input label="Headline" value={post.title} onChange={(val) => updateListItem('blogPosts', idx, 'title', val)} />
-                    <Input label="Image URL" value={post.image} onChange={(val) => updateListItem('blogPosts', idx, 'image', val)} />
+              {localContent.blogPosts.map((p, i) => (
+                <div key={p.id} className="p-10 bg-white rounded-[2.5rem] border border-slate-100 relative space-y-8">
+                  <button onClick={() => removeListItem('blogPosts', i)} className="absolute top-8 right-8 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
+                  <div className="grid grid-cols-2 gap-10">
+                    <ImageInput label="Cover Image" value={p.image} onChange={(val) => updateListItem('blogPosts', i, 'image', val)} />
+                    <div className="space-y-6">
+                      <Input label="Headline" value={p.title} onChange={(val) => updateListItem('blogPosts', i, 'title', val)} />
+                      <div className="grid grid-cols-2 gap-4">
+                        <Input label="Category" value={p.category} onChange={(val) => updateListItem('blogPosts', i, 'category', val)} />
+                        <Input label="Date" value={p.date} onChange={(val) => updateListItem('blogPosts', i, 'date', val)} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-6">
-                    <Input label="Category" value={post.category} onChange={(val) => updateListItem('blogPosts', idx, 'category', val)} />
-                    <Input label="Date" value={post.date} onChange={(val) => updateListItem('blogPosts', idx, 'date', val)} />
-                  </div>
-                  <Input label="Excerpt" value={post.excerpt} onChange={(val) => updateListItem('blogPosts', idx, 'excerpt', val)} area />
-                  <Input label="Article Content" value={post.content} onChange={(val) => updateListItem('blogPosts', idx, 'content', val)} area />
+                  <Input label="Short Excerpt" value={p.excerpt} onChange={(val) => updateListItem('blogPosts', i, 'excerpt', val)} area />
+                  <Input label="Full Article Body" value={p.content} onChange={(val) => updateListItem('blogPosts', i, 'content', val)} area />
                 </div>
               ))}
             </div>
           )}
 
           {activeTab === 'faq' && (
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-              <div className="flex justify-between items-center">
-                <SectionTitle title="Questions & Answers" />
-                <button onClick={() => addListItem('faqs', { question: 'New Question', answer: 'New Answer' })} className="text-green-600 font-black text-xs uppercase tracking-widest hover:text-green-700 transition">+ Add Item</button>
-              </div>
-              <div className="space-y-8">
-                {localContent.faqs.map((faq, idx) => (
-                  <div key={idx} className="p-8 bg-slate-50 rounded-3xl border border-slate-100 relative group">
-                    <button onClick={() => removeListItem('faqs', idx)} className="absolute -top-3 -right-3 w-8 h-8 bg-white border shadow-sm rounded-full text-slate-300 hover:text-red-500 transition flex items-center justify-center"><i className="fas fa-times"></i></button>
-                    <Input label="Question" value={faq.question} onChange={(val) => updateListItem('faqs', idx, 'question', val)} />
-                    <div className="mt-4">
-                      <Input label="Answer" value={faq.answer} onChange={(val) => updateListItem('faqs', idx, 'answer', val)} area />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'investment' && (
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-10">
-              <SectionTitle title="Pitch Deck Info" />
-              <Input label="Hero Title" value={localContent.investment.heading} onChange={(val) => updateInvestment('heading', val)} />
-              <Input label="Sub-heading" value={localContent.investment.subheading} onChange={(val) => updateInvestment('subheading', val)} area />
-              <div className="grid grid-cols-2 gap-6">
-                {localContent.investment.marketStats.map((stat, i) => (
-                  <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-3">
-                    <Input label={`Stat ${i+1} Label`} value={stat.label} onChange={(val) => {
-                      const newStats = [...localContent.investment.marketStats];
-                      newStats[i].label = val;
-                      updateInvestment('marketStats', newStats);
-                    }} />
-                    <Input label="Value" value={stat.value} onChange={(val) => {
-                      const newStats = [...localContent.investment.marketStats];
-                      newStats[i].value = val;
-                      updateInvestment('marketStats', newStats);
-                    }} />
-                  </div>
-                ))}
-              </div>
-              <Input label="Pitch Body" value={localContent.investment.pitchText} onChange={(val) => updateInvestment('pitchText', val)} area />
-            </div>
+             <AdminSection title="FAQ Questions">
+                <div className="space-y-6">
+                   {localContent.faqs.map((f, i) => (
+                     <div key={i} className="p-6 bg-slate-50 rounded-2xl relative">
+                        <button onClick={() => removeListItem('faqs', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500"><i className="fas fa-times"></i></button>
+                        <Input label="Question" value={f.question} onChange={(val) => updateListItem('faqs', i, 'question', val)} />
+                        <Input label="Answer" value={f.answer} onChange={(val) => updateListItem('faqs', i, 'answer', val)} area />
+                     </div>
+                   ))}
+                   <button onClick={() => addListItem('faqs', { question: '', answer: '' })} className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold hover:border-green-500 hover:text-green-600 transition-all">+ Add FAQ Item</button>
+                </div>
+             </AdminSection>
           )}
         </div>
       </main>
     </div>
   );
 };
-
-const SectionTitle = ({ title }: { title: string }) => (
-  <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-    <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
-    {title}
-  </h3>
-);
-
-const Input = ({ label, value, onChange, area = false, type = "text" }: { label: string, value: string, onChange: (val: string) => void, area?: boolean, type?: string }) => (
-  <div className="space-y-2">
-    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{label}</label>
-    {area ? (
-      <textarea 
-        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none min-h-[140px] text-slate-700 font-medium leading-relaxed"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    ) : (
-      <input 
-        type={type}
-        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none text-slate-700 font-bold"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    )}
-  </div>
-);
 
 export default AdminPanel;
