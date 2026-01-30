@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { View, Locale, AppContentData, CMSData } from '../types';
-import { getDefaultContent } from '../translations';
+import { getDefaultContent, MASTER_ADMIN_PASSWORD } from '../translations';
 
 interface LanguageContextType {
   view: View;
@@ -21,7 +21,7 @@ interface LanguageContextType {
 }
 
 const STORAGE_KEY = 'tewell_plus_multi_cms_data_v2';
-const AUTH_KEY = 'tewell_plus_admin_password';
+const AUTH_KEY = 'tewell_plus_admin_password_v2'; // Bumped version
 
 const INITIAL_CMS_DATA: CMSData = {
   id: getDefaultContent('id'),
@@ -35,8 +35,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [locale, setLocale] = useState<Locale>('id');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Auth logic prioritizes localStorage but falls back to MASTER_ADMIN_PASSWORD from code
   const [adminPassword, setAdminPassword] = useState(() => {
-    return localStorage.getItem(AUTH_KEY) || 'admin';
+    return localStorage.getItem(AUTH_KEY) || MASTER_ADMIN_PASSWORD;
   });
 
   const [cmsData, setCmsData] = useState<CMSData>(() => {
@@ -67,9 +69,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const resetToDefaults = () => {
-    if (confirm('Reset all content to defaults?')) {
+    if (confirm('Reset all content to defaults? This will revert all local changes to the version currently in the source code.')) {
       setCmsData(INITIAL_CMS_DATA);
       localStorage.removeItem(STORAGE_KEY);
+      window.location.reload();
     }
   };
 

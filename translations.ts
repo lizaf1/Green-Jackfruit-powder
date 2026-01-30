@@ -1,6 +1,12 @@
 
 import { Translations, FAQItem, StudyData, Article, Recipe, BlogPost, AppContentData, InvestmentContent, ProductVariant } from './types';
 
+// ==========================================
+// MASTER SETTINGS
+// ==========================================
+// Change this password to update the global admin password for everyone
+export const MASTER_ADMIN_PASSWORD = 'admin'; 
+
 const translationsID: Translations = {
   common: {
     brandTagline: "Terapi Nutrisi Medis Nangka Hijau Mentah",
@@ -31,7 +37,7 @@ const translationsID: Translations = {
     benefitClean: "Tanpa Pengawet & Gula Tambahan",
     benefitCold: "Teknologi Cold-Process <50°C"
   },
-  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai kesehatan metabolisme dan manfaat serat nangka hijau mentah.", readMore: "Baca Selengkapnya", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
+  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai kesehatan metabolisme and manfaat serat nangka hijau mentah.", readMore: "Baca Selengkapnya", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
     heading: "Bukti Klinis Teruji",
     quote: "\"Pasien Kelompok A memiliki penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi daripada Kelompok B demonstrasikan efikasi bubuk nangka sebagai terapi nutrisi medis harian.\"",

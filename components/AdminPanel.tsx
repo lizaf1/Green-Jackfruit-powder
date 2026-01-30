@@ -4,12 +4,15 @@ import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
 import JackfruitLogo from './JackfruitLogo';
 
-const AdminSection = ({ title, children }: { title: string, children?: React.ReactNode }) => (
+const AdminSection = ({ title, children, badge }: { title: string, children?: React.ReactNode, badge?: string }) => (
   <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
-    <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-      <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
-      {title}
-    </h3>
+    <div className="flex justify-between items-center">
+      <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+        <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
+        {title}
+      </h3>
+      {badge && <span className="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{badge}</span>}
+    </div>
     {children}
   </div>
 );
@@ -99,6 +102,8 @@ const AdminPanel: React.FC = () => {
   const [newAdminPassword, setNewAdminPassword] = useState('');
   const [confirmAdminPassword, setConfirmAdminPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
+  const [showExport, setShowExport] = useState(false);
+  const [importJson, setImportJson] = useState('');
 
   if (!isAuthenticated) {
     return (
@@ -159,7 +164,7 @@ const AdminPanel: React.FC = () => {
 
   const save = () => {
     updateContent(localContent, editLocale);
-    alert(`Settings saved successfully for ${editLocale.toUpperCase()}!`);
+    alert(`DRAFT SAVED! This change is now visible on THIS device. To show it on other devices (Phones/Laptops), you must follow the "Production Sync" steps in the Settings tab.`);
   };
 
   const updateNested = (path: string, value: any) => {
@@ -212,9 +217,31 @@ const AdminPanel: React.FC = () => {
       return;
     }
     updateAdminPassword(newAdminPassword);
-    alert('Admin password updated successfully!');
+    alert('Admin password updated locally! Note: To change it for everyone, update MASTER_ADMIN_PASSWORD in translations.ts.');
     setNewAdminPassword('');
     setConfirmAdminPassword('');
+  };
+
+  const handleCopyToClipboard = () => {
+    const jsonString = JSON.stringify(localContent, null, 2);
+    navigator.clipboard.writeText(jsonString);
+    alert("Configuration copied to clipboard!");
+  };
+
+  const handleImport = () => {
+    try {
+      const parsed = JSON.parse(importJson);
+      if (parsed.translations && parsed.recipes) {
+        setLocalContent(parsed);
+        updateContent(parsed, editLocale);
+        setImportJson('');
+        alert("Quick Import Successful! This device is now synced with the provided data.");
+      } else {
+        alert("Invalid JSON structure. Please ensure you're pasting a TeWELL+ config object.");
+      }
+    } catch (e) {
+      alert("Error parsing JSON. Please check your data.");
+    }
   };
 
   return (
@@ -257,7 +284,7 @@ const AdminPanel: React.FC = () => {
             <i className="fas fa-sign-out-alt"></i> Logout
           </button>
           <button onClick={resetToDefaults} className="w-full text-left px-4 py-2 text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-3 transition">
-            <i className="fas fa-undo"></i> Factory Reset
+            <i className="fas fa-undo"></i> Reset Local Draft
           </button>
         </div>
       </aside>
@@ -274,16 +301,23 @@ const AdminPanel: React.FC = () => {
                  </div>
                )}
             </div>
-            <p className="text-slate-400 font-medium text-sm">
-              {activeTab === 'security' 
-                ? 'Manage portal access' 
-                : <>Editing <span className="text-green-600 font-bold">{editLocale.toUpperCase()}</span> version</>
-              }
-            </p>
+            <div className="flex items-center gap-3">
+               <p className="text-slate-400 font-medium text-sm">
+                 {activeTab === 'security' 
+                   ? 'Manage portal access' 
+                   : <>Editing <span className="text-green-600 font-bold">{editLocale.toUpperCase()}</span> version</>
+                 }
+               </p>
+               {activeTab !== 'security' && (
+                 <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-orange-600 bg-orange-50 px-2 py-0.5 rounded animate-pulse">
+                   <i className="fas fa-exclamation-triangle opacity-50"></i> Local Draft Only
+                 </span>
+               )}
+            </div>
           </div>
           {activeTab !== 'security' && (
             <button onClick={save} className="bg-green-600 text-white px-8 py-3.5 rounded-xl font-black shadow-xl shadow-green-100 hover:bg-green-700 transition-all flex items-center gap-2">
-              <i className="fas fa-save"></i> SAVE CHANGES
+              <i className="fas fa-save"></i> SAVE AS DRAFT
             </button>
           )}
         </header>
@@ -294,7 +328,7 @@ const AdminPanel: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <Input 
-                    label="New Admin Password" 
+                    label="New Device-Specific Password" 
                     type="password"
                     value={newAdminPassword} 
                     onChange={(val) => setNewAdminPassword(val)} 
@@ -327,15 +361,15 @@ const AdminPanel: React.FC = () => {
                         : 'bg-green-600 text-white shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95'
                     }`}
                   >
-                    Update Password
+                    Update Local Password
                   </button>
                 </div>
                 <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 flex flex-col justify-center">
-                  <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-4">Security Notice</h4>
+                  <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-4">Security Guide</h4>
                   <ul className="space-y-3 text-slate-500 text-sm font-medium leading-relaxed">
-                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Default password is "admin".</li>
-                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Changes take effect immediately.</li>
-                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Passwords are stored locally on this device.</li>
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Passwords changed here are stored locally on this device only.</li>
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> To set a "Master Password" for all devices, update the code in translations.ts.</li>
+                    <li className="flex gap-3"><i className="fas fa-info-circle text-green-500 mt-1"></i> Resetting local drafts will also reset your local password.</li>
                   </ul>
                 </div>
               </div>
@@ -344,6 +378,82 @@ const AdminPanel: React.FC = () => {
 
           {activeTab === 'general' && (
             <>
+              <AdminSection title="Production Sync" badge="REQUIRED FOR OTHER DEVICES">
+                <div className="bg-slate-900 rounded-[2rem] p-8 text-white">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-slate-900 text-xl shadow-lg shadow-green-500/20">
+                      <i className="fas fa-sync-alt"></i>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-black tracking-tight">Make Your Changes Global</h4>
+                      <p className="text-slate-400 text-xs font-medium">To show changes on all devices, follow these steps to update the website code.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {/* Export Column */}
+                    <div className="space-y-4">
+                      <h5 className="text-[10px] font-black uppercase tracking-widest text-green-500 flex items-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-green-500 text-slate-900 flex items-center justify-center text-[8px]">1</span>
+                        Export from this device
+                      </h5>
+                      <button 
+                        onClick={() => setShowExport(true)}
+                        className="w-full bg-white text-slate-900 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 transition shadow-lg"
+                      >
+                        Generate Code ({editLocale.toUpperCase()})
+                      </button>
+                      
+                      {showExport && (
+                        <div className="space-y-4 animate-in fade-in duration-500">
+                          <div className="relative">
+                            <textarea 
+                              readOnly
+                              className="w-full h-32 bg-slate-800 border border-slate-700 rounded-xl p-4 font-mono text-[9px] text-green-400 overflow-auto focus:outline-none"
+                              value={JSON.stringify(localContent, null, 2)}
+                            />
+                            <button 
+                              onClick={handleCopyToClipboard}
+                              className="absolute top-2 right-2 bg-slate-700 text-white px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-slate-600 transition"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                          <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                             <h6 className="text-[10px] font-black uppercase tracking-widest text-white mb-2">Step 2: Update translations.ts</h6>
+                             <p className="text-[10px] text-slate-400 leading-relaxed">
+                               Open your code (GitHub or VS Code), find <code className="text-green-500">translations.ts</code>, and replace the object inside <code className="text-green-500">getDefaultContent('{editLocale}')</code> with this code.
+                             </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Import Column */}
+                    <div className="space-y-4">
+                      <h5 className="text-[10px] font-black uppercase tracking-widest text-green-500 flex items-center gap-2">
+                         <span className="w-4 h-4 rounded-full bg-green-500 text-slate-900 flex items-center justify-center text-[8px]">!</span>
+                         Syncing a new device
+                      </h5>
+                      <p className="text-[10px] text-slate-400 leading-relaxed">If you want to see your drafts on another device without deploying to GitHub, paste the code from Step 1 here.</p>
+                      <textarea 
+                        className="w-full h-20 bg-slate-800 border border-slate-700 rounded-xl p-4 font-mono text-[9px] text-white overflow-auto focus:outline-none placeholder:text-slate-600"
+                        placeholder="Paste exported code here..."
+                        value={importJson}
+                        onChange={(e) => setImportJson(e.target.value)}
+                      />
+                      <button 
+                        onClick={handleImport}
+                        disabled={!importJson}
+                        className={`w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest transition shadow-lg ${importJson ? 'bg-green-600 text-white hover:bg-green-500' : 'bg-slate-800 text-slate-600 cursor-not-allowed'}`}
+                      >
+                        Apply Sync
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </AdminSection>
+
               <AdminSection title="Common Labels">
                 <div className="grid grid-cols-2 gap-6">
                   <Input label="Order Now" value={localContent.translations.common.orderNow} onChange={(val) => updateNested('common.orderNow', val)} />
