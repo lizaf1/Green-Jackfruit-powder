@@ -37,6 +37,9 @@ export interface ProductVariant {
   tag: string;
   popular: boolean;
   duration: string;
+  linkWA?: string;
+  linkShopee?: string;
+  linkTikTok?: string;
 }
 
 export interface BlogPost {
@@ -86,7 +89,7 @@ export interface Translations {
     viewData: string;
     securePayment: string;
     rights: string;
-    customLogo?: string; // New field for logo sync
+    customLogo?: string;
   };
   nav: {
     home: string;

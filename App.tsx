@@ -48,7 +48,7 @@ const AppContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
             <div className="w-full lg:w-3/5 text-center lg:text-left relative z-20">
-              <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-2 rounded-full text-[10px] font-black mb-10 tracking-[0.25em] uppercase shadow-sm">
+              <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-2 rounded-full text-[10px] font-black mb-8 tracking-[0.25em] uppercase shadow-sm">
                 <i className="fas fa-microscope text-xs"></i>
                 <span>{t.hero.badge}</span>
               </div>
@@ -58,7 +58,7 @@ const AppContent: React.FC = () => {
                   <JackfruitLogo iconSize="w-24 h-28 lg:w-32 lg:h-36" textSize="text-7xl sm:text-9xl lg:text-[10rem]" />
                 </div>
               </h1>
-              <p className="text-xl text-gray-500 mb-12 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium italic">
+              <p className="text-xl text-gray-500 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium italic">
                 {t.hero.description}
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
@@ -121,7 +121,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
   return (
     <footer className="bg-[#0b1311] text-white pt-20 pb-10 border-t border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16 mb-12">
           
           {/* Brand - Compact */}
           <div className="lg:col-span-4">
@@ -145,7 +145,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
           {/* Links - High Density */}
           <div className="lg:col-span-4 grid grid-cols-2 gap-8">
             <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#16c694] mb-6 opacity-60">Company</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#16c694] mb-6 opacity-60">{t.footer.navHeading}</h4>
               <ul className="space-y-4 text-gray-400 font-bold text-xs uppercase tracking-widest">
                 <li><button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="hover:text-white transition-colors">Top</button></li>
                 <li><button onClick={() => setView('evidence')} className="hover:text-white transition-colors">Evidence</button></li>
@@ -163,7 +163,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
           
           {/* Contact - Direct & Modern */}
           <div className="lg:col-span-4">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#16c694] mb-6 opacity-60">Get in touch</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#16c694] mb-6 opacity-60">{t.footer.contactHeading}</h4>
             <div className="space-y-4">
               <a href="mailto:hello@tewellplus.com" className="text-white font-black text-lg block hover:text-[#16c694] transition-colors">hello@tewellplus.com</a>
               <a href="https://wa.me/62881036139972" className="text-white font-black text-lg block hover:text-[#16c694] transition-colors">+62 881-0361-39972</a>
@@ -173,8 +173,8 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
         </div>
         
         {/* Simplified Legal Bar */}
-        <div className="pt-8 border-t border-white/5 grid grid-cols-1 lg:grid-cols-2 items-center gap-6">
-           <p className="text-[9px] text-gray-600 uppercase tracking-widest font-black leading-relaxed opacity-60">
+        <div className="pt-8 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-6">
+           <p className="text-[9px] text-gray-600 uppercase tracking-widest font-black leading-relaxed opacity-60 max-w-2xl">
              {t.footer.disclaimer}
            </p>
            <div className="flex flex-wrap justify-center lg:justify-end gap-8 text-[9px] font-black text-gray-700 uppercase tracking-[0.4em]">
