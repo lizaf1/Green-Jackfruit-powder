@@ -4,7 +4,6 @@ import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
 import JackfruitLogo from './JackfruitLogo';
 
-// Fix: Sub-components moved above main component and added optional children to AdminSection props to resolve compilation errors where TypeScript expects children in the prop object before validating nested JSX.
 const AdminSection = ({ title, children }: { title: string, children?: React.ReactNode }) => (
   <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
     <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
@@ -15,7 +14,7 @@ const AdminSection = ({ title, children }: { title: string, children?: React.Rea
   </div>
 );
 
-const Input = ({ label, value, onChange, area = false, disabled = false }: { label: string, value: string, onChange?: (val: string) => void, area?: boolean, disabled?: boolean }) => (
+const Input = ({ label, value, onChange, area = false, disabled = false, type = "text" }: { label: string, value: string | number, onChange?: (val: string) => void, area?: boolean, disabled?: boolean, type?: string }) => (
   <div className="space-y-1.5">
     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
     {area ? (
@@ -27,6 +26,7 @@ const Input = ({ label, value, onChange, area = false, disabled = false }: { lab
       />
     ) : (
       <input 
+        type={type}
         className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50 transition-all outline-none text-sm text-slate-700 font-bold"
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
@@ -92,7 +92,7 @@ const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, resetToDefaults } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
-  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment' | 'assets'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment'>('general');
 
   const switchEditLocale = (l: Locale) => {
     setEditLocale(l);
@@ -108,6 +108,17 @@ const AdminPanel: React.FC = () => {
     const newData = { ...localContent };
     const keys = path.split('.');
     let current: any = newData.translations;
+    for (let i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
+    }
+    current[keys[keys.length - 1]] = value;
+    setLocalContent(newData);
+  };
+
+  const updateInvestment = (path: string, value: any) => {
+    const newData = { ...localContent };
+    const keys = path.split('.');
+    let current: any = newData.investment;
     for (let i = 0; i < keys.length - 1; i++) {
       current = current[keys[i]];
     }
@@ -151,7 +162,6 @@ const AdminPanel: React.FC = () => {
             { id: 'blog', icon: 'fa-newspaper', label: 'Blog' },
             { id: 'faq', icon: 'fa-question-circle', label: 'FAQ' },
             { id: 'investment', icon: 'fa-hand-holding-usd', label: 'Investment' },
-            { id: 'assets', icon: 'fa-images', label: 'Brand Kit' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -232,6 +242,7 @@ const AdminPanel: React.FC = () => {
             <AdminSection title="Usage Steps">
               <Input label="Usage Section Heading" value={localContent.translations.usage.heading} onChange={(val) => updateNested('usage.heading', val)} />
               <Input label="Usage Section Description" value={localContent.translations.usage.description} onChange={(val) => updateNested('usage.description', val)} area />
+              <ImageInput label="Usage Illustration Image" value={localContent.translations.usage.usageImage} onChange={(val) => updateNested('usage.usageImage', val)} />
               <div className="space-y-6 pt-4 border-t">
                 <div className="p-6 bg-slate-50 rounded-2xl">
                   <h4 className="font-bold text-sm mb-4">Step 1: Rice Replacement</h4>
@@ -243,8 +254,107 @@ const AdminPanel: React.FC = () => {
                   <Input label="Title" value={localContent.translations.usage.flourTitle} onChange={(val) => updateNested('usage.flourTitle', val)} />
                   <Input label="Description" value={localContent.translations.usage.flourDesc} onChange={(val) => updateNested('usage.flourDesc', val)} area />
                 </div>
+                <div className="p-6 bg-slate-50 rounded-2xl">
+                  <h4 className="font-bold text-sm mb-4">Step 3: Equal Volume Rule</h4>
+                  <Input label="Title" value={localContent.translations.usage.cookTitle} onChange={(val) => updateNested('usage.cookTitle', val)} />
+                  <Input label="Description" value={localContent.translations.usage.cookDesc} onChange={(val) => updateNested('usage.cookDesc', val)} area />
+                </div>
               </div>
             </AdminSection>
+          )}
+
+          {activeTab === 'evidence' && (
+            <>
+              <AdminSection title="Evidence Page Intro">
+                <Input label="Page Title" value={localContent.translations.evidence.pageTitle} onChange={(val) => updateNested('evidence.pageTitle', val)} />
+                <Input label="Page Subtitle" value={localContent.translations.evidence.pageSubtitle} onChange={(val) => updateNested('evidence.pageSubtitle', val)} area />
+              </AdminSection>
+
+              <AdminSection title="Clinical Quote">
+                <Input label="Quote Text" value={localContent.translations.evidence.quote} onChange={(val) => updateNested('evidence.quote', val)} area />
+              </AdminSection>
+
+              <AdminSection title="Analysis Section">
+                <Input label="Analysis Heading" value={localContent.translations.evidence.analysisTitle} onChange={(val) => updateNested('evidence.analysisTitle', val)} />
+                <Input label="Analysis Content" value={localContent.translations.evidence.analysisDesc} onChange={(val) => updateNested('evidence.analysisDesc', val)} area />
+              </AdminSection>
+
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-xl font-black">Published Articles</h3>
+                  <button onClick={() => addListItem('articles', { title: 'New Study', journal: 'Nature', year: '2024', summary: '', link: '', tags: ['MNT'] })} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">+ Add Article</button>
+                </div>
+                {localContent.articles.map((a, i) => (
+                  <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 relative">
+                    <button onClick={() => removeListItem('articles', i)} className="absolute top-6 right-6 text-slate-300 hover:text-red-500 transition"><i className="fas fa-trash"></i></button>
+                    <Input label="Title" value={a.title} onChange={(val) => updateListItem('articles', i, 'title', val)} />
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      <Input label="Journal" value={a.journal} onChange={(val) => updateListItem('articles', i, 'journal', val)} />
+                      <Input label="Year" value={a.year} onChange={(val) => updateListItem('articles', i, 'year', val)} />
+                    </div>
+                    <Input label="Summary" value={a.summary} onChange={(val) => updateListItem('articles', i, 'summary', val)} area />
+                    <Input label="Redirect Link (e.g. Nature Journal)" value={a.link || ''} onChange={(val) => updateListItem('articles', i, 'link', val)} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeTab === 'investment' && (
+            <>
+              <AdminSection title="Pitch Intro">
+                <Input label="Heading" value={localContent.investment.heading} onChange={(val) => updateInvestment('heading', val)} />
+                <Input label="Subheading" value={localContent.investment.subheading} onChange={(val) => updateInvestment('subheading', val)} area />
+                <Input label="Pitch Text" value={localContent.investment.pitchText} onChange={(val) => updateInvestment('pitchText', val)} area />
+                <ImageInput label="Investment Market Graphic" value={localContent.investment.image} onChange={(val) => updateInvestment('image', val)} />
+              </AdminSection>
+
+              <AdminSection title="Growth Strategy Items">
+                {localContent.investment.growthItems.map((item, i) => (
+                  <div key={i} className="p-6 bg-slate-50 rounded-2xl mb-4 relative">
+                    <button onClick={() => {
+                        const items = [...localContent.investment.growthItems];
+                        items.splice(i, 1);
+                        updateInvestment('growthItems', items);
+                    }} className="absolute top-4 right-4 text-slate-300 hover:text-red-500"><i className="fas fa-times"></i></button>
+                    <Input label={`Strategy ${i+1} Title`} value={item.title} onChange={(val) => {
+                         const items = [...localContent.investment.growthItems];
+                         items[i].title = val;
+                         updateInvestment('growthItems', items);
+                    }} />
+                    <Input label={`Strategy ${i+1} Description`} value={item.desc} onChange={(val) => {
+                         const items = [...localContent.investment.growthItems];
+                         items[i].desc = val;
+                         updateInvestment('growthItems', items);
+                    }} area />
+                  </div>
+                ))}
+                <button onClick={() => {
+                    const items = [...localContent.investment.growthItems];
+                    items.push({ title: 'New Strategy', desc: '' });
+                    updateInvestment('growthItems', items);
+                }} className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold">+ Add Growth Item</button>
+              </AdminSection>
+
+              <AdminSection title="Market Statistics">
+                <div className="grid grid-cols-2 gap-4">
+                  {localContent.investment.marketStats.map((stat, i) => (
+                    <div key={i} className="p-4 bg-slate-50 rounded-xl">
+                      <Input label={`Label ${i+1}`} value={stat.label} onChange={(val) => {
+                         const stats = [...localContent.investment.marketStats];
+                         stats[i].label = val;
+                         updateInvestment('marketStats', stats);
+                      }} />
+                      <Input label={`Value ${i+1}`} value={stat.value} onChange={(val) => {
+                         const stats = [...localContent.investment.marketStats];
+                         stats[i].value = val;
+                         updateInvestment('marketStats', stats);
+                      }} />
+                    </div>
+                  ))}
+                </div>
+              </AdminSection>
+            </>
           )}
 
           {activeTab === 'order' && (

@@ -5,6 +5,7 @@ import EvidencePage from './components/EvidencePage';
 import BlogPage from './components/BlogPage';
 import BlogSection from './components/BlogSection';
 import RecipeSection from './components/RecipeSection';
+import UsageSection from './components/UsageSection';
 import FAQSection from './components/FAQSection';
 import AdminPanel from './components/AdminPanel';
 import InvestmentPage from './components/InvestmentPage';
@@ -92,6 +93,7 @@ const AppContent: React.FC = () => {
         </div>
       </section>
 
+      <UsageSection />
       <RecipeSection />
       <OrderSection />
 

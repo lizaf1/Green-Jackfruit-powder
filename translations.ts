@@ -62,7 +62,8 @@ const translationsID: Translations = {
     description: "Gantikan volume nasi atau terigu Anda dengan takaran TeWELL+ yang setara untuk hasil optimal.",
     riceTitle: "Substitusi Nasi", riceDesc: "Ganti 1 sendok makan beras dengan 1 sendok makan TeWELL+ (equal volume) sebelum dimasak.",
     flourTitle: "Substitusi Tepung", flourDesc: "Ganti sebagian porsi terigu dengan volume yang sama dari TeWELL+ untuk adonan yang lebih ramah diabetes.",
-    cookTitle: "Equal Volume", cookDesc: "Metode penggantian volume yang setara memastikan asupan pati berkurang dan serat meningkat secara presisi."
+    cookTitle: "Equal Volume", cookDesc: "Metode penggantian volume yang setara memastikan asupan pati berkurang dan serat meningkat secara presisi.",
+    usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
   recipes: { heading: "Inspirasi Menu Sehat", subheading: "Ubah makanan pokok harian Anda menjadi sajian super ramah diabetes.", howLabel: "Metode MNT Setara Volume:", diabetesFriendly: "Ramah Diabetes" },
   faq: { heading: "Tanya Jawab", subheading: "Pertanyaan umum mengenai penggunaan dan manfaat TeWELL+." },
@@ -134,7 +135,8 @@ const translationsEN: Translations = {
     description: "Use the 'Equal Volume' replacement strategy for effective glycemic management.",
     riceTitle: "Rice Replacement", riceDesc: "Replace 1 tablespoon of rice with 1 tablespoon of TeWELL+ before cooking in your rice cooker.",
     flourTitle: "Flour Substitution", flourDesc: "Replace a portion of wheat flour with an equal volume of TeWELL+ in your recipes.",
-    cookTitle: "Equal Volume Rule", cookDesc: "Replacing equal volumes of starch with our green jackfruit powder significantly improves glucose levels."
+    cookTitle: "Equal Volume Rule", cookDesc: "Replacing equal volumes of starch with our green jackfruit powder significantly improves glucose levels.",
+    usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
   recipes: { heading: "Healthy Inspiration", subheading: "Transform your daily staples into diabetes-friendly superfoods.", howLabel: "Equal Volume Replacement:", diabetesFriendly: "Diabetes Friendly" },
   faq: { heading: "Frequently Asked Questions", subheading: "Common questions about TeWELL+ usage and clinical benefits." },
@@ -211,7 +213,8 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
       { title: lang === 'id' ? 'Distribusi Digital (Online-First)' : 'Digital Distribution (Online-First)', desc: lang === 'id' ? 'Fase awal berfokus penuh pada penetrasi pasar online melalui marketplace dan D2C untuk efisiensi distribusi nasional yang cepat.' : 'The initial phase focuses entirely on online market penetration via marketplaces and D2C for rapid national distribution efficiency.' },
       { title: lang === 'id' ? 'Manufaktur Lokal Nangka Hijau' : 'Local Green Jackfruit Manufacturing', desc: lang === 'id' ? 'Mengoptimalkan rantai pasok nangka hijau mentah lokal dengan teknologi Cold-Process eksklusif untuk efisiensi biaya maksimal.' : 'Optimizing local green jackfruit supply chains with exclusive Cold-Process technology for maximum cost efficiency.' }
     ], 
-    ctaText: lang === 'id' ? 'Hubungi Tim Investasi Indonesia' : 'Contact ID Investment Team' 
+    ctaText: lang === 'id' ? 'Hubungi Tim Investasi Indonesia' : 'Contact ID Investment Team',
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
   },
   variants: [
     { name: 'Home Starter Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'STARTER', duration: '10 Hari' },

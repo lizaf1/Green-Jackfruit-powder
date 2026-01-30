@@ -28,9 +28,7 @@ const EvidencePage: React.FC = () => {
               <span className="bg-green-100 text-green-800 px-4 sm:px-5 py-2 rounded-full text-[10px] sm:text-xs font-black tracking-widest mb-6 inline-block uppercase">{t.evidence.labels.goldStandard}</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 font-display leading-tight">{t.evidence.analysisTitle}</h2>
               <p className="text-gray-600 text-lg sm:text-xl leading-relaxed mb-8 sm:mb-12">
-                {locale === 'id' 
-                  ? "Hasil penelitian menunjukkan penurunan HbA1c, FPG (gula darah puasa), dan PPG (gula darah setelah makan) yang signifikan dibandingkan dengan kelompok kontrol."
-                  : "The study results showed a significant reduction in HbA1c, Fasting Plasma Glucose (FPG), and Postprandial Glucose (PPG) compared to the control group."}
+                {t.evidence.analysisDesc}
               </p>
               
               <div className="grid grid-cols-2 gap-4 sm:gap-8 mb-8">
@@ -76,9 +74,6 @@ const EvidencePage: React.FC = () => {
                   <div className="mt-8 p-6 bg-green-900 text-white rounded-2xl text-xs sm:text-sm italic leading-relaxed shadow-inner">
                     {t.evidence.quote}
                   </div>
-                  <p className="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest text-center">
-                    {t.evidence.chartDisclaimer}
-                  </p>
                </div>
             </div>
           </div>
@@ -102,8 +97,13 @@ const EvidencePage: React.FC = () => {
                 </div>
                 <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-12 flex-1 italic">"{article.summary}"</p>
                 {article.link && (
-                  <a href={article.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold gap-3 hover:bg-green-600 transition-all self-start text-sm sm:text-base">
-                    {t.evidence.readMore} <i className="fas fa-external-link-alt text-xs"></i>
+                  <a 
+                    href={article.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-3 text-green-600 font-black text-xs uppercase tracking-widest hover:text-green-700 transition"
+                  >
+                    {locale === 'id' ? 'Baca Studi Lengkap di Nature' : 'Read Full Study on Nature'} <i className="fas fa-external-link-alt"></i>
                   </a>
                 )}
               </div>

@@ -58,6 +58,7 @@ export interface InvestmentContent {
   growthTitle: string;
   growthItems: { title: string; desc: string }[];
   ctaText: string;
+  image: string;
 }
 
 export interface AppContentData {
@@ -160,6 +161,7 @@ export interface Translations {
     flourDesc: string;
     cookTitle: string;
     cookDesc: string;
+    usageImage: string;
   };
   recipes: {
     heading: string;
