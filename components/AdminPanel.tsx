@@ -62,6 +62,32 @@ const AdminPanel: React.FC = () => {
     setLocalContent(newData);
   };
 
+  const addItem = (path: string, template: any) => {
+    const newData = JSON.parse(JSON.stringify(localContent));
+    const keys = path.split('.');
+    let current = newData;
+    for (let i = 0; i < keys.length; i++) {
+      current = current[keys[i]];
+    }
+    if (Array.isArray(current)) {
+      current.push(template);
+      setLocalContent(newData);
+    }
+  };
+
+  const removeItem = (path: string, index: number) => {
+    const newData = JSON.parse(JSON.stringify(localContent));
+    const keys = path.split('.');
+    let current = newData;
+    for (let i = 0; i < keys.length; i++) {
+      current = current[keys[i]];
+    }
+    if (Array.isArray(current)) {
+      current.splice(index, 1);
+      setLocalContent(newData);
+    }
+  };
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -109,10 +135,10 @@ const AdminPanel: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <aside className="w-64 bg-[#014737] text-white p-6 h-screen sticky top-0 flex flex-col shadow-2xl">
+      <aside className="w-64 bg-[#014737] text-white p-6 h-screen sticky top-0 flex flex-col shadow-2xl z-30">
         <div className="mb-10 pb-6 border-b border-white/10 flex items-center gap-3">
           <JackfruitLogo light iconOnly iconSize="w-8 h-10" />
-          <p className="font-black text-[10px] uppercase tracking-widest">Admin Control</p>
+          <p className="font-black text-[10px] uppercase tracking-widest">Master Admin</p>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto">
           {(['hero', 'products', 'usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general'] as const).map(tab => (
@@ -125,18 +151,18 @@ const AdminPanel: React.FC = () => {
         </div>
       </aside>
 
-      <main className="flex-1 p-10 bg-white overflow-y-auto h-screen">
-        <header className="flex justify-between items-center mb-10">
+      <main className="flex-1 p-10 bg-white overflow-y-auto h-screen relative">
+        <header className="flex justify-between items-center mb-10 sticky top-0 bg-white py-4 z-20 border-b border-gray-100">
           <h1 className="text-4xl font-black uppercase tracking-tighter">{activeTab}</h1>
           <div className="flex items-center gap-4">
             <div className="flex p-1 bg-gray-100 rounded-lg">
               {['id', 'en'].map(l => <button key={l} onClick={() => setEditLocale(l as any)} className={`px-4 py-1.5 rounded-md text-[10px] font-black uppercase ${editLocale === l ? 'bg-white shadow text-black' : 'text-gray-400'}`}>{l}</button>)}
             </div>
-            <button onClick={save} disabled={isSaving} className="bg-[#16c694] text-[#014737] px-8 py-2 rounded-lg font-black text-[10px] uppercase hover:bg-[#014737] hover:text-white transition-all">{isSaving ? 'Saving...' : 'Save Changes'}</button>
+            <button onClick={save} disabled={isSaving} className="bg-[#16c694] text-[#014737] px-8 py-2 rounded-lg font-black text-[10px] uppercase hover:bg-[#014737] hover:text-white transition-all shadow-lg">{isSaving ? 'Saving...' : 'Save Changes'}</button>
           </div>
         </header>
 
-        <div className="max-w-5xl space-y-12 pb-20">
+        <div className="max-w-5xl space-y-12 pb-32">
           {activeTab === 'hero' && (
             <div className="grid grid-cols-2 gap-8">
               <ControlField label="Badge Text" path="translations.hero.badge" />
@@ -149,15 +175,17 @@ const AdminPanel: React.FC = () => {
           {activeTab === 'products' && (
             <div className="space-y-8">
               {localContent.variants.map((v, i) => (
-                <div key={i} className="p-8 bg-gray-50 rounded-3xl grid grid-cols-2 gap-6 border border-gray-100">
-                   <ControlField label={`Variant ${i+1} Name`} path={`variants.${i}.name`} />
+                <div key={i} className="p-8 bg-gray-50 rounded-3xl grid grid-cols-2 gap-6 border border-gray-100 relative group">
+                   <button onClick={() => removeItem('variants', i)} className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-xs"><i className="fas fa-trash"></i></button>
+                   <ControlField label="Variant Name" path={`variants.${i}.name`} />
                    <ControlField label="Price" path={`variants.${i}.price`} />
-                   <ControlField label="Duration (e.g. 30 Days)" path={`variants.${i}.duration`} />
+                   <ControlField label="Weight" path={`variants.${i}.weight`} />
+                   <ControlField label="Duration" path={`variants.${i}.duration`} />
                    <ControlField label="WA Link" path={`variants.${i}.linkWA`} />
                    <ControlField label="Shopee Link" path={`variants.${i}.linkShopee`} />
-                   <ControlField label="TikTok Link" path={`variants.${i}.linkTikTok`} />
                 </div>
               ))}
+              <button onClick={() => addItem('variants', { name: 'New Variant', price: '0', weight: '300g', duration: '10 Days' })} className="w-full py-4 border-2 border-dashed border-gray-200 rounded-3xl text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694] transition-all">+ Add Product Variant</button>
             </div>
           )}
 
@@ -182,8 +210,8 @@ const AdminPanel: React.FC = () => {
           {activeTab === 'recipes' && (
             <div className="space-y-8">
               {localContent.recipes.map((recipe, i) => (
-                <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-6 shadow-sm">
-                  <h3 className="font-black text-xs text-green-600 uppercase tracking-widest">Recipe Slot {i+1}</h3>
+                <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-6 shadow-sm relative group">
+                  <button onClick={() => removeItem('recipes', i)} className="absolute top-4 right-4 w-10 h-10 bg-red-100 text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i className="fas fa-trash"></i></button>
                   <div className="grid grid-cols-2 gap-6">
                     <ControlField label="Recipe Name" path={`recipes.${i}.name`} />
                     <ControlField label="How to Add" path={`recipes.${i}.howToAdd`} />
@@ -192,6 +220,7 @@ const AdminPanel: React.FC = () => {
                   <ImageControl label="Recipe Image" path={`recipes.${i}.image`} />
                 </div>
               ))}
+              <button onClick={() => addItem('recipes', { name: 'New Recipe', description: '', howToAdd: '', image: '' })} className="w-full py-6 border-2 border-dashed border-gray-200 rounded-[2.5rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694] transition-all">+ Add New Recipe</button>
             </div>
           )}
 
@@ -206,19 +235,23 @@ const AdminPanel: React.FC = () => {
               </div>
               
               <div className="pt-8 border-t border-gray-100">
-                <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Journal Articles & Redirect Links</h3>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-xl font-black uppercase tracking-tighter">Journal Articles & External Study Links</h3>
+                </div>
                 <div className="space-y-6">
                   {localContent.articles.map((article, i) => (
-                    <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-4">
+                    <div key={i} className="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 space-y-4 relative group">
+                      <button onClick={() => removeItem('articles', i)} className="absolute top-4 right-4 w-8 h-8 bg-red-100 text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i className="fas fa-trash text-[10px]"></i></button>
                       <ControlField label="Study Title" path={`articles.${i}.title`} />
                       <div className="grid grid-cols-3 gap-4">
                         <ControlField label="Journal Name" path={`articles.${i}.journal`} />
                         <ControlField label="Year" path={`articles.${i}.year`} />
-                        <ControlField label="Redirect Link (URL)" path={`articles.${i}.link`} />
+                        <ControlField label="Redirect Link (FULL URL)" path={`articles.${i}.link`} />
                       </div>
                       <ControlField label="Summary / Findings" path={`articles.${i}.summary`} type="textarea" />
                     </div>
                   ))}
+                  <button onClick={() => addItem('articles', { title: 'New Study', journal: '', year: '2024', summary: '', link: '', tags: ['Research'] })} className="w-full py-4 border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694]">+ Add Journal Article</button>
                 </div>
               </div>
             </div>
@@ -227,17 +260,23 @@ const AdminPanel: React.FC = () => {
           {activeTab === 'blog' && (
             <div className="space-y-12">
                {localContent.blogPosts.map((post, i) => (
-                 <div key={i} className="p-10 bg-gray-50 rounded-[3rem] space-y-6 border border-gray-100 shadow-sm">
-                    <ControlField label="Title" path={`blogPosts.${i}.title`} />
+                 <div key={i} className="p-10 bg-gray-50 rounded-[3rem] space-y-6 border border-gray-100 shadow-sm relative group">
+                    <button onClick={() => removeItem('blogPosts', i)} className="absolute top-6 right-6 w-12 h-12 bg-red-100 text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i className="fas fa-trash"></i></button>
                     <div className="grid grid-cols-2 gap-6">
+                      <ControlField label="Post ID (Slug)" path={`blogPosts.${i}.id`} />
+                      <ControlField label="Title" path={`blogPosts.${i}.title`} />
+                    </div>
+                    <div className="grid grid-cols-3 gap-6">
                       <ControlField label="Author" path={`blogPosts.${i}.author`} />
                       <ControlField label="Category" path={`blogPosts.${i}.category`} />
+                      <ControlField label="Date" path={`blogPosts.${i}.date`} />
                     </div>
                     <ControlField label="Excerpt" path={`blogPosts.${i}.excerpt`} type="textarea" />
-                    <ControlField label="Full Content" path={`blogPosts.${i}.content`} type="textarea" />
+                    <ControlField label="Full Content (Markdown)" path={`blogPosts.${i}.content`} type="textarea" />
                     <ImageControl label="Feature Image" path={`blogPosts.${i}.image`} />
                  </div>
                ))}
+               <button onClick={() => addItem('blogPosts', { id: `post-${Date.now()}`, title: 'New Article', date: new Date().toISOString().split('T')[0], author: 'TeWELL Admin', category: 'Education', excerpt: '', content: '', image: '' })} className="w-full py-8 border-2 border-dashed border-gray-200 rounded-[3rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694] transition-all">+ Write New Blog Post</button>
             </div>
           )}
 
@@ -253,23 +292,27 @@ const AdminPanel: React.FC = () => {
                 <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Market Statistics</h3>
                 <div className="grid grid-cols-2 gap-6">
                   {localContent.investment.marketStats.map((stat, i) => (
-                    <div key={i} className="flex gap-4 p-4 bg-gray-50 rounded-2xl">
-                      <ControlField label="Stat Label" path={`investment.marketStats.${i}.label`} />
-                      <ControlField label="Stat Value" path={`investment.marketStats.${i}.value`} />
+                    <div key={i} className="flex gap-4 p-4 bg-gray-50 rounded-2xl relative group">
+                      <button onClick={() => removeItem('investment.marketStats', i)} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px]"><i className="fas fa-times"></i></button>
+                      <ControlField label="Label" path={`investment.marketStats.${i}.label`} />
+                      <ControlField label="Value" path={`investment.marketStats.${i}.value`} />
                     </div>
                   ))}
                 </div>
+                <button onClick={() => addItem('investment.marketStats', { label: 'Metric', value: '0' })} className="w-full mt-4 py-3 border border-dashed border-gray-200 rounded-xl text-gray-400 font-black uppercase text-[8px] hover:border-[#16c694] hover:text-[#16c694]">+ Add Statistic</button>
               </div>
 
               <div className="pt-8 border-t border-gray-100">
                 <h3 className="text-xl font-black uppercase tracking-tighter mb-6">Growth Strategy Items</h3>
                 <div className="space-y-4">
                   {localContent.investment.growthItems.map((item, i) => (
-                    <div key={i} className="p-6 bg-gray-50 rounded-2xl space-y-4">
-                      <ControlField label="Strategy Title" path={`investment.growthItems.${i}.title`} />
-                      <ControlField label="Strategy Description" path={`investment.growthItems.${i}.desc`} type="textarea" />
+                    <div key={i} className="p-6 bg-gray-50 rounded-2xl space-y-4 relative group">
+                      <button onClick={() => removeItem('investment.growthItems', i)} className="absolute top-4 right-4 text-red-400 opacity-0 group-hover:opacity-100"><i className="fas fa-trash"></i></button>
+                      <ControlField label="Title" path={`investment.growthItems.${i}.title`} />
+                      <ControlField label="Description" path={`investment.growthItems.${i}.desc`} type="textarea" />
                     </div>
                   ))}
+                  <button onClick={() => addItem('investment.growthItems', { title: 'New Goal', desc: '' })} className="w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694]">+ Add Growth Goal</button>
                 </div>
               </div>
             </div>
@@ -278,11 +321,13 @@ const AdminPanel: React.FC = () => {
           {activeTab === 'faq' && (
             <div className="space-y-8">
               {localContent.faqs.map((faq, i) => (
-                <div key={i} className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 space-y-4">
+                <div key={i} className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 space-y-4 relative group">
+                   <button onClick={() => removeItem('faqs', i)} className="absolute top-4 right-4 text-red-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><i className="fas fa-trash"></i></button>
                    <ControlField label={`Question ${i+1}`} path={`faqs.${i}.question`} />
                    <ControlField label="Answer" path={`faqs.${i}.answer`} type="textarea" />
                 </div>
               ))}
+              <button onClick={() => addItem('faqs', { question: 'New Question?', answer: '' })} className="w-full py-6 border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400 font-black uppercase text-[10px] hover:border-[#16c694] hover:text-[#16c694]">+ Add FAQ Item</button>
             </div>
           )}
 
