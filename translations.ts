@@ -1,7 +1,7 @@
 
 import { Translations, AppContentData } from './types';
 
-export const MASTER_ADMIN_PASSWORD = 'admin'; 
+export const MASTER_ADMIN_PASSWORD = 'admin007'; 
 
 const translationsID: Translations = {
   common: {
@@ -44,7 +44,7 @@ const translationsID: Translations = {
   blog: { heading: "Pusat Edukasi Glikemik", subheading: "Wawasan mendalam mengenai kesehatan metabolisme dan serat nangka hijau.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
     heading: "Bukti Klinis Teruji (RCT)",
-    quote: "\"Konsumsi 30g bubuk nangka hijau mentah setiap hari menghasilkan penurunan HbA1c, FPG, dan PPG yang signifikan secara statistik dibandingkan placebo.\"",
+    quote: "\"Konsumsi 30g bubuk nangka hijau mentah setiap hari menghasilkan penurunan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG) yang signifikan secara statistik dibandingkan placebo.\"",
     studyTitle: "Uji Coba Terkontrol Acak (RCT)",
     studyDesc: "Studi Double-Blind selama 12 minggu menunjukkan penurunan HbA1c sebesar 0.25 pada kelompok intervensi vs -0.02 pada placebo.",
     analysisTitle: "Efikasi Standar Emas",
@@ -141,7 +141,7 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
         { name: 'Smoothie Hijau', description: 'Minuman serat tinggi untuk energi tanpa lonjakan gula.', howToAdd: 'Campurkan 1 sdm bubuk ke dalam jus atau smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
       ], 
       blogPosts: [
-        { id: "nature-study-2021", title: "Terobosan Klinis: Penurunan HbA1c dengan Nangka Hijau", date: "2024-03-25", author: "Dr. James Joseph", category: "Medis", excerpt: "Bagaimana studi RCT di jurnal Nature membuktikan efikasi nangka hijau mentah?", content: "Studi yang dipublikasikan di Scientific Reports (Nature Portfolio) mengonfirmasi bahwa penambahan nangka hijau mentah ke dalam porsi makanan harian secara signifikan menurunkan kadar HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG). Hal ini disebabkan oleh tingginya kandungan serat fungsional dan resistensi pati dalam nangka hijau mentah yang diproses secara khusus.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+        { id: "nature-study-2021", title: "Terobosan Klinis: Penurunan HbA1c dengan Nangka Hijau", date: "2024-03-25", author: "TeWELL+ Team", category: "Medis", excerpt: "Bagaimana studi RCT di jurnal Nature membuktikan efikasi nangka hijau mentah?", content: "Studi yang dipublikasikan di Scientific Reports (Nature Portfolio) mengonfirmasi bahwa penambahan nangka hijau mentah ke dalam porsi makanan harian secara signifikan menurunkan kadar HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG). Hal ini disebabkan oleh tingginya kandungan serat fungsional dan resistensi pati dalam nangka hijau mentah yang diproses secara khusus.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
       ],
       faqs: [
         { question: 'Apakah rasanya akan merubah masakan?', answer: 'Tidak. Bubuk nangka hijau mentah kami bersifat netral dan tidak memiliki rasa atau aroma yang kuat, sehingga tidak merubah cita rasa masakan asli Anda.' },
@@ -163,7 +163,7 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
         { name: 'Fiber Smoothie', description: 'High fiber drink for energy without sugar spikes.', howToAdd: 'Mix 1 tbsp into your juice or smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
       ], 
       blogPosts: [
-        { id: "nature-study-2021-en", title: "Clinical Breakthrough: HbA1c Reduction with Jackfruit", date: "2024-03-25", author: "Dr. James Joseph", category: "Medical", excerpt: "How a Nature journal study proved the efficacy of raw green jackfruit flour.", content: "The study published in Scientific Reports (Nature Portfolio) confirmed that adding raw green jackfruit flour to daily meals significantly lowers HbA1c, FPG, and PPG levels. This is attributed to the high functional fiber content and resistant starch that slows glucose absorption.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+        { id: "nature-study-2021-en", title: "Clinical Breakthrough: HbA1c Reduction with Jackfruit", date: "2024-03-25", author: "TeWELL+ Team", category: "Medical", excerpt: "How a Nature journal study proved the efficacy of raw green jackfruit flour.", content: "The study published in Scientific Reports (Nature Portfolio) confirmed that adding raw green jackfruit flour to daily meals significantly lowers HbA1c, FPG, and PPG levels. This is attributed to the high functional fiber content and resistant starch that slows glucose absorption.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
       ],
       faqs: [
         { question: 'Will it change the taste of my food?', answer: 'No. Our powder is neutral and processed to be flavorless, ensuring your meals taste exactly as intended.' },
@@ -174,7 +174,7 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
       investment: { heading: 'The Future of Diabetes Management', subheading: 'Invest in the 5th largest diabetes market globally.', marketStats: [{ label: 'ID Diabetes Cases', value: '19.5M' }, { label: 'Market Potential', value: '$2.4M+' }, { label: 'Global Rank', value: '#5' }, { label: 'YOY Growth', value: '12.5%' }], pitchText: 'Indonesia is a critical market for natural, evidence-based diabetes management solutions. TeWELL+ combines local wisdom with international scientific validation.', growthTitle: 'Growth Strategy', growthItems: [{ title: 'Digital DTC', desc: 'Scaling via Shopee Mall, TikTok Shop, and professional health platforms.' }, { title: 'B2B Clinical', desc: 'Partnering with premium clinics and hospitals for MNT endorsement.' }], ctaText: 'Contact Investment Team', image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" },
       variants: [
         { name: 'Standard Pack', weight: '300g', price: '89.000', currency: 'Rp', popular: false, tag: 'TRY NOW', duration: '10 Days' },
-        { name: 'Clinical Therapy Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'BEST VALUE', duration: '30 Days' }
+        { name: 'Clinical Therapy Pack', weight: '900g', price: '255.000', currency: 'Rp', popular: true, tag: 'BEST VALUE', duration: '30 Hari' }
       ]
     }
   };

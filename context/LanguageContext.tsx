@@ -37,7 +37,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
  */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
-  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis"];
+  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis", "james joseph"];
 
   const recursiveClean = (obj: any, locale: Locale, path: string = "") => {
     if (typeof obj !== 'object' || obj === null) return;
@@ -57,7 +57,7 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
             obj[key] = cleanText;
           } else {
             // Fallback for missing path resolution
-            obj[key] = value.replace(/equal volume|1:1/gi, "Recommended Ratio");
+            obj[key] = value.replace(/equal volume|1:1/gi, "Recommended Ratio").replace(/James Joseph/gi, "TeWELL+ Team");
           }
         }
       } else if (typeof value === 'object' && value !== null) {
