@@ -13,9 +13,15 @@ interface LanguageContextType {
   cmsData: CMSData;
   updateContent: (newLocaleContent: AppContentData, l: Locale) => void;
   resetToDefaults: () => void;
+  // Security
+  isAuthenticated: boolean;
+  login: (password: string) => boolean;
+  logout: () => void;
+  updateAdminPassword: (newPassword: string) => void;
 }
 
 const STORAGE_KEY = 'tewell_plus_multi_cms_data_v2';
+const AUTH_KEY = 'tewell_plus_admin_password';
 
 const INITIAL_CMS_DATA: CMSData = {
   id: getDefaultContent('id'),
@@ -28,12 +34,16 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [view, setView] = useState<View>('home');
   const [locale, setLocale] = useState<Locale>('id');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminPassword, setAdminPassword] = useState(() => {
+    return localStorage.getItem(AUTH_KEY) || 'admin';
+  });
+
   const [cmsData, setCmsData] = useState<CMSData>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Ensure only supported locales are in the loaded data
         return {
           id: parsed.id || INITIAL_CMS_DATA.id,
           en: parsed.en || INITIAL_CMS_DATA.en
@@ -45,7 +55,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     return INITIAL_CMS_DATA;
   });
 
-  // Handle Document Attributes
   useEffect(() => {
     document.documentElement.dir = 'ltr';
     document.documentElement.lang = locale;
@@ -64,12 +73,31 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
+  const login = (password: string) => {
+    if (password === adminPassword) {
+      setIsAuthenticated(true);
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    setView('home');
+  };
+
+  const updateAdminPassword = (newPassword: string) => {
+    setAdminPassword(newPassword);
+    localStorage.setItem(AUTH_KEY, newPassword);
+  };
+
   return (
     <LanguageContext.Provider value={{ 
       view, setView, 
       locale, setLocale,
       selectedPostId, setSelectedPostId,
-      cmsData, updateContent, resetToDefaults 
+      cmsData, updateContent, resetToDefaults,
+      isAuthenticated, login, logout, updateAdminPassword
     }}>
       {children}
     </LanguageContext.Provider>

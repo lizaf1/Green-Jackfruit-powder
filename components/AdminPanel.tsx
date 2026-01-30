@@ -14,7 +14,8 @@ const AdminSection = ({ title, children }: { title: string, children?: React.Rea
   </div>
 );
 
-const Input = ({ label, value, onChange, area = false, disabled = false, type = "text" }: { label: string, value: string | number, onChange?: (val: string) => void, area?: boolean, disabled?: boolean, type?: string }) => (
+// Added support for placeholder prop to fix TS error on line 284
+const Input = ({ label, value, onChange, area = false, disabled = false, type = "text", placeholder = "" }: { label: string, value: string | number, onChange?: (val: string) => void, area?: boolean, disabled?: boolean, type?: string, placeholder?: string }) => (
   <div className="space-y-1.5">
     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
     {area ? (
@@ -23,6 +24,7 @@ const Input = ({ label, value, onChange, area = false, disabled = false, type = 
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         disabled={disabled}
+        placeholder={placeholder}
       />
     ) : (
       <input 
@@ -31,6 +33,7 @@ const Input = ({ label, value, onChange, area = false, disabled = false, type = 
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         disabled={disabled}
+        placeholder={placeholder}
       />
     )}
   </div>
@@ -89,10 +92,65 @@ const Toggle = ({ label, checked, onChange }: { label: string, checked: boolean,
 );
 
 const AdminPanel: React.FC = () => {
-  const { cmsData, updateContent, setView, resetToDefaults } = useLanguage();
+  const { cmsData, updateContent, setView, resetToDefaults, isAuthenticated, login, logout, updateAdminPassword } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
   const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'usage' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment'>('general');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [newAdminPassword, setNewAdminPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white rounded-[3rem] p-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
+          <div className="flex flex-col items-center mb-10">
+            <JackfruitLogo iconSize="w-16 h-16" className="mb-6" />
+            <h1 className="text-2xl font-black text-slate-900 tracking-tighter">Admin Portal</h1>
+            <p className="text-slate-400 text-sm font-medium">Please enter your credentials</p>
+          </div>
+          
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            if (!login(passwordInput)) {
+              setLoginError(true);
+            }
+          }} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+              <input 
+                type="password"
+                autoFocus
+                className={`w-full px-6 py-4 bg-slate-50 border rounded-2xl outline-none transition-all font-bold ${
+                  loginError ? 'border-red-500 focus:ring-4 focus:ring-red-500/10' : 'border-slate-100 focus:ring-4 focus:ring-green-500/10 focus:border-green-500/50'
+                }`}
+                placeholder="••••••••"
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setLoginError(false);
+                }}
+              />
+              {loginError && <p className="text-red-500 text-[10px] font-bold uppercase tracking-widest ml-1">Incorrect Password</p>}
+            </div>
+            
+            <button className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-sm tracking-widest uppercase hover:bg-slate-800 transition active:scale-95 shadow-xl shadow-slate-200">
+              Unlock Panel
+            </button>
+
+            <button 
+              type="button"
+              onClick={() => setView('home')}
+              className="w-full text-slate-400 text-[10px] font-black uppercase tracking-widest hover:text-slate-600 transition pt-4"
+            >
+              <i className="fas fa-arrow-left mr-2"></i> Back to Site
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   const switchEditLocale = (l: Locale) => {
     setEditLocale(l);
@@ -144,6 +202,16 @@ const AdminPanel: React.FC = () => {
     setLocalContent(newData);
   };
 
+  const handleUpdatePassword = () => {
+    if (newAdminPassword.length < 4) {
+      alert('Password must be at least 4 characters long.');
+      return;
+    }
+    updateAdminPassword(newAdminPassword);
+    alert('Admin password updated successfully!');
+    setNewAdminPassword('');
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
       <aside className="w-64 bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
@@ -179,6 +247,9 @@ const AdminPanel: React.FC = () => {
           <button onClick={() => setView('home')} className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-3 transition">
             <i className="fas fa-eye"></i> View Site
           </button>
+          <button onClick={logout} className="w-full text-left px-4 py-2 text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-3 transition">
+            <i className="fas fa-sign-out-alt"></i> Logout
+          </button>
           <button onClick={resetToDefaults} className="w-full text-left px-4 py-2 text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-3 transition">
             <i className="fas fa-undo"></i> Factory Reset
           </button>
@@ -205,6 +276,27 @@ const AdminPanel: React.FC = () => {
         <div className="max-w-4xl space-y-10">
           {activeTab === 'general' && (
             <>
+              <AdminSection title="Portal Security">
+                <div className="flex flex-col md:flex-row gap-6 items-end">
+                  <div className="flex-1">
+                    <Input 
+                      label="New Admin Password" 
+                      type="password"
+                      value={newAdminPassword} 
+                      onChange={(val) => setNewAdminPassword(val)} 
+                      placeholder="Enter new password"
+                    />
+                  </div>
+                  <button 
+                    onClick={handleUpdatePassword}
+                    className="bg-slate-900 text-white px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition"
+                  >
+                    Update Password
+                  </button>
+                </div>
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Default is 'admin'. Choose a strong password.</p>
+              </AdminSection>
+
               <AdminSection title="Common Labels">
                 <div className="grid grid-cols-2 gap-6">
                   <Input label="Order Now" value={localContent.translations.common.orderNow} onChange={(val) => updateNested('common.orderNow', val)} />
