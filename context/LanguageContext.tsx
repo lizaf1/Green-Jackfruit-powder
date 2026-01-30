@@ -20,9 +20,8 @@ interface LanguageContextType {
   cloudStatus: 'connected' | 'error' | 'local-only' | 'initializing';
 }
 
-const STORAGE_KEY = 'tewell_plus_v6_cache';
+const STORAGE_KEY = 'tewell_plus_v7_cache';
 
-// Using provided Supabase credentials
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 
@@ -32,6 +31,46 @@ const INITIAL_CMS_DATA: CMSData = {
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+/**
+ * NUCLEAR SANITIZER: 
+ * Prevents legacy "Equal Volume" or "1:1" strings from appearing, even if they exist in the cloud DB.
+ */
+const sanitizeCloudData = (data: CMSData): CMSData => {
+  const cleanData = JSON.parse(JSON.stringify(data));
+  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis"];
+
+  const recursiveSanitize = (obj: any, locale: Locale, currentPath: string = "") => {
+    const defaults = getDefaultContent(locale);
+    
+    for (const key in obj) {
+      const fullPath = currentPath ? `${currentPath}.${key}` : key;
+      
+      if (typeof obj[key] === 'string') {
+        const hasForbidden = forbidden.some(phrase => obj[key].toLowerCase().includes(phrase));
+        if (hasForbidden) {
+          // Resolve the correct default value using the full path
+          const defaultValue = fullPath.split('.').reduce((o, k) => o?.[k], defaults as any);
+          if (defaultValue) {
+            obj[key] = defaultValue;
+          }
+        }
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        recursiveSanitize(obj[key], locale, fullPath);
+      }
+    }
+  };
+
+  if (cleanData.id) recursiveSanitize(cleanData.id, 'id');
+  if (cleanData.en) recursiveSanitize(cleanData.en, 'en');
+  
+  // Extra Brute-Force: If the ID usage still looks wrong, overwrite the whole usage object
+  if (cleanData.id?.translations?.usage?.description?.toLowerCase().includes("equal")) {
+     cleanData.id.translations.usage = getDefaultContent('id').translations.usage;
+  }
+  
+  return cleanData;
+};
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [view, setView] = useState<View>('home');
@@ -63,14 +102,14 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         
         if (response.ok) {
           const data = await response.json();
-          const cloudContent = data[0]?.content;
+          let cloudContent = data[0]?.content;
 
           if (!cloudContent || Object.keys(cloudContent).length === 0) {
-            console.log("Cloud is empty. Provisioning initial data...");
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
-            setCmsData(cloudContent);
+            const sanitized = sanitizeCloudData(cloudContent);
+            setCmsData(sanitized);
           }
           setCloudStatus('connected');
         } else {
@@ -78,7 +117,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
           loadLocalFallback();
         }
       } catch (e) {
-        console.error("Cloud Connection Failed:", e);
         setCloudStatus('error');
         loadLocalFallback();
       } finally {
@@ -89,7 +127,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const loadLocalFallback = () => {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        try { setCmsData(JSON.parse(saved)); } catch (e) { setCmsData(INITIAL_CMS_DATA); }
+        try { 
+          const parsed = JSON.parse(saved);
+          setCmsData(sanitizeCloudData(parsed)); 
+        } catch (e) { setCmsData(INITIAL_CMS_DATA); }
       }
     };
 

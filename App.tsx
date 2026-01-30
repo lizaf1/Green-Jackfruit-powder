@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import EvidencePage from './components/EvidencePage';
 import BlogPage from './components/BlogPage';
@@ -16,9 +16,14 @@ import SEO from './components/SEO';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 const AppContent: React.FC = () => {
-  const { cmsData, locale, view, setView, setSelectedPostId, isLoading } = useLanguage();
+  const { cmsData, locale, view, setView, setSelectedPostId, selectedPostId, isLoading } = useLanguage();
   const content = cmsData[locale];
   const t = content.translations;
+
+  // GLOBAL SCROLL RESET: Fixes the issue where navigating from footer keeps you at the bottom.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [view, selectedPostId]);
 
   if (isLoading) {
     return (

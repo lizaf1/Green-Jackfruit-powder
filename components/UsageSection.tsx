@@ -58,10 +58,7 @@ const UsageSection: React.FC = () => {
                  alt="Usage Illustration" 
                  className="rounded-[2.5rem] w-full aspect-square object-cover shadow-2xl border-4 border-white" 
                />
-               <div className="absolute -top-8 -right-8 bg-green-600 text-white p-8 rounded-full shadow-2xl animate-bounce">
-                  <p className="text-2xl font-black tracking-tighter">1:1</p>
-                  <p className="text-[8px] font-bold uppercase tracking-widest">Ratio</p>
-               </div>
+               {/* 1:1 Ratio Badge Removed to prevent confusion */}
             </div>
             <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-green-100 rounded-full blur-3xl opacity-50 -z-10"></div>
           </div>

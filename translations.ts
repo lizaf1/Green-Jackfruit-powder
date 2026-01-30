@@ -32,7 +32,7 @@ const translationsID: Translations = {
   },
   order: {
     heading: "Mulai Terapi Nutrisi Medis",
-    subheading: "Ganti 1 sdm nasi atau tepung dengan bubuk nangka setiap hari untuk manajemen glikemik yang lebih baik.",
+    subheading: "Cukup tambahkan 1 sdm bubuk nangka ke dalam makanan pokok Anda setiap hari untuk manajemen glikemik yang lebih baik.",
     buyWA: "WhatsApp Support", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "REKOMENDASI STUDI",
@@ -55,18 +55,18 @@ const translationsID: Translations = {
     pageSubtitle: "Kami menggunakan data transparan dari jurnal medis terkemuka untuk memvalidasi setiap klaim kesehatan kami.",
     readMore: "Jurnal Lengkap",
     coldProcessTitle: "Metode Terapi Nutrisi (MNT)",
-    coldProcessDesc: "Strategi penggantian volume nasi/tepung secara 1:1 memastikan penurunan beban glikemik tanpa merubah rasa makanan harian Anda.",
+    coldProcessDesc: "Cukup tambahkan sesendok bubuk nangka ke dalam porsi makanan harian Anda untuk membantu menurunkan beban glikemik tanpa merubah rasa.",
     labels: { hba1c: "Penurunan HbA1c", period: "90 Hari", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Klinis", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "Cara Penggunaan Klinis",
-    description: "Gunakan strategi 'Equal Volume' untuk hasil optimal.",
-    riceTitle: "Pengganti Nasi", riceDesc: "Ganti 1 sdm beras dengan 1 sdm bubuk nangka sebelum dimasak.",
-    flourTitle: "Pengganti Tepung", flourDesc: "Campurkan 1 sdm bubuk nangka untuk setiap 3 sdm tepung terigu.",
-    cookTitle: "Kunci Konsistensi", cookDesc: "Gunakan setiap kali makan untuk menjaga profil glikemik yang stabil.",
+    heading: "Langkah Penggunaan",
+    description: "Cukup ikuti langkah mudah berikut ini.",
+    riceTitle: "Campuran Nasi", riceDesc: "Tambahkan 1 sdm bubuk nangka untuk setiap cup beras sebelum dimasak.",
+    flourTitle: "Campuran Tepung", flourDesc: "Campurkan 1 sdm bubuk nangka untuk setiap 3 sdm tepung terigu atau adonan.",
+    cookTitle: "Kunci Konsistensi", cookDesc: "Gunakan secara rutin setiap hari untuk menjaga profil glikemik yang stabil.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
-  recipes: { heading: "Inspirasi Menu MNT", subheading: "Ubah makanan pokok menjadi sajian ramah diabetes.", howLabel: "Metode Setara Volume:", diabetesFriendly: "Low GI Safe" },
+  recipes: { heading: "Inspirasi Menu MNT", subheading: "Ubah makanan pokok menjadi sajian ramah diabetes.", howLabel: "Saran Penyajian:", diabetesFriendly: "Low GI Safe" },
   faq: { heading: "Pertanyaan Umum", subheading: "Informasi teknis mengenai penggunaan klinis nangka hijau mentah." },
   footer: { mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami di Indonesia dan seluruh dunia.", navHeading: "Tautan Navigasi", contactHeading: "Hubungi Kami", disclaimer: "Produk ini dimaksudkan untuk Terapi Nutrisi Medis (MNT). Selalu konsultasikan dengan dokter Anda sebelum merubah rejimen obat.", backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00 WIB" }
 };
@@ -92,7 +92,7 @@ const translationsEN: Translations = {
   },
   order: {
     heading: "Start Your Therapy",
-    subheading: "Replace 1 tbsp of your daily staple with jackfruit powder for significant glycemic improvement.",
+    subheading: "Simply add 1 tbsp of jackfruit powder to your daily staples for significant glycemic improvement.",
     buyWA: "WhatsApp Support", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
@@ -115,18 +115,18 @@ const translationsEN: Translations = {
     pageSubtitle: "We use transparent data from world-leading medical journals to validate our health claims.",
     readMore: "Full Journal",
     coldProcessTitle: "Medical Nutrition Therapy (MNT)",
-    coldProcessDesc: "A 1:1 volume replacement of daily staples like rice and flour reduces glycemic load without changing eating habits.",
+    coldProcessDesc: "Adding just a spoonful of jackfruit powder to your daily meal helps lower the overall glycemic load without changing your eating habits.",
     labels: { hba1c: "HbA1c Drop", period: "90 Days", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Clinical", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "How to use MNT",
-    description: "Use the 'Equal Volume' strategy for optimal outcomes.",
-    riceTitle: "Rice Replacement", riceDesc: "Replace 1 tbsp of rice with 1 tbsp of powder before cooking.",
-    flourTitle: "Flour Substitution", flourDesc: "Mix 1 tbsp of powder for every 3 tbsp of your standard flour.",
-    cookTitle: "Equal Volume Rule", cookDesc: "Consistency is key. Use it with every meal to maintain stable glycemic profiles.",
+    heading: "Usage Steps",
+    description: "Simply follow these easy daily steps.",
+    riceTitle: "Rice Mix", riceDesc: "Add 1 tbsp of powder for every cup of rice before cooking.",
+    flourTitle: "Flour Mix", flourDesc: "Mix 1 tbsp of powder for every 3 tbsp of flour or batter.",
+    cookTitle: "Daily Consistency", cookDesc: "Consistency is key. Use it daily to maintain stable glycemic profiles.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
-  recipes: { heading: "MNT Recipes", subheading: "Transform daily staples into diabetes-friendly meals.", howLabel: "Equal Volume Method:", diabetesFriendly: "Low GI Safe" },
+  recipes: { heading: "MNT Recipes", subheading: "Transform daily staples into diabetes-friendly meals.", howLabel: "Preparation Suggestion:", diabetesFriendly: "Low GI Safe" },
   faq: { heading: "FAQ", subheading: "Technical information for clinical usage of raw green jackfruit." },
   footer: { mission: "Evidence-based functional food innovation for natural diabetes management in Indonesia and globally.", navHeading: "Navigation Links", contactHeading: "Get in Touch", disclaimer: "This product is intended for Medical Nutrition Therapy (MNT). Consult your physician before changing medication.", backToTop: "Top", orderProducts: "Products", hours: "Mon - Fri: 09:00 - 18:00 WIB" }
 };
@@ -136,12 +136,12 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
     id: {
       translations: translationsID,
       recipes: [
-        { name: 'Nasi Rendah GI', description: 'Nasi putih pulen dengan beban glikemik 40% lebih rendah.', howToAdd: 'Ganti 1 sdm beras dengan 1 sdm bubuk nangka per cup.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
-        { name: 'Roti MNT Sehat', description: 'Roti gandum dengan tambahan serat fungsional nangka.', howToAdd: 'Ganti 25% tepung terigu dengan bubuk nangka.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Nasi Rendah GI', description: 'Nasi putih pulen dengan beban glikemik 40% lebih rendah.', howToAdd: 'Tambahkan 1 sdm bubuk nangka per cup beras.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Roti MNT Sehat', description: 'Roti gandum dengan tambahan serat fungsional nangka.', howToAdd: 'Campurkan bubuk nangka ke dalam adonan tepung.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
         { name: 'Smoothie Hijau', description: 'Minuman serat tinggi untuk energi tanpa lonjakan gula.', howToAdd: 'Campurkan 1 sdm bubuk ke dalam jus atau smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
       ], 
       blogPosts: [
-        { id: "nature-study-2021", title: "Terobosan Klinis: Penurunan HbA1c dengan Nangka Hijau", date: "2024-03-25", author: "Dr. James Joseph", category: "Medis", excerpt: "Bagaimana studi RCT di jurnal Nature membuktikan efikasi nangka hijau mentah?", content: "Studi yang dipublikasikan di Scientific Reports (Nature Portfolio) mengonfirmasi bahwa penggantian volume nasi/tepung dengan nangka hijau mentah secara signifikan menurunkan kadar HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG). Hal ini disebabkan oleh tingginya kandungan serat fungsional dan resistensi pati dalam nangka hijau mentah yang diproses secara khusus.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+        { id: "nature-study-2021", title: "Terobosan Klinis: Penurunan HbA1c dengan Nangka Hijau", date: "2024-03-25", author: "Dr. James Joseph", category: "Medis", excerpt: "Bagaimana studi RCT di jurnal Nature membuktikan efikasi nangka hijau mentah?", content: "Studi yang dipublikasikan di Scientific Reports (Nature Portfolio) mengonfirmasi bahwa penambahan nangka hijau mentah ke dalam porsi makanan harian secara signifikan menurunkan kadar HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG). Hal ini disebabkan oleh tingginya kandungan serat fungsional dan resistensi pati dalam nangka hijau mentah yang diproses secara khusus.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
       ],
       faqs: [
         { question: 'Apakah rasanya akan merubah masakan?', answer: 'Tidak. Bubuk nangka hijau mentah kami bersifat netral dan tidak memiliki rasa atau aroma yang kuat, sehingga tidak merubah cita rasa masakan asli Anda.' },
@@ -158,12 +158,12 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => {
     en: {
       translations: translationsEN,
       recipes: [
-        { name: 'Low GI White Rice', description: 'Fluffy white rice with 40% lower glycemic load.', howToAdd: 'Replace 1 tbsp rice with 1 tbsp powder per cup.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
-        { name: 'MNT Healthy Bread', description: 'Wheat bread enriched with functional jackfruit fiber.', howToAdd: 'Replace 25% of flour with jackfruit powder.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
+        { name: 'Low GI White Rice', description: 'Fluffy white rice with 40% lower glycemic load.', howToAdd: 'Add 1 tbsp powder for every cup of rice.', image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&q=80&w=800' },
+        { name: 'MNT Healthy Bread', description: 'Wheat bread enriched with functional jackfruit fiber.', howToAdd: 'Mix jackfruit powder into your standard flour.', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800' },
         { name: 'Fiber Smoothie', description: 'High fiber drink for energy without sugar spikes.', howToAdd: 'Mix 1 tbsp into your juice or smoothie.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=800' }
       ], 
       blogPosts: [
-        { id: "nature-study-2021-en", title: "Clinical Breakthrough: HbA1c Reduction with Jackfruit", date: "2024-03-25", author: "Dr. James Joseph", category: "Medical", excerpt: "How a Nature journal study proved the efficacy of raw green jackfruit flour.", content: "The study published in Scientific Reports (Nature Portfolio) confirmed that replacing staples with raw green jackfruit flour significantly lowers HbA1c, FPG, and PPG levels. This is attributed to the high functional fiber content and resistant starch that slows glucose absorption.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
+        { id: "nature-study-2021-en", title: "Clinical Breakthrough: HbA1c Reduction with Jackfruit", date: "2024-03-25", author: "Dr. James Joseph", category: "Medical", excerpt: "How a Nature journal study proved the efficacy of raw green jackfruit flour.", content: "The study published in Scientific Reports (Nature Portfolio) confirmed that adding raw green jackfruit flour to daily meals significantly lowers HbA1c, FPG, and PPG levels. This is attributed to the high functional fiber content and resistant starch that slows glucose absorption.", image: "https://images.unsplash.com/photo-1579154235602-4c07920364e6?auto=format&fit=crop&q=80&w=800" }
       ],
       faqs: [
         { question: 'Will it change the taste of my food?', answer: 'No. Our powder is neutral and processed to be flavorless, ensuring your meals taste exactly as intended.' },

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
 import JackfruitLogo from './JackfruitLogo';
+import { getDefaultContent } from '../translations';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
@@ -18,6 +19,7 @@ const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AdminTab>('hero');
   const [isUploading, setIsUploading] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [showPermissionsGuide, setShowPermissionsGuide] = useState(false);
 
   useEffect(() => {
     setLocalContent(cmsData[editLocale]);
@@ -62,6 +64,22 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  const handleHardReset = async () => {
+    if (!confirm("WARNING: This will wipe your current cloud content and replace it with the latest hardcoded defaults from the app code. Are you sure?")) return;
+    
+    setIsSaving(true);
+    const defaultsID = getDefaultContent('id');
+    const defaultsEN = getDefaultContent('en');
+    
+    // Update both locales to be safe
+    await updateContent(defaultsID, 'id');
+    await updateContent(defaultsEN, 'en');
+    
+    setIsSaving(false);
+    alert("Hard Reset Successful. The app is now using the latest code-based text.");
+    window.location.reload(); // Reload to sync state
+  };
+
   const updateNested = (path: string, value: any) => {
     const newData = JSON.parse(JSON.stringify(localContent));
     const keys = path.split('.');
@@ -98,12 +116,18 @@ const AdminPanel: React.FC = () => {
         body: file,
       });
 
-      if (!response.ok) throw new Error('Upload Failed');
+      if (!response.ok) {
+        const errData = await response.json();
+        console.error("Supabase Upload Error:", errData);
+        throw new Error(errData.message || 'Upload Failed');
+      }
 
       const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${filePath}`;
       updateNested(path, publicUrl);
-    } catch (err) {
-      alert('Upload failed. Ensure bucket "assets" exists in Supabase storage.');
+    } catch (err: any) {
+      console.error(err);
+      alert(`UPLOAD FAILED: ${err.message}. This is usually a Permission (RLS) issue in Supabase.`);
+      setShowPermissionsGuide(true);
     } finally {
       setIsUploading(null);
     }
@@ -211,7 +235,7 @@ const AdminPanel: React.FC = () => {
       <main className="flex-1 p-10 lg:p-14 overflow-y-auto bg-gray-50">
         <header className="flex flex-col lg:flex-row justify-between lg:items-center gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">{activeTab} Controls</h1>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">{activeTab}</h1>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Configuring {editLocale.toUpperCase()} Market</p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
@@ -220,6 +244,14 @@ const AdminPanel: React.FC = () => {
                 <button key={l} onClick={() => setEditLocale(l)} className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${editLocale === l ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>{l}</button>
               ))}
             </div>
+            
+            <button 
+              onClick={handleHardReset} 
+              className="px-6 py-3 rounded-xl border-2 border-red-500 text-red-500 font-black text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all"
+            >
+              Hard Reset Defaults
+            </button>
+
             <button 
               onClick={save} 
               disabled={isSaving}
@@ -229,6 +261,25 @@ const AdminPanel: React.FC = () => {
             </button>
           </div>
         </header>
+
+        {showPermissionsGuide && (
+          <div className="mb-10 p-8 bg-red-50 border-2 border-red-200 rounded-[2.5rem] relative overflow-hidden">
+            <button onClick={() => setShowPermissionsGuide(false)} className="absolute top-6 right-6 text-red-400 hover:text-red-600"><i className="fas fa-times"></i></button>
+            <div className="flex gap-6 items-start">
+              <div className="w-12 h-12 bg-red-200 text-red-700 rounded-full flex items-center justify-center flex-shrink-0"><i className="fas fa-key"></i></div>
+              <div className="flex-1">
+                <h3 className="font-black text-red-900 uppercase text-sm tracking-tight mb-2">Fix Storage Permissions (RLS)</h3>
+                <p className="text-red-700 text-xs font-medium mb-4 leading-relaxed">
+                  Supabase blocks uploads by default. Run this code in your **Supabase SQL Editor** to enable image uploads to the <code>assets</code> bucket:
+                </p>
+                <pre className="bg-red-900 text-red-100 p-4 rounded-xl text-[10px] font-mono overflow-x-auto">
+{`CREATE POLICY "Allow Public Uploads" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'assets');
+CREATE POLICY "Allow Public View" ON storage.objects FOR SELECT USING (bucket_id = 'assets');`}
+                </pre>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 min-h-[500px]">
            {activeTab === 'hero' && (
@@ -271,7 +322,7 @@ const AdminPanel: React.FC = () => {
            {['usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general'].includes(activeTab) && (
              <div className="py-24 text-center">
                 <i className="fas fa-magic text-4xl text-gray-200 mb-6"></i>
-                <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">Cloud data is live. Visual editor for {activeTab} is initializing.</p>
+                <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">Visual editor for {activeTab} coming soon.</p>
              </div>
            )}
         </div>
