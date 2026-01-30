@@ -20,11 +20,11 @@ interface LanguageContextType {
   cloudStatus: 'connected' | 'error' | 'local-only' | 'initializing';
 }
 
-const STORAGE_KEY = 'tewell_plus_v5_cache';
+const STORAGE_KEY = 'tewell_plus_v6_cache';
 
-// Support both NEXT_PUBLIC_ and standard ENV names
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
+// Using provided Supabase credentials
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 
 const INITIAL_CMS_DATA: CMSData = {
   id: getDefaultContent('id'),
@@ -47,7 +47,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       setIsLoading(true);
       
       if (!SUPABASE_URL || !SUPABASE_KEY) {
-        console.warn("Supabase Keys Missing. Running in Local Mode.");
         setCloudStatus('local-only');
         loadLocalFallback();
         setIsLoading(false);
@@ -67,6 +66,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
           const cloudContent = data[0]?.content;
 
           if (!cloudContent || Object.keys(cloudContent).length === 0) {
+            console.log("Cloud is empty. Provisioning initial data...");
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
@@ -78,6 +78,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
           loadLocalFallback();
         }
       } catch (e) {
+        console.error("Cloud Connection Failed:", e);
         setCloudStatus('error');
         loadLocalFallback();
       } finally {

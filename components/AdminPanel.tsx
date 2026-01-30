@@ -4,8 +4,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
 import JackfruitLogo from './JackfruitLogo';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 const BUCKET_NAME = 'assets';
 
 type AdminTab = 'hero' | 'products' | 'usage' | 'recipes' | 'evidence' | 'blog' | 'investment' | 'faq' | 'general';
@@ -56,9 +56,9 @@ const AdminPanel: React.FC = () => {
     const success = await updateContent(localContent, editLocale);
     setIsSaving(false);
     if (success) {
-      alert('SUCCESS: Cloud Database Updated.');
+      alert('SUCCESS: Cloud Database Updated Globally.');
     } else {
-      alert('WARNING: Cloud update failed. Changes saved to local browser cache only.');
+      alert('WARNING: Cloud update failed. Check internet or Supabase project status.');
     }
   };
 
@@ -103,7 +103,7 @@ const AdminPanel: React.FC = () => {
       const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${filePath}`;
       updateNested(path, publicUrl);
     } catch (err) {
-      alert('Upload failed. Ensure bucket "assets" exists and is Public.');
+      alert('Upload failed. Ensure bucket "assets" exists in Supabase storage.');
     } finally {
       setIsUploading(null);
     }
@@ -211,8 +211,8 @@ const AdminPanel: React.FC = () => {
       <main className="flex-1 p-10 lg:p-14 overflow-y-auto bg-gray-50">
         <header className="flex flex-col lg:flex-row justify-between lg:items-center gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">{activeTab}</h1>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Editing {editLocale.toUpperCase()} Version</p>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">{activeTab} Controls</h1>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Configuring {editLocale.toUpperCase()} Market</p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex p-1 bg-gray-200 rounded-xl">
@@ -230,34 +230,16 @@ const AdminPanel: React.FC = () => {
           </div>
         </header>
 
-        {cloudStatus === 'local-only' && (
-          <div className="mb-8 p-8 bg-orange-50 border-2 border-orange-200 rounded-[2.5rem] flex flex-col md:flex-row items-center gap-6">
-            <div className="w-16 h-16 bg-orange-200 text-orange-700 rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-              <i className="fas fa-cloud-slash"></i>
-            </div>
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-lg font-black text-orange-900 uppercase tracking-tight">Global Sync is Offline</h3>
-              <p className="text-orange-700 text-sm font-medium mt-1">
-                You haven't set your Supabase environment variables. Updates will only save in <strong>your browser</strong>.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <code className="bg-orange-100 text-orange-800 px-3 py-1 rounded-lg text-xs font-bold">SUPABASE_URL</code>
-                <code className="bg-orange-100 text-orange-800 px-3 py-1 rounded-lg text-xs font-bold">SUPABASE_ANON_KEY</code>
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 min-h-[500px]">
            {activeTab === 'hero' && (
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                <div className="space-y-8">
-                  <ControlField label="Headline" path="translations.hero.titleMain" />
-                  <ControlField label="Subtext" path="translations.hero.description" type="textarea" />
+                  <ControlField label="Hero Title" path="translations.hero.titleMain" />
+                  <ControlField label="Hero Description" path="translations.hero.description" type="textarea" />
                </div>
                <div className="space-y-8">
-                  <ImageControl label="Visual" path="translations.hero.heroImage" />
-                  <ControlField label="Badge Text" path="translations.hero.badge" />
+                  <ImageControl label="Hero Image" path="translations.hero.heroImage" />
+                  <ControlField label="Green Badge" path="translations.hero.badge" />
                </div>
              </div>
            )}
@@ -269,7 +251,7 @@ const AdminPanel: React.FC = () => {
                     <div className="flex justify-between items-center border-b pb-6">
                       <h4 className="font-black text-gray-400 text-[9px] uppercase tracking-widest">Variant {i+1}</h4>
                       <label className="flex items-center gap-2 cursor-pointer">
-                        <span className="text-[10px] font-black uppercase">Popular</span>
+                        <span className="text-[10px] font-black uppercase">Featured</span>
                         <input type="checkbox" checked={v.popular} onChange={(e) => updateNested(`variants.${i}.popular`, e.target.checked)} className="w-5 h-5 accent-[#16c694]" />
                       </label>
                     </div>
@@ -277,9 +259,9 @@ const AdminPanel: React.FC = () => {
                       <ControlField label="Name" path={`variants.${i}.name`} />
                       <ControlField label="Price" path={`variants.${i}.price`} />
                       <ControlField label="Weight" path={`variants.${i}.weight`} />
-                      <ControlField label="WA Link" path={`variants.${i}.linkWA`} />
-                      <ControlField label="Shopee Link" path={`variants.${i}.linkShopee`} />
-                      <ControlField label="TikTok Link" path={`variants.${i}.linkTikTok`} />
+                      <ControlField label="WhatsApp" path={`variants.${i}.linkWA`} />
+                      <ControlField label="Shopee" path={`variants.${i}.linkShopee`} />
+                      <ControlField label="TikTok" path={`variants.${i}.linkTikTok`} />
                     </div>
                   </div>
                 ))}
@@ -288,8 +270,8 @@ const AdminPanel: React.FC = () => {
 
            {['usage', 'recipes', 'evidence', 'blog', 'investment', 'faq', 'general'].includes(activeTab) && (
              <div className="py-24 text-center">
-                <i className="fas fa-tools text-4xl text-gray-200 mb-6"></i>
-                <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">Section Editor loading...</p>
+                <i className="fas fa-magic text-4xl text-gray-200 mb-6"></i>
+                <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">Cloud data is live. Visual editor for {activeTab} is initializing.</p>
              </div>
            )}
         </div>

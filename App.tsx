@@ -49,26 +49,26 @@ const AppContent: React.FC = () => {
       <SEO />
       <Navbar />
 
-      {/* REFINED MOBILE-FIRST HERO */}
-      <section className="relative bg-white pt-28 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
+      {/* CLOUD-CONNECTED FLUID HERO */}
+      <section className="relative bg-white pt-24 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-green-50/40 to-transparent -z-10"></div>
         
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
             
-            {/* Text Side - Adaptive Typography */}
+            {/* Text Side - Adaptive Typography (No Clipping) */}
             <div className="w-full lg:w-3/5 text-center lg:text-left z-20">
               <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black mb-6 tracking-[0.2em] uppercase shadow-sm">
                 <i className="fas fa-certificate text-[10px]"></i>
                 <span>{t.hero.badge}</span>
               </div>
               
-              <h1 className="text-[clamp(2.5rem,8vw,5.5rem)] font-black text-gray-900 font-display leading-[1.05] mb-6 tracking-tighter max-w-4xl">
+              <h1 className="text-[clamp(2rem,10vw,5.5rem)] font-black text-gray-900 font-display leading-[1.05] mb-6 tracking-tighter max-w-4xl">
                 {t.hero.titleMain}
                 <div className="mt-4 lg:mt-6 flex justify-center lg:justify-start items-center">
                   <JackfruitLogo 
-                    iconSize="w-[clamp(4rem,15vw,8rem)] h-[clamp(5rem,20vw,9rem)]" 
-                    textSize="text-[clamp(3rem,10vw,10rem)]" 
+                    iconSize="w-[clamp(3.5rem,12vw,8rem)] h-[clamp(4.5rem,16vw,9rem)]" 
+                    textSize="text-[clamp(2.5rem,9vw,9rem)]" 
                   />
                 </div>
               </h1>
