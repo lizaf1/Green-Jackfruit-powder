@@ -24,27 +24,9 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jackfruit365.com/blog/nature-study-deep-dive</loc>
-    <lastmod>2025-01-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://jackfruit365.com/investment</loc>
     <lastmod>2025-01-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jackfruit365.com/brand-kit</loc>
-    <lastmod>2025-01-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://jackfruit365.com/sitemap</loc>
-    <lastmod>2025-01-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
   </url>
 </urlset>
