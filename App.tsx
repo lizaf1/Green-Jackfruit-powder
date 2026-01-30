@@ -8,6 +8,7 @@ import RecipeSection from './components/RecipeSection';
 import FAQSection from './components/FAQSection';
 import AdminPanel from './components/AdminPanel';
 import InvestmentPage from './components/InvestmentPage';
+import BrandKitPage from './components/BrandKitPage';
 import OrderSection from './components/OrderSection';
 import JackfruitLogo, { BrandText } from './components/JackfruitLogo';
 import SEO from './components/SEO';
@@ -39,6 +40,7 @@ const AppContent: React.FC = () => {
     </div>
   );
 
+  if (view === 'brand-kit') return <NavigationFrame><BrandKitPage /></NavigationFrame>;
   if (view === 'investment') return <NavigationFrame><InvestmentPage /></NavigationFrame>;
   if (view === 'evidence') return <NavigationFrame><EvidencePage /></NavigationFrame>;
   if (view === 'blog') return <NavigationFrame><BlogPage /></NavigationFrame>;
@@ -141,6 +143,7 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
             <li><button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="hover:text-green-500 transition text-left">{t.footer.backToTop}</button></li>
             <li><a href="#order" className="hover:text-green-500 transition block">{t.footer.orderProducts}</a></li>
             <li><button onClick={() => { setView('blog'); setSelectedPostId(null); }} className="hover:text-green-500 transition text-left">{t.nav.blog}</button></li>
+            <li><button onClick={() => setView('brand-kit')} className="hover:text-green-500 transition text-left">Brand Kit</button></li>
             <li><button onClick={() => setView('investment')} className="hover:text-green-500 transition text-left">{t.nav.investment}</button></li>
           </ul>
         </nav>

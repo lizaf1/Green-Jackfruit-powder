@@ -200,7 +200,7 @@ export const getDefaultContent = (lang: 'id' | 'en'): AppContentData => ({
     heading: lang === 'id' ? 'Investasi TeWELL+ Indonesia' : 'Invest in TeWELL+ Indonesia', 
     subheading: lang === 'id' ? 'Mendukung revolusi pangan fungsional untuk mengatasi krisis diabetes di Indonesia.' : 'Join the functional food revolution tackling the diabetes crisis in Indonesia.', 
     marketStats: [
-      { label: lang === 'id' ? 'Jumlah Diabetisi RI' : 'Diabetes Cases in ID', value: '19.5 Juta' },
+      { label: lang === 'id' ? 'Jumlah Diabetisi RI' : 'Diabetes Cases in ID', value: lang === 'id' ? '19.5 Juta' : '19.5 Million' },
       { label: lang === 'id' ? 'Potensi Pasar RI' : 'ID Market Potential', value: 'Rp 40T+' },
       { label: lang === 'id' ? 'Target Penetrasi' : 'Penetration Target', value: '10%' },
       { label: lang === 'id' ? 'Ekspektasi ROI' : 'Expected ROI', value: 'High' }

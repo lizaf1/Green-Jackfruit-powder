@@ -1,13 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppContentData, Locale } from '../types';
+import JackfruitLogo from './JackfruitLogo';
 
 const AdminPanel: React.FC = () => {
   const { cmsData, updateContent, setView, resetToDefaults } = useLanguage();
   const [editLocale, setEditLocale] = useState<Locale>('id');
   const [localContent, setLocalContent] = useState<AppContentData>(cmsData[editLocale]);
-  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'hero' | 'order' | 'evidence' | 'recipes' | 'faq' | 'blog' | 'investment' | 'assets'>('general');
+  const logoRef = useRef<HTMLDivElement>(null);
 
   const switchEditLocale = (l: Locale) => {
     setEditLocale(l);
@@ -59,6 +61,42 @@ const AdminPanel: React.FC = () => {
     setLocalContent(newData);
   };
 
+  // Utility to export SVG to PNG
+  const downloadLogoAsPNG = () => {
+    if (!logoRef.current) return;
+    const svg = logoRef.current.querySelector('svg');
+    if (!svg) return;
+
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    // Set high resolution for PNG (2048x2048)
+    const size = 2048;
+    canvas.width = size;
+    canvas.height = size;
+
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+
+    img.onload = () => {
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, size, size);
+        const pngUrl = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = 'TeWELL_Plus_Logo_HQ.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
       <aside className="w-64 bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
@@ -76,6 +114,7 @@ const AdminPanel: React.FC = () => {
             { id: 'recipes', icon: 'fa-utensils', label: 'Recipes' },
             { id: 'faq', icon: 'fa-question-circle', label: 'FAQ' },
             { id: 'investment', icon: 'fa-hand-holding-usd', label: 'Investment' },
+            { id: 'assets', icon: 'fa-images', label: 'Brand Assets' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -104,22 +143,58 @@ const AdminPanel: React.FC = () => {
           <div>
             <div className="flex items-center gap-6 mb-3">
                <h1 className="text-4xl font-black text-slate-900 tracking-tighter capitalize">{activeTab}</h1>
-               <div className="bg-slate-200 p-1 rounded-xl flex text-[10px] font-black uppercase tracking-widest shadow-inner">
-                  <button onClick={() => switchEditLocale('id')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'id' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>Bahasa</button>
-                  <button onClick={() => switchEditLocale('en')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'en' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>English</button>
-               </div>
+               {activeTab !== 'assets' && (
+                 <div className="bg-slate-200 p-1 rounded-xl flex text-[10px] font-black uppercase tracking-widest shadow-inner">
+                    <button onClick={() => switchEditLocale('id')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'id' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>Bahasa</button>
+                    <button onClick={() => switchEditLocale('en')} className={`px-5 py-2 rounded-lg transition ${editLocale === 'en' ? 'bg-white shadow-md text-green-600' : 'text-slate-500'}`}>English</button>
+                 </div>
+               )}
             </div>
             <p className="text-slate-500 font-medium italic">Configure the <span className="text-green-600 uppercase font-black">{editLocale}</span> translation layer.</p>
           </div>
-          <button 
-            onClick={save}
-            className="w-full md:w-auto bg-green-600 text-white px-10 py-4 rounded-2xl font-black shadow-2xl shadow-green-200 hover:bg-green-700 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
-          >
-            <i className="fas fa-check-circle"></i> SAVE CHANGES
-          </button>
+          {activeTab !== 'assets' && (
+            <button 
+              onClick={save}
+              className="w-full md:w-auto bg-green-600 text-white px-10 py-4 rounded-2xl font-black shadow-2xl shadow-green-200 hover:bg-green-700 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+            >
+              <i className="fas fa-check-circle"></i> SAVE CHANGES
+            </button>
+          )}
         </header>
 
         <div className="max-w-4xl space-y-12">
+          {activeTab === 'assets' && (
+            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-12">
+              <div>
+                <SectionTitle title="Export Identity Assets" />
+                <p className="text-slate-500 mt-4 leading-relaxed">Download high-resolution PNG versions of your brand assets for use in social media, printing, and other external marketing materials.</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Primary Logo Preview</h4>
+                  <div className="bg-gray-50 border border-slate-100 p-12 rounded-[2rem] flex items-center justify-center aspect-square" ref={logoRef}>
+                    <JackfruitLogo iconOnly iconSize="w-48 h-48" />
+                  </div>
+                  <button 
+                    onClick={downloadLogoAsPNG}
+                    className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-green-600 transition shadow-xl"
+                  >
+                    <i className="fas fa-download"></i> DOWNLOAD PNG (2048px)
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Light Variant Preview</h4>
+                  <div className="bg-green-900 border border-slate-100 p-12 rounded-[2rem] flex items-center justify-center aspect-square">
+                    <JackfruitLogo light iconOnly iconSize="w-48 h-48" />
+                  </div>
+                  <p className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Use on dark backgrounds</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'general' && (
             <div className="space-y-8">
               <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
