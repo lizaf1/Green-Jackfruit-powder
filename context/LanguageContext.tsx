@@ -21,7 +21,6 @@ interface LanguageContextType {
 }
 
 const STORAGE_KEY = 'tewell_plus_v7_cache';
-
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 
@@ -33,41 +32,33 @@ const INITIAL_CMS_DATA: CMSData = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 /**
- * NUCLEAR SANITIZER: 
- * Prevents legacy "Equal Volume" or "1:1" strings from appearing, even if they exist in the cloud DB.
+ * BRUTE FORCE SANITIZER
+ * Explicitly kills the "Equal Volume" text if found in cloud data.
  */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
-  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis"];
+  const forbidden = ["equal volume", "1:1", "strategi", "volume replacement"];
 
-  const recursiveSanitize = (obj: any, locale: Locale, currentPath: string = "") => {
-    const defaults = getDefaultContent(locale);
+  const checkSection = (locale: Locale) => {
+    const usage = cleanData[locale]?.translations?.usage;
+    if (!usage) return;
     
-    for (const key in obj) {
-      const fullPath = currentPath ? `${currentPath}.${key}` : key;
-      
-      if (typeof obj[key] === 'string') {
-        const hasForbidden = forbidden.some(phrase => obj[key].toLowerCase().includes(phrase));
-        if (hasForbidden) {
-          // Resolve the correct default value using the full path
-          const defaultValue = fullPath.split('.').reduce((o, k) => o?.[k], defaults as any);
-          if (defaultValue) {
-            obj[key] = defaultValue;
-          }
-        }
-      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        recursiveSanitize(obj[key], locale, fullPath);
+    // Check heading and description specifically
+    const badText = JSON.stringify(usage).toLowerCase();
+    const isInfected = forbidden.some(p => badText.includes(p.toLowerCase()));
+    
+    if (isInfected) {
+      // OVERWRITE WITH CLEAN DEFAULTS
+      cleanData[locale].translations.usage = getDefaultContent(locale).translations.usage;
+      // Also check if any blog posts or recipes are infected
+      if (cleanData[locale].recipes) {
+        cleanData[locale].recipes = getDefaultContent(locale).recipes;
       }
     }
   };
 
-  if (cleanData.id) recursiveSanitize(cleanData.id, 'id');
-  if (cleanData.en) recursiveSanitize(cleanData.en, 'en');
-  
-  // Extra Brute-Force: If the ID usage still looks wrong, overwrite the whole usage object
-  if (cleanData.id?.translations?.usage?.description?.toLowerCase().includes("equal")) {
-     cleanData.id.translations.usage = getDefaultContent('id').translations.usage;
-  }
+  if (cleanData.id) checkSection('id');
+  if (cleanData.en) checkSection('en');
   
   return cleanData;
 };
@@ -84,32 +75,24 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   useEffect(() => {
     const initData = async () => {
       setIsLoading(true);
-      
       if (!SUPABASE_URL || !SUPABASE_KEY) {
         setCloudStatus('local-only');
         loadLocalFallback();
         setIsLoading(false);
         return;
       }
-
       try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/cms_data?id=eq.master`, {
-          headers: { 
-            'apikey': SUPABASE_KEY, 
-            'Authorization': `Bearer ${SUPABASE_KEY}` 
-          }
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
         });
-        
         if (response.ok) {
           const data = await response.json();
           let cloudContent = data[0]?.content;
-
           if (!cloudContent || Object.keys(cloudContent).length === 0) {
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
-            const sanitized = sanitizeCloudData(cloudContent);
-            setCmsData(sanitized);
+            setCmsData(sanitizeCloudData(cloudContent));
           }
           setCloudStatus('connected');
         } else {
@@ -123,7 +106,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         setIsLoading(false);
       }
     };
-
     const loadLocalFallback = () => {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -133,22 +115,15 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         } catch (e) { setCmsData(INITIAL_CMS_DATA); }
       }
     };
-
     const seedCloud = async (content: CMSData) => {
       try {
         await fetch(`${SUPABASE_URL}/rest/v1/cms_data`, {
           method: 'POST',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=merge-duplicates'
-          },
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: 'master', content: content })
         });
       } catch (e) {}
     };
-
     initData();
   }, []);
 
@@ -156,39 +131,20 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const nextData = { ...cmsData, [l]: newLocaleContent };
     setCmsData(nextData);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(nextData));
-
     if (SUPABASE_URL && SUPABASE_KEY) {
       try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/cms_data?id=eq.master`, {
           method: 'PATCH',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ content: nextData, updated_at: new Date().toISOString() })
         });
-        
-        if (response.ok) {
-          setCloudStatus('connected');
-          return true;
-        }
-      } catch (e) {
-        setCloudStatus('error');
-      }
+        if (response.ok) { setCloudStatus('connected'); return true; }
+      } catch (e) { setCloudStatus('error'); }
     }
     return false;
   };
 
-  const login = (password: string) => {
-    if (password === MASTER_ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-      return true;
-    }
-    return false;
-  };
-
+  const login = (password: string) => { if (password === MASTER_ADMIN_PASSWORD) { setIsAuthenticated(true); return true; } return false; };
   const logout = () => { setIsAuthenticated(false); setView('home'); };
 
   return (
