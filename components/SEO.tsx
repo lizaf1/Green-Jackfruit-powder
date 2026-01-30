@@ -31,18 +31,21 @@ const SEO: React.FC<SEOProps> = ({
   const t = cmsData[locale].translations;
   const siteName = "TeWELL+";
   
+  // High-focus metadata title
   const defaultTitle = locale === 'id' 
-    ? "TeWELL+ | Nangka Muda powder Teruji Klinis untuk Diabetes" 
-    : "TeWELL+ | Clinically Proven Young Jackfruit powder for Diabetes MNT";
+    ? "TeWELL+ | Green Jackfruit powder (Nangka Muda) untuk Diabetes" 
+    : "TeWELL+ | Clinically Proven Raw Green Jackfruit powder for Diabetes";
     
   const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
   
+  // High-focus metadata description
   const defaultDesc = locale === 'id' 
-    ? "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG)."
-    : "The only Raw Young Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).";
+    ? "Satu-satunya Bubuk Nangka Muda (Green Jackfruit) Mentah yang terbukti klinis dalam RCT menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG)."
+    : "The only Raw Green Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).";
 
-  // Added ?v=2 to burst cache on social platforms
-  const metaImage = (image || t.common.socialMetaImage || "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg") + "?v=2";
+  // Force product image for social previews
+  const productPouchImage = "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg";
+  const metaImage = image || productPouchImage;
   const currentUrl = window.location.origin + window.location.pathname;
 
   // Base Organization Schema
@@ -71,7 +74,7 @@ const SEO: React.FC<SEOProps> = ({
         "description": t.evidence.pageSubtitle,
         "mainEntity": {
           "@type": "MedicalStudy",
-          "name": "Efficacy of young jackfruit flour in patients with type 2 diabetes mellitus",
+          "name": "Efficacy of Green Jackfruit Flour in Patients with Type 2 Diabetes Mellitus",
           "studySubject": {
             "@type": "MedicalCondition",
             "name": "Type 2 Diabetes Mellitus"
@@ -113,7 +116,7 @@ const SEO: React.FC<SEOProps> = ({
           {
             "@type": "PropertyValue",
             "name": "Key Ingredient",
-            "value": "Raw Young Jackfruit"
+            "value": "Raw Green Jackfruit"
           }
         ]
       };

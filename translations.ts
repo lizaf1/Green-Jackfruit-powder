@@ -59,7 +59,7 @@ const translationsID: Translations = {
     readMore: "Jurnal Lengkap",
     coldProcessTitle: "Metode Terapi Nutrisi (MNT)",
     coldProcessDesc: "Cukup tambahkan Nangka Muda powder ke nasi atau tepung untuk menurunkan beban glikemik hidangan Anda.",
-    labels: { hba1c: "Penurunan HbA1c", period: "12 Minggu", baseline: "Placebo", result: "TeWELL+ Jackfruit", goldStandard: "Klinis", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
+    labels: { hba1c: "Penurunan HbA1c", period: "12 Minggu", baseline: "Placebo", result: "TeWELL+ Green Jackfruit", goldStandard: "Klinis", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
     heading: "Cara Penggunaan",
@@ -77,7 +77,7 @@ const translationsID: Translations = {
 // Default translations for English locale
 const translationsEN: Translations = {
   common: {
-    brandTagline: "Raw Young Jackfruit powder Medical Nutrition Therapy",
+    brandTagline: "Raw Green Jackfruit powder Medical Nutrition Therapy",
     orderNow: "Order Now",
     backToHome: "Home",
     readBlog: "Learn Science",
@@ -90,7 +90,7 @@ const translationsEN: Translations = {
   hero: {
     badge: "Clinically Proven: Nature Scientific Reports (2021)",
     titleMain: "Master Your Blood Sugar with ",
-    description: "The only Raw Young Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).",
+    description: "The only Raw Green Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).",
     ctaEvidence: "View Nature Study",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
@@ -101,27 +101,27 @@ const translationsEN: Translations = {
     buyWA: "WhatsApp Support", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
-    benefitRaw: "100% Young Jackfruit powder",
+    benefitRaw: "100% Green Jackfruit powder",
     benefitProven: "Proven Clinical Efficacy (HbA1c -0.25%)",
     benefitClean: "Natural, No Preservatives",
     benefitCold: "Cold-Processed Technology"
   },
-  blog: { heading: "Education Hub", subheading: "Evidence-based insights into Young Jackfruit powder.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
+  blog: { heading: "Education Hub", subheading: "Evidence-based insights into Green Jackfruit powder.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
   evidence: {
     heading: "Clinical Evidence (RCT)",
-    quote: "\"Daily consumption of Young Jackfruit powder resulted in a significantly higher reduction in HbA1c in 12 weeks.\"",
+    quote: "\"Daily consumption of Green Jackfruit powder resulted in a significantly higher reduction in HbA1c in 12 weeks.\"",
     studyTitle: "Randomized Controlled Trial (RCT)",
     studyDesc: "12-week study published in Nature Scientific Reports (2021).",
     analysisTitle: "Gold Standard Evidence",
-    analysisDesc: "Peer-reviewed confirmation of young jackfruit's role in sustainable diabetes management.",
+    analysisDesc: "Peer-reviewed confirmation of Green Jackfruit's role in sustainable diabetes management.",
     chartTitle: "HbA1c Comparative Data (Nature 2021)",
     chartDisclaimer: "*Source: Nature Scientific Reports 11, 11528 (2021).",
-    pageTitle: "The Science of Jackfruit",
+    pageTitle: "The Science of Green Jackfruit",
     pageSubtitle: "Internationally validated medical nutrition therapy.",
     readMore: "Full Journal",
     coldProcessTitle: "Medical Nutrition Therapy (MNT)",
     coldProcessDesc: "Add to your standard staples to reduce the glycemic load of every meal.",
-    labels: { hba1c: "HbA1c Drop", period: "12 Weeks", baseline: "Placebo", result: "TeWELL+ Jackfruit", goldStandard: "Clinical", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
+    labels: { hba1c: "HbA1c Drop", period: "12 Weeks", baseline: "Placebo", result: "TeWELL+ Green Jackfruit", goldStandard: "Clinical", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
     heading: "Simple Steps to Use",
@@ -146,7 +146,7 @@ export const getDefaultContent = (l: Locale): AppContentData => {
       { name: l === 'id' ? "Roti Sehat Rendah Karbo" : "Low-Carb Health Bread", description: l === 'id' ? "Campuran tepung untuk baking yang lebih sehat dan tinggi serat." : "Flour mix for healthier, fiber-rich baking.", howToAdd: l === 'id' ? "Rasio campuran 30%" : "30% mixing ratio", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800" }
     ],
     articles: [
-      { title: "Efficacy of young jackfruit flour in patients with type 2 diabetes mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi." : "Clinical trial showed significantly higher reduction in HbA1c, FPG, and PPG.", link: "https://www.nature.com/articles/s41598-020-73593-1", tags: ["RCT", "Nature", "Clinical"] }
+      { title: "Efficacy of Green Jackfruit Flour in Patients with Type 2 Diabetes Mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi." : "Clinical trial showed significantly higher reduction in HbA1c, FPG, and PPG.", link: "https://www.nature.com/articles/s41598-020-73593-1", tags: ["RCT", "Nature", "Clinical"] }
     ],
     faqs: [
       { question: l === 'id' ? "Apa perbedaan TeWELL+ dengan nangka biasa?" : "What's the difference between TeWELL+ and normal jackfruit?", answer: l === 'id' ? "TeWELL+ terbuat dari nangka muda mentah yang dikeringkan dengan suhu rendah untuk menjaga kadar serat dan nutrisi terapeutiknya." : "TeWELL+ is made from raw young jackfruit dried at low temperatures to preserve therapeutic fiber and nutrients." }
@@ -156,7 +156,7 @@ export const getDefaultContent = (l: Locale): AppContentData => {
       { category: l === 'id' ? "Gula Darah (mg/dL)" : "Blood Sugar (mg/dL)", before: 140, after: 125 }
     ],
     blogPosts: [
-      { id: "nature-study-deep-dive", title: l === 'id' ? "Analisis Studi Nature 2021" : "Nature 2021 Study Deep Dive", date: "2024-01-10", author: "Medical Team", category: "Science", excerpt: l === 'id' ? "Mengapa 30g bubuk nangka setiap hari bisa merubah profil HbA1c Anda." : "Why 30g of jackfruit powder daily can transform your HbA1c profile.", content: "The study published in Nature Scientific Reports 2021 proved that adding young jackfruit to staples significantly improves glycemic control...", image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&q=80&w=800" }
+      { id: "nature-study-deep-dive", title: l === 'id' ? "Analisis Studi Nature 2021" : "Nature 2021 Study Deep Dive", date: "2024-01-10", author: "Medical Team", category: "Science", excerpt: l === 'id' ? "Mengapa 30g bubuk nangka setiap hari bisa merubah profil HbA1c Anda." : "Why 30g of jackfruit powder daily can transform your HbA1c profile.", content: "The study published in Nature Scientific Reports 2021 proved that adding Green Jackfruit to staples significantly improves glycemic control...", image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&q=80&w=800" }
     ],
     investment: {
       heading: l === 'id' ? "Peluang Investasi TeWELL+" : "Investment Opportunity",
