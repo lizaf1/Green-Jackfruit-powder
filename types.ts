@@ -90,6 +90,7 @@ export interface Translations {
     securePayment: string;
     rights: string;
     customLogo?: string;
+    socialMetaImage?: string;
   };
   nav: {
     home: string;

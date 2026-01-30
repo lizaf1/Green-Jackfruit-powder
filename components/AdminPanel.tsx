@@ -335,6 +335,7 @@ const AdminPanel: React.FC = () => {
             <div className="grid grid-cols-2 gap-8">
                <ControlField label="Brand Tagline" path="translations.common.brandTagline" />
                <ControlField label="Order Button Text" path="translations.common.orderNow" />
+               <ImageControl label="Social Meta Image (Share Preview)" path="translations.common.socialMetaImage" />
                <ControlField label="Footer Mission" path="translations.footer.mission" type="textarea" />
                <ControlField label="Footer Disclaimer" path="translations.footer.disclaimer" type="textarea" />
             </div>

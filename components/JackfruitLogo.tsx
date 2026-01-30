@@ -34,7 +34,7 @@ const JackfruitLogo: React.FC<LogoProps> = ({
   const white = "#FFFFFF";
 
   const primaryFill = light ? white : darkGreen;
-  const accentFill = brightGreen;
+  const crossColor = light ? darkGreen : brightGreen;
 
   return (
     <div className={`flex items-center gap-2 sm:gap-3 ${className}`}>
@@ -45,20 +45,20 @@ const JackfruitLogo: React.FC<LogoProps> = ({
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Main Teardrop/Leaf Shape matching the branding pouch */}
           <path 
             d="M50 5C30 5 15 30 15 62C15 95 30 115 50 115C70 115 85 95 85 62C85 30 70 5 50 5Z" 
             fill={primaryFill} 
           />
-          <circle cx="50" cy="10" r="8" fill={accentFill} />
-          <rect x="42" y="45" width="16" height="34" rx="4" fill={accentFill} />
-          <rect x="33" y="54" width="34" height="16" rx="4" fill={accentFill} />
-          <path d="M38 45 C 38 35, 48 30, 58 30" stroke={accentFill} strokeWidth="3" strokeLinecap="round" opacity="0.3" />
-          <circle cx="35" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
-          <circle cx="68" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
-          <circle cx="30" cy="70" r="1.5" fill={accentFill} opacity="0.6" />
-          <circle cx="72" cy="70" r="1.5" fill={accentFill} opacity="0.6" />
-          <circle cx="45" cy="100" r="1.5" fill={accentFill} opacity="0.6" />
-          <circle cx="58" cy="105" r="1.5" fill={accentFill} opacity="0.6" />
+          {/* Central Medical Cross */}
+          <rect x="42" y="45" width="16" height="34" rx="4" fill={crossColor} />
+          <rect x="33" y="54" width="34" height="16" rx="4" fill={crossColor} />
+          
+          {/* Subtle jackfruit texture dots */}
+          <circle cx="35" cy="40" r="1.5" fill={crossColor} opacity="0.4" />
+          <circle cx="65" cy="40" r="1.5" fill={crossColor} opacity="0.4" />
+          <circle cx="30" cy="70" r="1.5" fill={crossColor} opacity="0.4" />
+          <circle cx="70" cy="70" r="1.5" fill={crossColor} opacity="0.4" />
         </svg>
       </div>
       {!iconOnly && (

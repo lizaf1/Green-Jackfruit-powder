@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { View, Locale, AppContentData, CMSData } from '../types';
 import { getDefaultContent, MASTER_ADMIN_PASSWORD } from '../translations';
@@ -20,6 +19,9 @@ interface LanguageContextType {
   cloudStatus: 'connected' | 'error' | 'local-only' | 'initializing';
 }
 
+// Create the context for managing application language and state
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
 const STORAGE_KEY = 'tewell_plus_v7_cache';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
@@ -29,12 +31,6 @@ const INITIAL_CMS_DATA: CMSData = {
   en: getDefaultContent('en')
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-/**
- * NUCLEAR SANITIZER V3: RECURSIVE DEEP CLEAN
- * Scans the entire object for forbidden phrases and replaces them with defaults from code.
- */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
   const forbidden = ["equal volume", "1:1", "strategi", "volume replacement", "penggunaan klinis", "james joseph"];
@@ -51,13 +47,9 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
       if (typeof value === 'string') {
         const hasForbidden = forbidden.some(phrase => value.toLowerCase().includes(phrase));
         if (hasForbidden) {
-          // Resolve the clean text from the default content structure in translations.ts
           const cleanText = currentPath.split('.').reduce((o, i) => o?.[i], defaults as any);
           if (cleanText) {
             obj[key] = cleanText;
-          } else {
-            // Fallback for missing path resolution
-            obj[key] = value.replace(/equal volume|1:1/gi, "Recommended Ratio").replace(/James Joseph/gi, "TeWELL+ Team");
           }
         }
       } else if (typeof value === 'object' && value !== null) {
@@ -73,13 +65,35 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
 };
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [view, setView] = useState<View>('home');
+  const [view, setViewInternal] = useState<View>('home');
   const [locale, setLocale] = useState<Locale>('id');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [cloudStatus, setCloudStatus] = useState<'connected' | 'error' | 'local-only' | 'initializing'>('initializing');
   const [cmsData, setCmsData] = useState<CMSData>(INITIAL_CMS_DATA);
+
+  // Sync View with URL Hash for shareable links
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '') as View;
+      const validViews: View[] = ['home', 'evidence', 'blog', 'admin', 'investment', 'brand-kit'];
+      if (validViews.includes(hash)) {
+        setViewInternal(hash);
+      } else {
+        setViewInternal('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Initial check
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const setView = (v: View) => {
+    window.location.hash = v === 'home' ? '' : v;
+    setViewInternal(v);
+  };
 
   useEffect(() => {
     const initData = async () => {
@@ -101,7 +115,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
             await seedCloud(INITIAL_CMS_DATA);
             setCmsData(INITIAL_CMS_DATA);
           } else {
-            // APPLY THE NUCLEAR SANITIZER V3
             setCmsData(sanitizeCloudData(cloudContent));
           }
           setCloudStatus('connected');
