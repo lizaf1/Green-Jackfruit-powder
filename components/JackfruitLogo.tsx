@@ -29,7 +29,6 @@ const JackfruitLogo: React.FC<LogoProps> = ({
 }) => {
   const { setView } = useLanguage();
   
-  // Colors derived from the user's provided logo image
   const darkGreen = "#014737";
   const brightGreen = "#16c694";
   const white = "#FFFFFF";
@@ -38,7 +37,7 @@ const JackfruitLogo: React.FC<LogoProps> = ({
   const accentFill = brightGreen;
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-2 sm:gap-3 ${className}`}>
       <div className="relative flex-shrink-0">
         <svg 
           viewBox="0 0 100 120" 
@@ -46,29 +45,14 @@ const JackfruitLogo: React.FC<LogoProps> = ({
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Main Jackfruit Body */}
           <path 
             d="M50 5C30 5 15 30 15 62C15 95 30 115 50 115C70 115 85 95 85 62C85 30 70 5 50 5Z" 
             fill={primaryFill} 
           />
-          
-          {/* Stem Circle */}
           <circle cx="50" cy="10" r="8" fill={accentFill} />
-          
-          {/* Medical Plus Sign */}
           <rect x="42" y="45" width="16" height="34" rx="4" fill={accentFill} />
           <rect x="33" y="54" width="34" height="16" rx="4" fill={accentFill} />
-          
-          {/* Decorative curve/highlight */}
-          <path 
-            d="M38 45 C 38 35, 48 30, 58 30" 
-            stroke={accentFill} 
-            strokeWidth="3" 
-            strokeLinecap="round" 
-            opacity="0.3"
-          />
-          
-          {/* Decorative dots from the image */}
+          <path d="M38 45 C 38 35, 48 30, 58 30" stroke={accentFill} strokeWidth="3" strokeLinecap="round" opacity="0.3" />
           <circle cx="35" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
           <circle cx="68" cy="40" r="1.5" fill={accentFill} opacity="0.6" />
           <circle cx="30" cy="70" r="1.5" fill={accentFill} opacity="0.6" />
