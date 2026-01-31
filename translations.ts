@@ -7,7 +7,7 @@ export const MASTER_ADMIN_PASSWORD = 'admin007';
 // Default translations for Indonesian locale
 const translationsID: Translations = {
   common: {
-    brandTagline: "Terapi Nutrisi Medis (MNT) Nangka Muda powder",
+    brandTagline: "Medical Nutrition Therapy (MNT) Nangka Muda powder",
     orderNow: "Pesan Sekarang",
     backToHome: "Beranda",
     readBlog: "Pelajari Sains",
@@ -26,52 +26,52 @@ const translationsID: Translations = {
     investment: "Investasi" 
   },
   hero: {
-    badge: "Teruji Klinis: Nature Scientific Reports (2021)",
+    badge: "Publikasi Nature Scientific Reports (2021)",
     titleMain: "Kendalikan Gula Darah dengan ",
-    description: "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c, Gula Darah Puasa (FPG), dan Gula Darah Pasca Makan (PPG).",
+    description: "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c secara signifikan dalam 12 minggu.",
     ctaEvidence: "Lihat Hasil Studi Nature",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
   },
   order: {
     heading: "Mulai Terapi Nutrisi Medis",
-    subheading: "Tersedia dalam kemasan 300g dan 900g. 100% Alami, Tinggi Serat & Tanpa Pengawet.",
-    buyWA: "WhatsApp Support", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok",
+    subheading: "30g per hari (1 sdm setiap makan) terbukti secara klinis menurunkan kadar gula darah.",
+    buyWA: "Pesan via WhatsApp", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "PILIHAN UTAMA",
     benefitRaw: "100% Nangka Muda powder Mentah",
-    benefitProven: "Efikasi Klinis Teruji (HbA1c -0.25%)",
-    benefitClean: "Alami, Tanpa Pewarna & Pengawet",
-    benefitCold: "Diproses Dingin (Teknologi Cold-Processed)"
+    benefitProven: "Efikasi Nature 2021 (HbA1c -0.25%)",
+    benefitClean: "Indeks Glikemik Sangat Rendah",
+    benefitCold: "Teknologi Proses Dingin (Pectin Retained)"
   },
-  blog: { heading: "Pusat Edukasi", subheading: "Wawasan mendalam mengenai Nangka Muda powder.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
+  blog: { heading: "Pusat Edukasi", subheading: "Wawasan ilmiah mengenai Nangka Muda powder.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
     heading: "Bukti Klinis Teruji (RCT)",
-    quote: "\"Konsumsi harian Nangka Muda powder menghasilkan penurunan HbA1c yang signifikan dibandingkan placebo dalam studi 12 minggu.\"",
+    quote: "\"Penurunan HbA1c, FPG, dan PPG secara signifikan lebih tinggi pada kelompok nangka muda dibandingkan kelompok placebo.\"",
     studyTitle: "Uji Coba Terkontrol Acak (RCT)",
-    studyDesc: "Studi Double-Blind selama 12 minggu dipublikasikan di Nature Scientific Reports.",
-    analysisTitle: "Efikasi Standar Emas",
-    analysisDesc: "Nangka Muda powder divalidasi sebagai terapi nutrisi yang efektif untuk manajemen glikemik.",
-    chartTitle: "Data Komparatif HbA1c (Nature 2021)",
-    chartDisclaimer: "*Data berdasarkan Nature Scientific Reports (2021) 11:11528.",
-    pageTitle: "Sains Nangka Muda powder",
-    pageSubtitle: "Validasi ilmiah internasional dari jurnal medis terkemuka dunia.",
-    readMore: "Jurnal Lengkap",
+    studyDesc: "Studi 12 minggu terhadap 40 pasien T2DM yang dipublikasikan di jurnal Nature.",
+    analysisTitle: "Hasil Signifikan Secara Medis",
+    analysisDesc: "Penelitian menunjukkan bahwa mengganti satu sendok makan nasi/tepung dengan bubuk nangka muda mentah memberikan kontrol glikemik yang superior.",
+    chartTitle: "Data Komparatif (Nature Scientific Reports)",
+    chartDisclaimer: "*Nature Scientific Reports (2021) 11:11528. Hasil bervariasi per individu.",
+    pageTitle: "Validasi Ilmiah Nature 2021",
+    pageSubtitle: "Hasil Uji Klinis Terkontrol Acak (RCT) Standar Emas.",
+    readMore: "Baca Jurnal Lengkap",
     coldProcessTitle: "Metode Terapi Nutrisi (MNT)",
-    coldProcessDesc: "Cukup tambahkan Nangka Muda powder ke nasi atau tepung untuk menurunkan beban glikemik hidangan Anda.",
-    labels: { hba1c: "Penurunan HbA1c", period: "12 Minggu", baseline: "Placebo", result: "TeWELL+ Green Jackfruit", goldStandard: "Klinis", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
+    coldProcessDesc: "Gunakan 30 gram per hari (1 sendok makan setiap waktu makan) untuk hasil optimal.",
+    labels: { hba1c: "HbA1c Drop", period: "12 Minggu", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Nature Verified", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "Cara Penggunaan",
-    description: "Sangat mudah dicampur dengan makanan pokok harian.",
-    riceTitle: "Campuran Nasi", riceDesc: "Cukup 1 sdm untuk setiap cup beras sebelum dimasak.",
-    flourTitle: "Campuran Tepung", flourDesc: "1 sdm untuk setiap 3 sdm tepung terigu/gandum.",
-    cookTitle: "Konsistensi", cookDesc: "Gunakan setiap hari untuk hasil optimal pada kadar HbA1c.",
+    heading: "Protokol 30 Gram",
+    description: "Cukup tambahkan 1 sendok makan ke piring Anda setiap kali makan.",
+    riceTitle: "Campuran Nasi", riceDesc: "Aduk 1 sdm ke nasi hangat atau campur sebelum dimasak.",
+    flourTitle: "Campuran Tepung", flourDesc: "Ganti 1/3 porsi tepung terigu dengan bubuk nangka muda.",
+    cookTitle: "Konsistensi", cookDesc: "Gunakan 3x sehari (total 30g) untuk hasil seperti studi klinis.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
-  recipes: { heading: "Inspirasi Menu", subheading: "Sajian sehat dan lezat yang ramah untuk diabetes.", howLabel: "Saran:", diabetesFriendly: "Low Glycemic Index" },
+  recipes: { heading: "Inspirasi Menu", subheading: "Sajian sehat yang ramah untuk diabetes.", howLabel: "Saran:", diabetesFriendly: "Low Glycemic Index" },
   faq: { heading: "Pertanyaan Umum", subheading: "Pelajari lebih lanjut tentang manfaat dan penggunaan." },
-  footer: { mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami di Indonesia.", navHeading: "Tautan", contactHeading: "Kontak", disclaimer: "Informasi ini bukan pengganti saran medis. Konsultasikan dengan dokter Anda.", backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00 WIB" }
+  footer: { mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami.", navHeading: "Tautan", contactHeading: "Kontak", disclaimer: "TeWELL+ adalah pangan fungsional untuk dukungan nutrisi, bukan pengganti obat-obatan medis.", backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00 WIB" }
 };
 
 // Default translations for English locale
@@ -88,52 +88,52 @@ const translationsEN: Translations = {
   },
   nav: { home: "Home", evidence: "Evidence", usage: "Usage", recipes: "Recipes", blog: "Education", faq: "FAQ", investment: "Investment" },
   hero: {
-    badge: "Clinically Proven: Nature Scientific Reports (2021)",
+    badge: "Published in Nature Scientific Reports (2021)",
     titleMain: "Master Your Blood Sugar with ",
-    description: "The only Raw Green Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c, Fasting Blood Glucose (FPG), and Postprandial Glucose (PPG).",
+    description: "The only Raw Green Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c significantly in just 12 weeks.",
     ctaEvidence: "View Nature Study",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
   },
   order: {
     heading: "Start Your Therapy",
-    subheading: "Available in 300g and 900g packs. Natural, High Fiber and Low GI.",
-    buyWA: "WhatsApp Support", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
+    subheading: "30g per day (1 tbsp per meal) is clinically proven to reduce blood sugar levels.",
+    buyWA: "Order via WhatsApp", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
     benefitRaw: "100% Green Jackfruit powder",
-    benefitProven: "Proven Clinical Efficacy (HbA1c -0.25%)",
-    benefitClean: "Natural, No Preservatives",
-    benefitCold: "Cold-Processed Technology"
+    benefitProven: "Nature 2021 Efficacy (HbA1c -0.25%)",
+    benefitClean: "Very Low Glycemic Index",
+    benefitCold: "Cold-Processed Pectin Retention"
   },
   blog: { heading: "Education Hub", subheading: "Evidence-based insights into Green Jackfruit powder.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
   evidence: {
     heading: "Clinical Evidence (RCT)",
-    quote: "\"Daily consumption of Green Jackfruit powder resulted in a significantly higher reduction in HbA1c in 12 weeks.\"",
+    quote: "\"Mean reduction in HbA1c, FPG, and PPG was significantly higher in the jackfruit group than in the placebo group.\"",
     studyTitle: "Randomized Controlled Trial (RCT)",
-    studyDesc: "12-week study published in Nature Scientific Reports (2021).",
-    analysisTitle: "Gold Standard Evidence",
-    analysisDesc: "Peer-reviewed confirmation of Green Jackfruit's role in sustainable diabetes management.",
-    chartTitle: "HbA1c Comparative Data (Nature 2021)",
-    chartDisclaimer: "*Source: Nature Scientific Reports 11, 11528 (2021).",
+    studyDesc: "Double-blind study of 40 patients published in Nature Scientific Reports.",
+    analysisTitle: "Clinically Significant Outcomes",
+    analysisDesc: "Replacing one tablespoon of carbohydrate staples with green jackfruit powder provides superior glycemic control.",
+    chartTitle: "Nature 2021 Comparative Data",
+    chartDisclaimer: "*Source: Nature Scientific Reports 11, 11528 (2021). Results may vary.",
     pageTitle: "The Science of Green Jackfruit",
-    pageSubtitle: "Internationally validated medical nutrition therapy.",
+    pageSubtitle: "Gold-standard Randomized Controlled Trial (RCT) validation.",
     readMore: "Full Journal",
     coldProcessTitle: "Medical Nutrition Therapy (MNT)",
-    coldProcessDesc: "Add to your standard staples to reduce the glycemic load of every meal.",
-    labels: { hba1c: "HbA1c Drop", period: "12 Weeks", baseline: "Placebo", result: "TeWELL+ Green Jackfruit", goldStandard: "Clinical", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
+    coldProcessDesc: "The 30g/day protocol (1 tbsp per meal) is the target for clinical effectiveness.",
+    labels: { hba1c: "HbA1c Drop", period: "12 Weeks", baseline: "Placebo", result: "Jackfruit Powder", goldStandard: "Nature Verified", retention: "FPG Improved", integrity: "PPG Improved", pure: "MNT Ready" }
   },
   usage: {
-    heading: "Simple Steps to Use",
-    description: "Easily integrate into your daily meals.",
-    riceTitle: "Rice Mix", riceDesc: "1 tbsp for every cup of rice before cooking.",
-    flourTitle: "Flour Mix", flourDesc: "1 tbsp for every 3 tbsp of flour or wheat.",
-    cookTitle: "Consistency", cookDesc: "Daily consumption ensures optimal glycemic stability.",
+    heading: "The 30g Protocol",
+    description: "Simply add 1 tablespoon to your plate at every meal.",
+    riceTitle: "Rice Mix", riceDesc: "Mix 1 tbsp into your cooked rice or add to cooker.",
+    flourTitle: "Flour Mix", flourDesc: "Replace 1/3 of your flour with jackfruit powder.",
+    cookTitle: "Consistency", cookDesc: "Use 3x daily (total 30g) to match clinical trial results.",
     usageImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
   },
   recipes: { heading: "Menu Inspiration", subheading: "Nutritious and delicious diabetes-friendly ideas.", howLabel: "Tip:", diabetesFriendly: "Low GI" },
   faq: { heading: "FAQ", subheading: "Everything you need to know about TeWELL+." },
-  footer: { mission: "Functional food innovation based on clinical evidence for natural diabetes management.", navHeading: "Links", contactHeading: "Contact", disclaimer: "This product is for nutritional support. Consult your physician.", backToTop: "Back to Top", orderProducts: "Product List", hours: "Mon - Fri: 09:00 - 18:00 WIB" }
+  footer: { mission: "Functional food innovation based on clinical evidence for natural diabetes management.", navHeading: "Links", contactHeading: "Contact", disclaimer: "TeWELL+ is a functional food for nutritional support. It is not a drug.", backToTop: "Back to Top", orderProducts: "Product List", hours: "Mon - Fri: 09:00 - 18:00 WIB" }
 };
 
 // Generates the complete initial content structure for the application
@@ -146,17 +146,17 @@ export const getDefaultContent = (l: Locale): AppContentData => {
       { name: l === 'id' ? "Roti Sehat Rendah Karbo" : "Low-Carb Health Bread", description: l === 'id' ? "Campuran tepung untuk baking yang lebih sehat dan tinggi serat." : "Flour mix for healthier, fiber-rich baking.", howToAdd: l === 'id' ? "Rasio campuran 30%" : "30% mixing ratio", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800" }
     ],
     articles: [
-      { title: "Efficacy of Green Jackfruit Flour in Patients with Type 2 Diabetes Mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi." : "Clinical trial showed significantly higher reduction in HbA1c, FPG, and PPG.", link: "https://www.nature.com/articles/s41598-020-73593-1", tags: ["RCT", "Nature", "Clinical"] }
+      { title: "Efficacy of Green Jackfruit Flour in Patients with Type 2 Diabetes Mellitus", journal: "Nature Scientific Reports", year: "2021", summary: l === 'id' ? "Uji klinis menunjukkan penurunan HbA1c, FPG, dan PPG yang secara signifikan lebih tinggi pada kelompok nangka." : "Clinical trial showed significantly higher reduction in HbA1c, FPG, and PPG in the jackfruit group.", link: "https://www.nature.com/articles/s41598-021-92931-w", tags: ["RCT", "Nature", "Clinical"] }
     ],
     faqs: [
       { question: l === 'id' ? "Apa perbedaan TeWELL+ dengan nangka biasa?" : "What's the difference between TeWELL+ and normal jackfruit?", answer: l === 'id' ? "TeWELL+ terbuat dari nangka muda mentah yang dikeringkan dengan suhu rendah untuk menjaga kadar serat dan nutrisi terapeutiknya." : "TeWELL+ is made from raw young jackfruit dried at low temperatures to preserve therapeutic fiber and nutrients." }
     ],
     studyData: [
-      { category: l === 'id' ? "Penurunan HbA1c (%)" : "HbA1c Reduction (%)", before: 7.5, after: 7.25 },
-      { category: l === 'id' ? "Gula Darah (mg/dL)" : "Blood Sugar (mg/dL)", before: 140, after: 125 }
+      { category: l === 'id' ? "HbA1c (%)" : "HbA1c (%)", before: 7.5, after: 7.25 },
+      { category: l === 'id' ? "Gula Darah Puasa (mg/dL)" : "Fasting Glucose (mg/dL)", before: 140, after: 125 }
     ],
     blogPosts: [
-      { id: "nature-study-deep-dive", title: l === 'id' ? "Analisis Studi Nature 2021" : "Nature 2021 Study Deep Dive", date: "2024-01-10", author: "Medical Team", category: "Science", excerpt: l === 'id' ? "Mengapa 30g bubuk nangka setiap hari bisa merubah profil HbA1c Anda." : "Why 30g of jackfruit powder daily can transform your HbA1c profile.", content: "The study published in Nature Scientific Reports 2021 proved that adding Green Jackfruit to staples significantly improves glycemic control...", image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&q=80&w=800" }
+      { id: "nature-study-deep-dive", title: l === 'id' ? "Analisis Studi Nature 2021" : "Nature 2021 Study Deep Dive", date: "2024-01-10", author: "Medical Team", category: "Science", excerpt: l === 'id' ? "Mengapa 30g bubuk nangka setiap hari bisa merubah profil HbA1c Anda." : "Why 30g of jackfruit powder daily can transform your HbA1c profile.", content: "The study published in Nature Scientific Reports 2021 proved that adding Green Jackfruit to staples significantly improves glycemic control. Participants were given 30g of green jackfruit flour per day, replacing an equal volume of their regular staples like rice or wheat. After 12 weeks, the intervention group saw a mean reduction in HbA1c of 0.25% compared to 0.02% in the placebo group.", image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&q=80&w=800" }
     ],
     investment: {
       heading: l === 'id' ? "Peluang Investasi TeWELL+" : "Investment Opportunity",
