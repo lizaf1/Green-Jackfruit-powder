@@ -35,7 +35,7 @@
       "destination": "/robots.txt"
     },
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
