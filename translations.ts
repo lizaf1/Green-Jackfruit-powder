@@ -1,3 +1,4 @@
+
 // This file manages localized content and default application data.
 import { Translations, AppContentData, Locale } from './types';
 
@@ -7,14 +8,15 @@ export const MASTER_ADMIN_PASSWORD = 'admin007';
 // Default translations for Indonesian locale
 const translationsID: Translations = {
   common: {
-    brandTagline: "Medical Nutrition Therapy (MNT) Nangka Muda powder",
+    brandTagline: "Medical Nutrition Therapy (MNT) Green Jackfruit Powder",
     orderNow: "Pesan Sekarang",
     backToHome: "Beranda",
     readBlog: "Pelajari Sains",
     viewData: "Data Klinis",
     securePayment: "Transaksi Aman & Terenkripsi",
     rights: "Seluruh Hak Dilindungi.",
-    socialMetaImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
+    socialMetaImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg",
+    consultWA: "Konsultasi via WhatsApp"
   },
   nav: { 
     home: "Beranda", 
@@ -27,8 +29,8 @@ const translationsID: Translations = {
   },
   hero: {
     badge: "Publikasi Nature Scientific Reports (2021)",
-    titleMain: "Kendalikan Gula Darah dengan ",
-    description: "Satu-satunya Bubuk Nangka Muda Mentah yang terbukti secara klinis dalam Uji Coba Terkontrol Acak (RCT) untuk menurunkan HbA1c secara signifikan dalam 12 minggu.",
+    titleMain: "Green Jackfruit Powder: Nutrisi Medis (MNT) untuk Stabilkan Gula Darah",
+    description: "Bukan sekadar tepung. Superfood alami pengganti nasi yang teruji klinis menurunkan HbA1c.",
     ctaEvidence: "Lihat Hasil Studi Nature",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
@@ -39,12 +41,12 @@ const translationsID: Translations = {
     buyWA: "Pesan via WhatsApp", buyShopee: "Beli di Shopee", buyTikTok: "Beli di TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "PILIHAN UTAMA",
-    benefitRaw: "100% Nangka Muda powder Mentah",
+    benefitRaw: "100% Green Jackfruit Powder Mentah",
     benefitProven: "Efikasi Nature 2021 (HbA1c -0.25%)",
     benefitClean: "Indeks Glikemik Sangat Rendah",
     benefitCold: "Teknologi Proses Dingin (Pectin Retained)"
   },
-  blog: { heading: "Pusat Edukasi", subheading: "Wawasan ilmiah mengenai Nangka Muda powder.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
+  blog: { heading: "Pusat Edukasi", subheading: "Wawasan ilmiah mengenai Green Jackfruit Powder.", readMore: "Baca", backToBlog: "Kembali", viewAll: "Lihat Semua", readArticle: "Baca Artikel" },
   evidence: {
     heading: "Bukti Klinis Teruji (RCT)",
     quote: "\"Penurunan HbA1c, FPG, dan PPG secara signifikan lebih tinggi pada kelompok nangka muda dibandingkan kelompok placebo.\"",
@@ -71,26 +73,36 @@ const translationsID: Translations = {
   },
   recipes: { heading: "Inspirasi Menu", subheading: "Sajian sehat yang ramah untuk diabetes.", howLabel: "Saran:", diabetesFriendly: "Low Glycemic Index" },
   faq: { heading: "Pertanyaan Umum", subheading: "Pelajari lebih lanjut tentang manfaat dan penggunaan." },
-  footer: { mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami.", navHeading: "Tautan", contactHeading: "Kontak", disclaimer: "TeWELL+ adalah pangan fungsional untuk dukungan nutrisi, bukan pengganti obat-obatan medis.", backToTop: "Kembali ke Atas", orderProducts: "Daftar Produk", hours: "Senin - Jumat: 09:00 - 18:00 WIB" }
+  footer: { 
+    mission: "Inovasi pangan fungsional berbasis bukti klinis untuk manajemen diabetes alami.", 
+    navHeading: "Tautan", 
+    contactHeading: "Kontak", 
+    disclaimer: "Produk ini adalah makanan fungsional (Functional Food), bukan pengganti obat dokter. Konsultasikan dengan ahli medis Anda.", 
+    backToTop: "Kembali ke Atas", 
+    orderProducts: "Daftar Produk", 
+    hours: "Senin - Jumat: 09:00 - 18:00 WIB",
+    address: "Office & Production: Jember, Jawa Timur, Indonesia"
+  }
 };
 
 // Default translations for English locale
 const translationsEN: Translations = {
   common: {
-    brandTagline: "Raw Green Jackfruit powder Medical Nutrition Therapy",
+    brandTagline: "Raw Green Jackfruit Powder Medical Nutrition Therapy",
     orderNow: "Order Now",
     backToHome: "Home",
     readBlog: "Learn Science",
     viewData: "Clinical Data",
     securePayment: "Secure & Encrypted",
     rights: "All Rights Reserved.",
-    socialMetaImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
+    socialMetaImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg",
+    consultWA: "Consult via WhatsApp"
   },
   nav: { home: "Home", evidence: "Evidence", usage: "Usage", recipes: "Recipes", blog: "Education", faq: "FAQ", investment: "Investment" },
   hero: {
     badge: "Published in Nature Scientific Reports (2021)",
-    titleMain: "Master Your Blood Sugar with ",
-    description: "The only Raw Green Jackfruit powder clinically proven in a Randomized Controlled Trial (RCT) to lower HbA1c significantly in just 12 weeks.",
+    titleMain: "Green Jackfruit Powder: Medical Nutrition (MNT) for Blood Sugar Stability",
+    description: "More than just flour. A clinically proven natural superfood rice replacement to lower HbA1c.",
     ctaEvidence: "View Nature Study",
     chartLabel: "HbA1c Reduction",
     heroImage: "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg"
@@ -101,12 +113,12 @@ const translationsEN: Translations = {
     buyWA: "Order via WhatsApp", buyShopee: "Shop on Shopee", buyTikTok: "Shop on TikTok",
     linkWA: "https://wa.me/62881036139972", linkShopee: "https://shopee.co.id/tewellplus", linkTikTok: "https://www.tiktok.com/@tewellplus",
     variantTagPopular: "CLINICALLY RECOMMENDED",
-    benefitRaw: "100% Green Jackfruit powder",
+    benefitRaw: "100% Green Jackfruit Powder",
     benefitProven: "Nature 2021 Efficacy (HbA1c -0.25%)",
     benefitClean: "Very Low Glycemic Index",
     benefitCold: "Cold-Processed Pectin Retention"
   },
-  blog: { heading: "Education Hub", subheading: "Evidence-based insights into Green Jackfruit powder.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
+  blog: { heading: "Education Hub", subheading: "Evidence-based insights into Green Jackfruit Powder.", readMore: "Read", backToBlog: "Back", viewAll: "View All", readArticle: "Read Article" },
   evidence: {
     heading: "Clinical Evidence (RCT)",
     quote: "\"Mean reduction in HbA1c, FPG, and PPG was significantly higher in the jackfruit group than in the placebo group.\"",
@@ -133,7 +145,16 @@ const translationsEN: Translations = {
   },
   recipes: { heading: "Menu Inspiration", subheading: "Nutritious and delicious diabetes-friendly ideas.", howLabel: "Tip:", diabetesFriendly: "Low GI" },
   faq: { heading: "FAQ", subheading: "Everything you need to know about TeWELL+." },
-  footer: { mission: "Functional food innovation based on clinical evidence for natural diabetes management.", navHeading: "Links", contactHeading: "Contact", disclaimer: "TeWELL+ is a functional food for nutritional support. It is not a drug.", backToTop: "Back to Top", orderProducts: "Product List", hours: "Mon - Fri: 09:00 - 18:00 WIB" }
+  footer: { 
+    mission: "Functional food innovation based on clinical evidence for natural diabetes management.", 
+    navHeading: "Links", 
+    contactHeading: "Contact", 
+    disclaimer: "This product is a functional food, not a substitute for prescribed medication. Consult your healthcare professional.", 
+    backToTop: "Back to Top", 
+    orderProducts: "Product List", 
+    hours: "Mon - Fri: 09:00 - 18:00 WIB",
+    address: "Office & Production: Jember, East Java, Indonesia"
+  }
 };
 
 // Generates the complete initial content structure for the application

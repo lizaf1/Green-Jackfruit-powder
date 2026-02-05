@@ -1,31 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/evidence",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/blog",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/blog/:id",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/admin",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/investment",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/brand-kit",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/sitemap",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

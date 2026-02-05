@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import EvidencePage from './components/EvidencePage';
@@ -99,39 +100,40 @@ const AppContent: React.FC = () => {
                 <span>{t.hero.badge}</span>
               </div>
               
-              <h1 className="text-[clamp(2rem,10vw,5.5rem)] font-black text-gray-900 font-display leading-[1.05] mb-6 tracking-tighter max-w-4xl">
+              {/* Task 3: Updated Hero Headline Hierarchy */}
+              <h1 className="text-[clamp(1.75rem,8vw,4.5rem)] font-black text-gray-900 font-display leading-[1.1] mb-6 tracking-tighter max-w-4xl">
                 {t.hero.titleMain}
-                <div className="mt-4 lg:mt-6 flex justify-center lg:justify-start items-center">
-                  <TeWELLLogo 
-                    iconSize="w-[clamp(3.5rem,12vw,8rem)] h-[clamp(4.5rem,16vw,9rem)]" 
-                    textSize="text-[clamp(2.5rem,9vw,9rem)]" 
-                  />
-                </div>
               </h1>
               
-              <p className="text-base sm:text-lg lg:text-xl text-gray-500 mb-8 lg:mb-12 leading-relaxed max-w-md mx-auto lg:mx-0 font-medium italic opacity-80">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-500 mb-8 lg:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium italic opacity-80">
                 {t.hero.description}
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <button 
-                  onClick={() => setView('evidence')} 
+                  onClick={() => {
+                    const el = document.getElementById('order');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }} 
                   className="bg-[#014737] text-white px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:bg-[#16c694] transition-all shadow-xl shadow-green-900/10 active:scale-95"
                 >
-                  {t.hero.ctaEvidence}
+                  {t.common.orderNow}
                 </button>
-                <button 
-                  onClick={() => { setView('blog'); setSelectedPostId(null); }} 
-                  className="bg-white border-2 border-gray-100 text-gray-700 px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:border-green-600 hover:text-green-600 transition-all active:scale-95"
+                {/* Task 3: Secondary CTA Button */}
+                <a 
+                  href={t.order.linkWA}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white border-2 border-green-600 text-green-700 px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:bg-green-50 transition-all active:scale-95 flex items-center justify-center gap-3"
                 >
-                  {t.common.readBlog}
-                </button>
+                  <i className="fab fa-whatsapp text-xl"></i> {t.common.consultWA}
+                </a>
               </div>
             </div>
             
             <div className="w-full lg:w-2/5 relative mt-10 lg:mt-0 flex justify-center lg:block">
               <div className="relative p-2 lg:p-3 bg-white rounded-[2.5rem] lg:rounded-[4rem] shadow-2xl border border-gray-100 w-full max-w-[280px] sm:max-w-md lg:max-w-none">
-                <img src={t.hero.heroImage} alt="TeWELL+ Nangka Muda powder pouch packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
+                <img src={t.hero.heroImage} alt="TeWELL+ Packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
                 
                 <div className="absolute -bottom-6 -right-2 lg:-bottom-12 lg:-right-12 bg-white p-5 lg:p-10 rounded-[2rem] lg:rounded-[3rem] shadow-2xl z-20 border border-green-50 min-w-[130px] lg:min-w-[240px]">
                   <div className="text-center">
@@ -178,8 +180,12 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
           
           <div className="lg:col-span-4">
             <TeWELLLogo light textSize="text-2xl" iconSize="w-10 h-12" className="mb-6" />
-            <p className="text-gray-500 mb-8 text-sm leading-relaxed max-w-xs font-medium">
+            <p className="text-gray-500 mb-4 text-sm leading-relaxed max-w-xs font-medium">
               {t.footer.mission}
+            </p>
+            {/* Task 4: Address Visibility */}
+            <p className="text-[#16c694] text-[10px] font-bold uppercase tracking-widest mb-8">
+              {t.footer.address}
             </p>
             <div className="flex gap-2">
                {(['id', 'en'] as const).map(l => (
@@ -223,10 +229,12 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
         </div>
         
         <div className="pt-8 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-6">
-           <p className="text-[8px] text-gray-600 uppercase tracking-widest font-black opacity-50 max-w-2xl text-center lg:text-left">
+           {/* Task 4: Updated Disclaimer */}
+           <p className="text-[9px] text-gray-600 uppercase tracking-widest font-black opacity-70 max-w-2xl text-center lg:text-left leading-relaxed">
              {t.footer.disclaimer}
            </p>
-           <p className="text-[8px] font-black text-gray-700 uppercase tracking-[0.4em]">© 2024 TeWELL+</p>
+           {/* Task 4: Year 2026 */}
+           <p className="text-[8px] font-black text-gray-700 uppercase tracking-[0.4em]">© 2026 TeWELL+</p>
         </div>
       </div>
     </footer>
