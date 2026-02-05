@@ -18,159 +18,6 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 const siteName = "TeWELL+";
 
-const AppContent: React.FC = () => {
-  const { cmsData, locale, view, setView, setSelectedPostId, selectedPostId, isLoading } = useLanguage();
-  const content = cmsData[locale];
-  const t = content.translations;
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [view, selectedPostId]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-        <TeWELLLogo iconSize="w-16 h-20" className="animate-pulse mb-4" iconOnly />
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Syncing with Cloud...</p>
-      </div>
-    );
-  }
-
-  if (view === 'admin') return <AdminPanel />;
-
-  const NavigationFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-1">{children}</main>
-      <Footer t={t} setView={setView} setSelectedPostId={setSelectedPostId} locale={locale} />
-    </div>
-  );
-
-  if (view === 'brand-kit') return <NavigationFrame><BrandKitPage /></NavigationFrame>;
-  if (view === 'sitemap') return <NavigationFrame><SitemapPage /></NavigationFrame>;
-  if (view === 'investment') {
-    return (
-      <NavigationFrame>
-        <SEO title={locale === 'id' ? "Peluang Investasi" : "Investment Opportunities"} description={content.investment.subheading} />
-        <InvestmentPage />
-      </NavigationFrame>
-    );
-  }
-  if (view === 'evidence') {
-    return (
-      <NavigationFrame>
-        <SEO type="medical" title={t.evidence.pageTitle} description={t.evidence.pageSubtitle} />
-        <EvidencePage />
-      </NavigationFrame>
-    );
-  }
-  if (view === 'blog') {
-    return (
-      <NavigationFrame>
-        <BlogPage />
-      </NavigationFrame>
-    );
-  }
-
-  const mainProduct = content.variants.find(v => v.popular) || content.variants[0];
-
-  return (
-    <div className="min-h-screen selection:bg-green-100 selection:text-green-900 overflow-x-hidden">
-      <SEO 
-        productData={mainProduct ? {
-          name: `${siteName} ${mainProduct.name}`,
-          description: t.hero.description,
-          price: mainProduct.price,
-          currency: mainProduct.currency,
-          sku: `TEWELL-${mainProduct.weight}`,
-          image: t.hero.heroImage
-        } : undefined}
-      />
-      <Navbar />
-
-      <section className="relative bg-white pt-24 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-green-50/40 to-transparent -z-10"></div>
-        
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
-            
-            <div className="w-full lg:w-3/5 text-center lg:text-left z-20">
-              <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black mb-6 tracking-[0.2em] uppercase shadow-sm">
-                <i className="fas fa-certificate text-[10px]"></i>
-                <span>{t.hero.badge}</span>
-              </div>
-              
-              {/* Task 3: Updated Hero Headline Hierarchy */}
-              <h1 className="text-[clamp(1.75rem,8vw,4.5rem)] font-black text-gray-900 font-display leading-[1.1] mb-6 tracking-tighter max-w-4xl">
-                {t.hero.titleMain}
-              </h1>
-              
-              <p className="text-base sm:text-lg lg:text-xl text-gray-500 mb-8 lg:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium italic opacity-80">
-                {t.hero.description}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                <button 
-                  onClick={() => {
-                    const el = document.getElementById('order');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }} 
-                  className="bg-[#014737] text-white px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:bg-[#16c694] transition-all shadow-xl shadow-green-900/10 active:scale-95"
-                >
-                  {t.common.orderNow}
-                </button>
-                {/* Task 3: Secondary CTA Button */}
-                <a 
-                  href={t.order.linkWA}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white border-2 border-green-600 text-green-700 px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:bg-green-50 transition-all active:scale-95 flex items-center justify-center gap-3"
-                >
-                  <i className="fab fa-whatsapp text-xl"></i> {t.common.consultWA}
-                </a>
-              </div>
-            </div>
-            
-            <div className="w-full lg:w-2/5 relative mt-10 lg:mt-0 flex justify-center lg:block">
-              <div className="relative p-2 lg:p-3 bg-white rounded-[2.5rem] lg:rounded-[4rem] shadow-2xl border border-gray-100 w-full max-w-[280px] sm:max-w-md lg:max-w-none">
-                <img src={t.hero.heroImage} alt="TeWELL+ Packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
-                
-                <div className="absolute -bottom-6 -right-2 lg:-bottom-12 lg:-right-12 bg-white p-5 lg:p-10 rounded-[2rem] lg:rounded-[3rem] shadow-2xl z-20 border border-green-50 min-w-[130px] lg:min-w-[240px]">
-                  <div className="text-center">
-                    <p className="text-[7px] lg:text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-1">{t.hero.chartLabel}</p>
-                    <p className="text-3xl lg:text-6xl font-black text-[#16c694] tracking-tighter">-0.25%</p>
-                    <div className="mt-2 w-8 h-1 bg-green-100 mx-auto rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <UsageSection />
-      <RecipeSection />
-      <OrderSection />
-
-      <section className="py-20 bg-[#014737] text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-           <blockquote className="text-xl md:text-3xl font-display italic mb-10 leading-snug max-w-4xl mx-auto opacity-90">"{t.evidence.quote}"</blockquote>
-           <button 
-             onClick={() => setView('evidence')} 
-             className="bg-[#16c694] text-[#014737] px-10 py-4 rounded-xl font-black text-[10px] tracking-widest uppercase hover:bg-white transition-all shadow-xl"
-           >
-              {t.common.viewData}
-           </button>
-        </div>
-      </section>
-
-      <BlogSection />
-      <FAQSection />
-      <Footer t={t} setView={setView} setSelectedPostId={setSelectedPostId} locale={locale} />
-    </div>
-  );
-};
-
 const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: any }> = ({ t, setView, setSelectedPostId, locale }) => {
   const { setLocale } = useLanguage();
   return (
@@ -183,11 +30,13 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
             <p className="text-gray-500 mb-4 text-sm leading-relaxed max-w-xs font-medium">
               {t.footer.mission}
             </p>
-            {/* Task 4: Address Visibility */}
-            <p className="text-[#16c694] text-[10px] font-bold uppercase tracking-widest mb-8">
-              {t.footer.address}
+            
+            {/* Address */}
+            <p className="mt-2 text-sm text-gray-500">
+              Office & Production: Jember, Jawa Timur, Indonesia
             </p>
-            <div className="flex gap-2">
+
+            <div className="flex gap-2 mt-8">
                {(['id', 'en'] as const).map(l => (
                  <button 
                   key={l} 
@@ -229,15 +78,166 @@ const Footer: React.FC<{ t: any, setView: any, setSelectedPostId: any, locale: a
         </div>
         
         <div className="pt-8 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-6">
-           {/* Task 4: Updated Disclaimer */}
            <p className="text-[9px] text-gray-600 uppercase tracking-widest font-black opacity-70 max-w-2xl text-center lg:text-left leading-relaxed">
              {t.footer.disclaimer}
            </p>
-           {/* Task 4: Year 2026 */}
+           {/* Year 2026 */}
            <p className="text-[8px] font-black text-gray-700 uppercase tracking-[0.4em]">© 2026 TeWELL+</p>
         </div>
       </div>
     </footer>
+  );
+};
+
+const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { cmsData, locale, setView, setSelectedPostId } = useLanguage();
+  const t = cmsData[locale].translations;
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white selection:bg-green-100 selection:text-green-900 overflow-x-hidden font-sans">
+      <Navbar />
+      <main className="flex-1 w-full flex flex-col">{children}</main>
+      <Footer t={t} setView={setView} setSelectedPostId={setSelectedPostId} locale={locale} />
+    </div>
+  );
+};
+
+const AppContent: React.FC = () => {
+  const { cmsData, locale, view, setView, setSelectedPostId, selectedPostId, isLoading } = useLanguage();
+  const content = cmsData[locale];
+  const t = content.translations;
+  const mainProduct = content.variants.find(v => v.popular) || content.variants[0];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [view, selectedPostId]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
+        <TeWELLLogo iconSize="w-16 h-20" className="animate-pulse mb-4" iconOnly />
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Syncing with Cloud...</p>
+      </div>
+    );
+  }
+
+  if (view === 'admin') return <AdminPanel />;
+
+  return (
+    <MainLayout>
+       {view === 'home' && (
+         <>
+            <SEO 
+              productData={mainProduct ? {
+                name: `${siteName} ${mainProduct.name}`,
+                description: t.hero.description,
+                price: mainProduct.price,
+                currency: mainProduct.currency,
+                sku: `TEWELL-${mainProduct.weight}`,
+                image: t.hero.heroImage
+              } : undefined}
+            />
+            <section className="relative bg-white pt-24 pb-12 lg:pt-48 lg:pb-32 overflow-hidden">
+              <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-green-50/40 to-transparent -z-10"></div>
+              
+              <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+                <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
+                  
+                  <div className="w-full lg:w-3/5 text-center lg:text-left z-20">
+                    <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black mb-6 tracking-[0.2em] uppercase shadow-sm">
+                      <i className="fas fa-certificate text-[10px]"></i>
+                      <span>{t.hero.badge}</span>
+                    </div>
+                    
+                    {/* FIXED HERO HEADLINE: Dynamic translation + Mixed Typography */}
+                    <h1 className="text-[clamp(1.75rem,8vw,4.5rem)] font-black text-gray-900 font-display leading-[1.1] mb-6 tracking-tighter max-w-4xl">
+                      <span className="font-sans font-black tracking-tighter text-gray-900">TeWELL<span className="text-[#16c694]">＋</span></span>
+                      {t.hero.titleMain.replace("TeWELL+", "")}
+                    </h1>
+                    
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-500 mb-8 lg:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium italic opacity-80">
+                      {t.hero.description}
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                      <button 
+                        onClick={() => {
+                          const el = document.getElementById('order');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }} 
+                        className="w-full sm:w-auto bg-[#014737] text-white px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-sm lg:text-lg font-bold hover:bg-[#16c694] transition-all shadow-xl shadow-green-900/10 active:scale-95 text-center"
+                      >
+                        {t.common.orderNow}
+                      </button>
+                      
+                      {/* WhatsApp Button - Adjusted to match Primary Button Size */}
+                      <a
+                        href="https://wa.me/62881036139972?text=Halo%20TeWELL%20saya%20mau%20konsultasi"
+                        target="_blank"
+                        className="w-full sm:w-auto px-8 py-4 lg:px-10 lg:py-5 border-2 border-[#014737] text-[#014737] rounded-xl text-sm lg:text-lg font-bold hover:bg-green-50 flex items-center justify-center transition-all"
+                      >
+                        {t.common.consultWA}
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="w-full lg:w-2/5 relative mt-10 lg:mt-0 flex justify-center lg:block">
+                    <div className="relative p-2 lg:p-3 bg-white rounded-[2.5rem] lg:rounded-[4rem] shadow-2xl border border-gray-100 w-full max-w-[280px] sm:max-w-md lg:max-w-none">
+                      <img src={t.hero.heroImage} alt="TeWELL+ Packaging" className="rounded-[2.2rem] lg:rounded-[3.5rem] shadow-inner object-cover aspect-square w-full" />
+                      
+                      <div className="absolute -bottom-6 -right-2 lg:-bottom-12 lg:-right-12 bg-white p-5 lg:p-10 rounded-[2rem] lg:rounded-[3rem] shadow-2xl z-20 border border-green-50 min-w-[130px] lg:min-w-[240px]">
+                        <div className="text-center">
+                          <p className="text-[7px] lg:text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-1">{t.hero.chartLabel}</p>
+                          <p className="text-3xl lg:text-6xl font-black text-[#16c694] tracking-tighter">-0.25%</p>
+                          <div className="mt-2 w-8 h-1 bg-green-100 mx-auto rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <UsageSection />
+            <RecipeSection />
+            <OrderSection />
+
+            <section className="py-20 bg-[#014737] text-white relative overflow-hidden">
+              <div className="max-w-7xl mx-auto px-6 text-center">
+                 <blockquote className="text-xl md:text-3xl font-display italic mb-10 leading-snug max-w-4xl mx-auto opacity-90">"{t.evidence.quote}"</blockquote>
+                 <button 
+                   onClick={() => setView('evidence')} 
+                   className="bg-[#16c694] text-[#014737] px-10 py-4 rounded-xl font-black text-[10px] tracking-widest uppercase hover:bg-white transition-all shadow-xl"
+                 >
+                    {t.common.viewData}
+                 </button>
+              </div>
+            </section>
+
+            <BlogSection />
+            <FAQSection />
+         </>
+       )}
+
+       {view === 'evidence' && (
+         <>
+            <SEO type="medical" title={t.evidence.pageTitle} description={t.evidence.pageSubtitle} />
+            <EvidencePage />
+         </>
+       )}
+
+       {view === 'blog' && <BlogPage />}
+
+       {view === 'investment' && (
+         <>
+            <SEO title={locale === 'id' ? "Peluang Investasi" : "Investment Opportunities"} description={content.investment.subheading} />
+            <InvestmentPage />
+         </>
+       )}
+
+       {view === 'brand-kit' && <BrandKitPage />}
+       {view === 'sitemap' && <SitemapPage />}
+    </MainLayout>
   );
 };
 

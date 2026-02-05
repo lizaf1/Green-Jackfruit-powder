@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { View, Locale, AppContentData, CMSData } from '../types';
 import { getDefaultContent, MASTER_ADMIN_PASSWORD } from '../translations';
@@ -21,7 +22,8 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'tewell_plus_v7_cache';
+// Updated Key to force refresh of local content for the user - Bumped to v12 to clear "Raw" cache
+const STORAGE_KEY = 'tewell_plus_v12_strict_clean';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://uptstkvqkvequnlufxkl.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_1LVOeXolvYTDAUJiMHlfXA_uXDX0F7Y';
 
@@ -31,15 +33,36 @@ const INITIAL_CMS_DATA: CMSData = {
 };
 
 /**
- * Aggressive Sanitizer: Ensures "Nangka Hijau" is replaced with "Nangka Muda"
- * even if old data exists in the cloud database.
+ * Aggressive Sanitizer & Patcher: 
+ * 1. Replaces old terminology.
+ * 2. Patches missing fields (like address) if cloud data is outdated.
  */
 const sanitizeCloudData = (data: CMSData): CMSData => {
   const cleanData = JSON.parse(JSON.stringify(data));
+  const defaultID = getDefaultContent('id');
+  const defaultEN = getDefaultContent('en');
+
+  // Patching function to ensure new fields exist
+  const patchMissingFields = (target: any, source: any) => {
+    if (!target.translations.footer.address) {
+      target.translations.footer.address = source.translations.footer.address;
+    }
+    if (!target.translations.common.consultWA) {
+      target.translations.common.consultWA = source.translations.common.consultWA;
+    }
+    // Force update disclaimer to new legal requirement
+    target.translations.footer.disclaimer = source.translations.footer.disclaimer;
+  };
+
+  if (cleanData.id) patchMissingFields(cleanData.id, defaultID);
+  if (cleanData.en) patchMissingFields(cleanData.en, defaultEN);
   
+  // REMOVED: The replacement rules that were forcing 'Green Jackfruit' -> 'Young Jackfruit'
+  // ADDED: Rules to remove "Raw" prefix
   const replacements = [
     { bad: /nangka hijau/gi, good: "nangka muda" },
-    { bad: /green jackfruit/gi, good: "young jackfruit" },
+    { bad: /Raw Green Jackfruit/gi, good: "Green Jackfruit" },
+    { bad: /Raw young jackfruit/gi, good: "Green Jackfruit" },
     { bad: /equal volume/gi, good: "nutritional mix" },
     { bad: /1:1/g, good: "1 tbsp per cup" }
   ];
@@ -51,9 +74,12 @@ const sanitizeCloudData = (data: CMSData): CMSData => {
       const value = obj[key];
       if (typeof value === 'string') {
         let sanitizedValue = value;
-        replacements.forEach(({ bad, good }) => {
-          sanitizedValue = sanitizedValue.replace(bad, good);
-        });
+        // Skip URLs to prevent breaking images
+        if (!sanitizedValue.startsWith('http')) {
+            replacements.forEach(({ bad, good }) => {
+            sanitizedValue = sanitizedValue.replace(bad, good);
+            });
+        }
         obj[key] = sanitizedValue;
       } else if (typeof value === 'object' && value !== null) {
         recursiveClean(value);
@@ -103,15 +129,25 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const setView = (v: View) => {
     const targetPath = v === 'home' ? '/' : `/${v}`;
-    if (window.location.pathname !== targetPath) {
-      window.history.pushState({}, '', targetPath);
+    // SAFE NAVIGATION: Try/Catch wrapper to prevent SecurityErrors in restricted environments (iframes/blobs)
+    try {
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({}, '', targetPath);
+      }
+    } catch (e) {
+      console.warn('Navigation state update failed (environment restriction):', e);
     }
     setViewInternal(v);
   };
 
   const setBlogView = (postId: string | null) => {
     const targetPath = postId ? `/blog/${postId}` : '/blog';
-    window.history.pushState({}, '', targetPath);
+    // SAFE NAVIGATION: Try/Catch wrapper to prevent SecurityErrors
+    try {
+      window.history.pushState({}, '', targetPath);
+    } catch (e) {
+      console.warn('Navigation state update failed (environment restriction):', e);
+    }
     setViewInternal('blog');
     setSelectedPostId(postId);
   };
@@ -158,6 +194,9 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
           const parsed = JSON.parse(saved);
           setCmsData(sanitizeCloudData(parsed)); 
         } catch (e) { setCmsData(INITIAL_CMS_DATA); }
+      } else {
+        // Fallback to initial data if no local storage found (fresh start)
+        setCmsData(INITIAL_CMS_DATA);
       }
     };
     const seedCloud = async (content: CMSData) => {

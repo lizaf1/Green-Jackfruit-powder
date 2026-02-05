@@ -36,21 +36,24 @@ const SEO: React.FC<SEOProps> = ({
   // High-focus metadata title
   const defaultTitle = locale === 'id' 
     ? "TeWELL+ | Green Jackfruit Powder (MNT) - Solusi Alami Diabetes & Pengganti Nasi" 
-    : "TeWELL+ | Clinically Proven Green Jackfruit Powder for Diabetes (MNT)";
+    : "TeWELL+ | Green Jackfruit Powder - Clinically Proven Diabetes MNT";
     
   const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
   
   // High-focus metadata description
   const defaultDesc = locale === 'id' 
     ? "Solusi medis nutrisi (MNT) untuk diabetes. 100% Green Jackfruit Powder murni dari Jember. Teruji klinis menstabilkan gula darah & HbA1c. Konsultasi sekarang."
-    : "Clinical grade Green Jackfruit powder specifically processed for Medical Nutrition Therapy (MNT) for diabetes management.";
+    : "Green Jackfruit Powder is clinically proven in Randomized Controlled Trials (RCT) to significantly lower HbA1c, FPG, and PPG levels.";
 
   // Force product image for social previews
   const productPouchImage = "https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/tewell_pouch_mockup.jpg";
   const metaImage = image || productPouchImage;
   
-  // Static Keywords for SEO
-  const keywords = "Green Jackfruit Powder, Bubuk Nangka Muda, Diabetes Indonesia, Makanan Rendah Indeks Glikemik, Obat Herbal Diabetes Jember";
+  // Dynamic Keywords for SEO - Strictly "Green Jackfruit Powder" focused
+  const keywordsID = "Green Jackfruit Powder, Bubuk Nangka Muda, Diabetes Indonesia, Makanan Rendah Indeks Glikemik, Obat Herbal Diabetes, Pengganti Nasi Diabetes, MNT Diabetes, Diet Diabetes Alami";
+  const keywordsEN = "Green Jackfruit Powder, Diabetes Superfood, Lower HbA1c Naturally, Low Glycemic Rice Substitute, Type 2 Diabetes Management, Medical Nutrition Therapy";
+  
+  const keywords = locale === 'id' ? keywordsID : keywordsEN;
 
   // Task 2: Specific Product Schema
   const taskProductSchema = {
@@ -58,7 +61,7 @@ const SEO: React.FC<SEOProps> = ({
     "@type": "Product",
     "name": "TeWELL+ Green Jackfruit Powder",
     "image": "https://tewellplus.com/assets/images/product-main.jpg",
-    "description": "Clinical grade Green Jackfruit powder specifically processed for Medical Nutrition Therapy (MNT) for diabetes management.",
+    "description": "Clinical grade Green Jackfruit Powder specifically processed for Medical Nutrition Therapy (MNT) for diabetes management.",
     "brand": {
       "@type": "Brand",
       "name": "TeWELL+"
@@ -141,7 +144,7 @@ const SEO: React.FC<SEOProps> = ({
           {
             "@type": "PropertyValue",
             "name": "Key Ingredient",
-            "value": "Raw Green Jackfruit"
+            "value": "Green Jackfruit Powder"
           }
         ]
       };

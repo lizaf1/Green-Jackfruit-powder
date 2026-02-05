@@ -91,7 +91,7 @@ export interface Translations {
     rights: string;
     customLogo?: string;
     socialMetaImage?: string;
-    consultWA: string;
+    consultWA: string; // Added
   };
   nav: {
     home: string;
@@ -187,6 +187,6 @@ export interface Translations {
     backToTop: string;
     orderProducts: string;
     hours: string;
-    address: string;
+    address: string; // Added
   };
 }
